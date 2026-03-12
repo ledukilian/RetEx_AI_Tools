@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Todo List</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+      integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app-wrapper">
+      <div class="card">
+
+        <header class="app-header">
+          <div class="header-top">
+            <div class="header-icon">
+              <i class="fas fa-check-double"></i>
+            </div>
+            <h1>My Todo List</h1>
+          </div>
+          <div class="progress-section">
+            <span class="progress-label">Progress</span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar"></div>
+            </div>
+            <span class="progress-count">0 / 0</span>
+          </div>
+        </header>
+
+        <div class="input-section">
+          <form class="input-row">
+            <input
+              type="text"
+              placeholder="Add a new task..."
+              class="todo-input"
+              autocomplete="off"
+            />
+            <button class="todo-button" type="submit">
+              <i class="fas fa-plus"></i>
+            </button>
+          </form>
+        </div>
+
+        <div class="filter-section">
+          <button class="filter-btn active" data-filter="all">
+            All
+            <span class="filter-badge all-count">0</span>
+          </button>
+          <button class="filter-btn" data-filter="uncompleted">
+            Active
+            <span class="filter-badge active-count">0</span>
+          </button>
+          <button class="filter-btn" data-filter="completed">
+            Completed
+            <span class="filter-badge completed-count">0</span>
+          </button>
+        </div>
+
+        <div class="todo-container">
+          <ul class="todo-list"></ul>
+          <div class="empty-state hidden">
+            <i class="fas fa-clipboard-list"></i>
+            <p>No tasks yet — add one above!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

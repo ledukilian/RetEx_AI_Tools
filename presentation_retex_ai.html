@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Néosoft - RetEx Outils IA</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/nord.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="icon" type="image/png" href="https://www.neosoft.fr/wp-content/themes/neosoft/favicons/favicon-32x32.png">
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-navy:  #0B1426;
+      --color-blue:  #003DB5;
+      --color-accent: #0055FF;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+  </style>
+
+  <style>
+    /* ── ANIMATIONS ENTRE SLIDES ─────────────────── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-18px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .reveal .slides section.present > * {
+      animation: fadeInUp .5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .reveal .slides section.present > *:nth-child(1) { animation-delay: .00s; }
+    .reveal .slides section.present > *:nth-child(2) { animation-delay: .07s; }
+    .reveal .slides section.present > *:nth-child(3) { animation-delay: .14s; }
+    .reveal .slides section.present > *:nth-child(4) { animation-delay: .21s; }
+    .reveal .slides section.present > *:nth-child(5) { animation-delay: .28s; }
+    .reveal .slides section.present > *:nth-child(6) { animation-delay: .35s; }
+    /* Dividers : le chiffre géant entre en glissant depuis la gauche */
+    .reveal .slides section.present .section-num   { animation: fadeInLeft .6s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .0s; }
+    .reveal .slides section.present .section-title { animation: fadeInUp  .55s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .08s; }
+    .reveal .slides section.present .section-desc  { animation: fadeInUp  .5s  cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .18s; }
+
+    /* ── ANIMATIONS UTILITAIRES (opt-in) ─────────────
+         Usage : ajouter la classe sur n'importe quel élément
+         Ex : <div class="anim-slide-right anim-delay-2">...</div>
+
+         Classes disponibles :
+           anim-slide-up    → monte depuis le bas
+           anim-slide-down  → descend depuis le haut
+           anim-slide-right → arrive depuis la gauche
+           anim-slide-left  → arrive depuis la droite
+           anim-fade        → simple fondu (sans déplacement)
+           anim-zoom        → zoom depuis légèrement plus petit
+           anim-delay-1 … anim-delay-6 → décalage de 100ms à 600ms
+    ─────────────────────────────────────────────── */
+    @keyframes slideUp    { from { opacity:0; transform: translateY(36px);  } to { opacity:1; transform: translateY(0); } }
+    @keyframes slideDown  { from { opacity:0; transform: translateY(-36px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes slideRight { from { opacity:0; transform: translateX(-36px); } to { opacity:1; transform: translateX(0); } }
+    @keyframes slideLeft  { from { opacity:0; transform: translateX(36px);  } to { opacity:1; transform: translateX(0); } }
+    @keyframes simpleFade { from { opacity:0; }                               to { opacity:1; } }
+    @keyframes zoomIn     { from { opacity:0; transform: scale(.92); }        to { opacity:1; transform: scale(1); } }
+
+    .reveal .slides section.present .anim-slide-up    { animation: slideUp    .55s cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-slide-down  { animation: slideDown  .55s cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-slide-right { animation: slideRight .55s cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-slide-left  { animation: slideLeft  .55s cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-fade        { animation: simpleFade .5s  cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-zoom        { animation: zoomIn     .5s  cubic-bezier(0.22,1,0.36,1) both; }
+
+    .anim-delay-1 { animation-delay: .1s !important; }
+    .anim-delay-2 { animation-delay: .2s !important; }
+    .anim-delay-3 { animation-delay: .3s !important; }
+    .anim-delay-4 { animation-delay: .4s !important; }
+    .anim-delay-5 { animation-delay: .5s !important; }
+    .anim-delay-6 { animation-delay: .6s !important; }
+
+    /* ── BASE ─────────────────────────────────────── */
+    *, html, body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    :root {
+      --header-height: 72px;
+      --navy:   #0B1426;
+      --blue:   #003DB5;
+      --accent: #0055FF;
+      --r-background-color: #0B1426;
+      --r-main-color:    #FFFFFF;
+      --r-heading-color: #FFFFFF;
+      --r-link-color:    #0055FF;
+      --r-selection-background-color: #0055FF;
+      --r-selection-color: #fff;
+    }
+
+    /* ── FOND ─────────────────────────────────────── */
+    .reveal {
+      background: #0B1426;
+      color: #fff;
+      font-size: 28px;
+      font-family: "Inter", sans-serif;
+    }
+    /* Orbs de couleur */
+    .reveal::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 8% 15%,  rgba(0,85,255,.13) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 55% at 92% 85%, rgba(0,61,181,.1)  0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Grille de points subtile */
+    .reveal::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .reveal .slides { position: relative; z-index: 1; }
+
+    /* ── SECTIONS ─────────────────────────────────── */
+    .reveal section {
+      padding-top: calc(var(--header-height) + 10px);
+      padding-bottom: 24px;
+      padding-left: 52px;
+      padding-right: 52px;
+      font-size: .85em;
+      text-align: left;
+    }
+
+    /* ── TYPOGRAPHIE ──────────────────────────────── */
+    .reveal h1 {
+      font-size: 3em; font-weight: 900; color: #fff;
+      line-height: 1.05; letter-spacing: -.04em; margin-bottom: .3em;
+    }
+    .reveal h2 {
+      font-size: 1.75em; font-weight: 800; color: #fff;
+      letter-spacing: -.025em; line-height: 1.2;
+      margin-bottom: .2em;
+      position: relative; padding-bottom: .5em;
+      text-transform: none;
+    }
+    .reveal h2::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 40px; height: 3px;
+      background: var(--accent); border-radius: 2px;
+    }
+    .reveal h3 {
+      font-size: 1.05em; font-weight: 700; color: #fff;
+      margin-bottom: .45em; letter-spacing: -.01em;
+    }
+    .reveal p  { color: rgba(255,255,255,.8);  line-height: 1.65; font-size: .92em; }
+    .reveal li { color: rgba(255,255,255,.8);  line-height: 1.7;  font-size: .92em; }
+    .reveal a  { color: var(--accent); text-decoration: none; }
+
+    /* ── BARRE DE PROGRESSION (conservée, nouveau gradient) ── */
+    .reveal .progress {
+      position: fixed; top: var(--header-height); bottom: auto;
+      left: 0; right: 0; height: 3px;
+      background: rgba(255,255,255,.08);
+      z-index: 1100; pointer-events: none;
+    }
+    .reveal .progress span {
+      background: var(--accent);
+      box-shadow: 0 0 14px rgba(0,85,255,.8);
+    }
+
+    /* ── FLÈCHES REVEAL.JS (conservées) ──────────── */
+    .reveal .controls button,
+    .reveal .controls .navigate-left,
+    .reveal .controls .navigate-right,
+    .reveal .controls .navigate-up,
+    .reveal .controls .navigate-down {
+      color: rgba(255,255,255,.4) !important;
+      fill: rgba(255,255,255,.4) !important;
+      transition: color .2s, fill .2s;
+    }
+    .reveal .controls button:hover {
+      color: #fff !important;
+      fill: #fff !important;
+    }
+
+    /* ── COMPOSANTS RÉUTILISABLES ─────────────────── */
+
+    /* Tag */
+    .tag {
+      display: inline-block;
+      font-size: .62em; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px;
+      background: rgba(0,85,255,.12); border: 1px solid rgba(0,85,255,.3); color: #60a5fa;
+    }
+
+    /* Card générique */
+    .card {
+      padding: 18px 20px; border-radius: 12px;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
+      transition: background .2s, border-color .2s;
+    }
+    .card:hover { background: rgba(0,85,255,.06); border-color: rgba(0,85,255,.2); }
+
+    /* Capture grid cells */
+    .capture-grid img { max-height: 18vh; width: 100%; object-fit: contain; border-radius: 12px; display: block; }
+    .capture-cell { transition: transform .2s ease; cursor: zoom-in; }
+    .capture-cell:hover { transform: translateY(-4px); }
+
+    /* Lightbox */
+    #img-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(6px);
+      cursor: zoom-out;
+      opacity: 0;
+      transition: opacity .22s ease;
+    }
+    #img-lightbox.lb-visible {
+      display: flex;
+      opacity: 1;
+    }
+    #img-lightbox img {
+      max-width: 72vw;
+      max-height: 72vh;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 12px 48px rgba(0,0,0,.6);
+      transform: scale(.94);
+      transition: transform .28s cubic-bezier(.22,1,.36,1);
+    }
+    #img-lightbox.lb-visible img {
+      transform: scale(1);
+    }
+
+    /* Callouts */
+    .callout {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px; border-radius: 0 10px 10px 0; border-left: 3px solid;
+      margin: 10px 0; font-size: .88em;
+    }
+    .callout svg { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; stroke: currentColor; }
+    .callout__text { color: rgba(255,255,255,.9); line-height: 1.55; }
+    .callout--info    { background: rgba(0,85,255,.08);   border-color: #0055FF; color: #93c5fd; }
+    .callout--warning { background: rgba(245,158,11,.08); border-color: #F59E0B; color: #fcd34d; }
+    .callout--error   { background: rgba(239,68,68,.08);  border-color: #EF4444; color: #fca5a5; }
+    .callout--success { background: rgba(16,185,129,.08); border-color: #10B981; color: #6ee7b7; }
+
+    /* Steps / roadmap */
+    .steps-list { counter-reset: step; list-style: none; padding: 0; margin: 0; }
+    .steps-list li {
+      counter-increment: step;
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.07);
+      font-size: .9em; color: rgba(255,255,255,.88);
+      transition: padding-left .2s;
+    }
+    .steps-list li:last-child { border-bottom: none; }
+    .steps-list li:hover { padding-left: 6px; }
+    .steps-list li::before {
+      content: counter(step, decimal-leading-zero);
+      flex-shrink: 0; font-size: .72em; font-weight: 800; color: var(--accent);
+      background: rgba(0,85,255,.1); border: 1px solid rgba(0,85,255,.28);
+      border-radius: 7px; padding: 3px 8px; letter-spacing: .02em;
+    }
+
+    /* Checklist */
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.07);
+      color: rgba(255,255,255,.88); font-size: .9em;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li .icon {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75em; font-weight: 700;
+    }
+    .checklist li.ok .icon { background: rgba(16,185,129,.15); color: #10B981; border: 1px solid rgba(16,185,129,.3); }
+    .checklist li.ko       { opacity: .6; }
+    .checklist li.ko .icon { background: rgba(239,68,68,.1);  color: #EF4444; border: 1px solid rgba(239,68,68,.2); }
+
+    /* Tableau comparatif */
+    .cmp-table { width: 100%; border-collapse: collapse; font-size: .85em; }
+    .cmp-table thead th {
+      padding: 10px 16px; font-weight: 700; font-size: .72em;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: rgba(255,255,255,.4); border-bottom: 1px solid rgba(255,255,255,.1);
+      text-align: center;
+    }
+    .cmp-table thead th:first-child { text-align: left; }
+    .cmp-table tbody td {
+      padding: 12px 16px; color: rgba(255,255,255,.82);
+      border-bottom: 1px solid rgba(255,255,255,.06); text-align: center;
+    }
+    .cmp-table tbody td:first-child { text-align: left; font-weight: 600; color: #fff; }
+    .cmp-table thead th:last-child { text-align: left; }
+    .cmp-table tbody td:last-child  { text-align: left; }
+    .cmp-table tbody tr:hover td { background: rgba(255,255,255,.025); }
+    .badge-good { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(16,185,129,.12); color: #34d399; border: 1px solid rgba(16,185,129,.25); font-size: .83em; font-weight: 600; }
+    .badge-bad  { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(239,68,68,.1);  color: #f87171; border: 1px solid rgba(239,68,68,.22);  font-size: .83em; font-weight: 600; }
+    .badge-mid  { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(245,158,11,.1); color: #fbbf24; border: 1px solid rgba(245,158,11,.22); font-size: .83em; font-weight: 600; }
+
+    /* KPI */
+    .kpi-value { font-size: 3em; font-weight: 900; letter-spacing: -.04em; line-height: 1; }
+    .kpi-label { font-size: .68em; color: rgba(255,255,255,.45); font-weight: 500; margin-top: 6px; text-transform: uppercase; letter-spacing: .06em; line-height: 1.4; }
+    .kpi-bar   { margin-top: 14px; height: 2px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; }
+    .kpi-bar span { display: block; height: 100%; border-radius: 2px; }
+
+    /* Feature cards */
+    .feature-card { padding: 18px; border-radius: 12px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); transition: background .2s, border-color .2s; }
+    .feature-card:hover { background: rgba(0,85,255,.06); border-color: rgba(0,85,255,.22); }
+    .feature-icon { width: 38px; height: 38px; border-radius: 9px; background: rgba(0,85,255,.1); border: 1px solid rgba(0,85,255,.22); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .feature-icon svg { width: 18px; height: 18px; stroke: #60a5fa; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 26px; }
+    .timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--accent), rgba(0,85,255,.08)); border-radius: 2px; }
+    .timeline-item { position: relative; padding-bottom: 22px; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(0,85,255,.18); }
+    .timeline-date  { font-size: .68em; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 3px; }
+    .timeline-title { font-size: .92em; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .timeline-desc  { font-size: .8em; color: rgba(255,255,255,.48); line-height: 1.5; }
+
+    /* Section divider */
+    .section-divider { display: flex !important; flex-direction: column; justify-content: center !important; }
+    .section-num   { font-size: 7em; font-weight: 900; line-height: 1; color: rgba(0,85,255,.14); letter-spacing: -.05em; margin-bottom: -.05em; }
+    .section-title { font-size: 2.4em; font-weight: 900; color: #fff; letter-spacing: -.03em; line-height: 1.1; }
+    .section-desc  { font-size: .88em; color: rgba(255,255,255,.42); margin-top: 14px; max-width: 480px; line-height: 1.65; }
+
+    /* Code blocks */
+    .reveal pre { background: rgba(0,0,0,.35) !important; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; overflow: hidden; box-shadow: 0 24px 48px rgba(0,0,0,.3); margin: 0; }
+    .reveal code { font-size: .82em; }
+    .pre-header { background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,255,255,.07); padding: 9px 14px; display: flex; align-items: center; gap: 7px; }
+    .pre-dot    { width: 10px; height: 10px; border-radius: 50%; }
+    .pre-lang   { margin-left: auto; font-size: .62em; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+
+    /* Hint navigation verticale */
+    .hint-v { display: inline-flex; align-items: center; gap: 7px; font-size: .68em; color: rgba(255,255,255,.3); margin-top: 18px; }
+    .hint-v svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    /* Curseur personnalisé */
+    *, *::before, *::after { cursor: none !important; }
+    #custom-cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 14px; height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
+      mix-blend-mode: difference;
+    }
+    #custom-cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 2px solid rgba(255,255,255,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: top 0.12s ease, left 0.12s ease, width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+
+    <!-- ══════════════════════════════════════════════
+         HEADER — intouché
+    ══════════════════════════════════════════════ -->
+    <div class="deck-header fixed top-0 left-0 right-0 flex items-center justify-between px-8 py-4 h-[72px] box-border bg-[rgba(11,20,38,0.96)] backdrop-blur-xl border-b border-white/[0.07] z-[1000]">
+      <div class="flex items-center gap-4">
+        <a href="https://www.neosoft.fr" target="_blank" rel="noopener">
+          <img class="h-8 w-auto object-contain" src="https://www.neosoft.fr/wp-content/themes/neosoft/dist/images/logo-neosoft-white.svg" alt="Logo Néosoft">
+        </a>
+        <div class="text-white font-bold tracking-wide text-[1.1em]">
+          <span class="text-white/30 mx-4">•</span>
+          <span>RetEx Outils IA</span>
+        </div>
+      </div>
+      <div class="text-white font-bold text-[0.9em]" id="slideCounter">1</div>
+    </div>
+
+    <div class="slides">
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 01 · TITRE
+      ══════════════════════════════════════════ -->
+      <section style="display:flex;flex-direction:column;justify-content:center;padding-left:80px;padding-right:80px;">
+        <div class="tag" style="margin-bottom:24px;">2026</div>
+        <h1 style="margin-bottom:16px;">
+          Retour d'expérience<br>
+          <span style="color:#0055FF;">Outils IA</span>
+        </h1>
+        <p style="max-width:520px;margin:0 0 32px;font-size:.9em;color:rgba(255,255,255,.45);">
+          L'objectif est d'avoir une fenêtre d'aperçu de ce qui est possible à travers mon usage, pas une vérité absolue 🌞
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 02 · SOMMAIRE
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Plan</div>
+        <h2 style="margin-bottom:24px;">Sommaire</h2>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">01</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Disclaimer &amp; biais</div>
+          </div>
+          <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">02</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Les niveaux d'utilisation IA</div>
+          </div>
+          <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">03</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Mon usage de l'IA</div>
+          </div>
+          <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">04</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">2 outils clés</div>
+          </div>
+          <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">05</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Questionnements &amp; avenir</div>
+          </div>
+          <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">06</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Conclusion & Questions</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 02b · QUI SUIS-JE ?
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Intervenant</div>
+        <h2 style="margin-bottom:28px;">Qui suis-je ?</h2>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start;max-width:700px;">
+          <div style="position:relative;flex-shrink:0;">
+            <img style="width:96px;height:96px;border-radius:14px;object-fit:cover;display:block;" src="https://media.licdn.com/dms/image/v2/D4E03AQH43QfyAlzLbg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1684319412407?e=1774483200&v=beta&t=mlNuFRPP4qJElekUCJPmamAImCwmUMvTZI4xQ2YZG6g" alt="Photo intervenant">
+          </div>
+          <div>
+            <div style="font-size:1.25em;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;">Kilian LE DU</div>
+            <div style="font-size:.82em;color:#60a5fa;font-weight:600;margin-bottom:8px;">Technical Leader · Néosoft</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:8px;">En mission chez Orange Business Services</div>
+            <p style="font-size:.72em;color:#d6d6d6;line-height:1.6;margin:0 0 14px;">Spécialiste en architecture front-end et accessibilité web, 10+ ans d'expérience JavaScript. Expert React, Vue.js et performance web.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.35);color:#f87171;">🅰️ Angular</span>
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">🐘 Symfony</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 03 · DIVIDER — Cadre
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">01</div>
+        <div class="section-title">Disclaimer &amp;<br>Biais</div>
+        <div class="section-desc">Quelques éléments de contexte pour cadrer la présentation et éviter les malentendus 😇</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 04 · DISCLAIMER
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Cadre</div>
+        <h2 style="margin-bottom:24px;">⚠️ Disclaimer</h2>
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
+          <div class="callout callout--warning fragment fade-up">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <div class="callout__text"><strong style="color:#FBBF24;">Morale & éthique :</strong> Je fais volontairement abstraction du coût environnemental et des questions éthiques associées à ces technologies.</div>
+          </div>
+          <div class="callout callout--warning fragment fade-up">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <div class="callout__text"><strong style="color:#FBBF24;">Avis personnel :</strong> Chaque avis énoncé concerne uniquement mon choix et ma perception de ces outils.</div>
+          </div>
+          <!--<div class="callout callout--info fragment fade-up">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+            <div class="callout__text"><strong style="color:#60A5FA;">Mon positionnement :</strong> Sur le spectre des utilisateurs de l'IA au sens large, je suis plutôt un consommateur régulier et plutôt favorable à l'IA.</div>
+          </div>-->
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 05 · BIAIS SUR LA PERCEPTION
+      ══════════════════════════════════════════ -->
+      <section>
+        <section>
+        <div class="tag" style="margin-bottom:16px;">Cadre</div>
+        <h2 style="margin-bottom:24px;">Les biais sur la perception de l'IA</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="card fragment fade-up" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;"></div>
+              <span style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fbbf24;">Idée reçue 1</span>
+            </div>
+            <p style="font-size:.84em;margin:0;line-height:1.6;">
+              <span style="font-style: italic;">"L'IA peut tout résoudre"</span>
+              <br><span style="font-style: italic;">"C'est surpuissant"</span>
+              <br>➔ <strong style="color:#fff;"> Non, ce n'est pas un outil magique</strong>.<br> On prend l'IA pour ses forces et ses limites, un arbitrage entre utilité et risque.</p>
+          </div>
+          <div class="card fragment fade-up" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;"></div>
+              <span style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fbbf24;">Idée reçue 2</span>
+            </div>
+            <p style="font-size:.84em;margin:0;line-height:1.6;">
+              <span style="font-style: italic;">"Utiliser l'IA = accepter tout ce qu'elle propose"</span>
+              <br>➔ <strong style="color:#fff;">Non, l'IA propose et l'humain dispose</strong>.
+              <br>On doit toujours choisir de garder, modifier ou ignorer ce qu'elle produit.
+            </p>
+          </div>
+          <div class="card fragment fade-up" style="padding:20px;grid-column:1/-1;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+              <span style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#f87171;">La connotation négative</span>
+            </div>
+            <p style="font-size:.84em;margin:0;line-height:1.6;">Utiliser l'IA = assisté = potentiel incompétent ?
+              <br>Comme si un développeur devrait toujours choisir "the hard way" pour que le travail ait de la valeur.<strong style="color:#f87171;">*</strong>
+              <br><strong style="color:#fff;">➔ Ce raccourci est un biais à déconstruire</strong> ; l'IA n'est pas <i>(encore)</i> notre ennemie 🤖
+              </p>
+          </div>
+        </div>
+        </section>
+        <!-- 05b : Courbe de hype -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cadre</div>
+          <h2 style="margin-bottom:20px;">Biais de hype autour de l'IA</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:70%;max-width:900px;margin:0;">
+            <img src="assets/graph-hype.png" style="width:100%;border-radius:12px;" alt="Courbe de hype d'un outil IA" />
+          </div>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 06 · DIVIDER — Niveaux
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">02</div>
+        <div class="section-title">Les niveaux<br>d'utilisation IA</div>
+        <div class="section-desc">Une façon de visualiser où on en est, et vers quoi on peut aller 🛣️</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 07 · NIVEAUX (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <!-- 07a : Les niveaux 0→4 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Niveaux d'outils</div>
+          <h2 style="margin-bottom:20px;">Pyramide des niveaux d'utilisation IA</h2>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;max-width:840px;margin:0 auto;">
+            <!-- Niveau 4 — sommet, plus étroit -->
+            <div class="fragment" data-fragment-index="4" style="width:38%;background:rgba(0,85,255,.22);border:1px solid rgba(0,85,255,.6);border-radius:8px;padding:7px 14px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#fff;background:rgba(0,85,255,.55);border-radius:4px;padding:1px 6px;">4</span>
+                <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.5);">Automatisation</span>
+              </div>
+              <div style="font-size:.72em;font-weight:700;color:#fff;margin-bottom:2px;">IA autonome</div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">Agents IA en arrière-plan, orchestrant plusieurs systèmes en grande autonomie.</div>
+            </div>
+            <!-- Niveau 3 -->
+            <div class="fragment" data-fragment-index="3" style="width:53%;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.42);border-radius:8px;padding:7px 16px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#93c5fd;background:rgba(0,85,255,.28);border-radius:4px;padding:1px 6px;">3</span>
+                <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.45);">Délégation</span>
+              </div>
+              <div style="font-size:.72em;font-weight:700;color:#fff;margin-bottom:2px;">IA agent</div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">L'IA modifie du code et exécute des tâches directement dans l'IDE, sous supervision.</div>
+            </div>
+            <!-- Niveau 2 -->
+            <div class="fragment" data-fragment-index="2" style="width:68%;background:rgba(0,85,255,.09);border:1px solid rgba(0,85,255,.28);border-radius:8px;padding:7px 18px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#93c5fd;background:rgba(0,85,255,.16);border-radius:4px;padding:1px 6px;">2</span>
+                <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.4);">Collaboration</span>
+              </div>
+              <div style="font-size:.72em;font-weight:700;color:#fff;margin-bottom:2px;">IA contextualisée</div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">L'IA connaît le projet (code, historique, instructions) comme un copilote intégré.</div>
+            </div>
+            <!-- Niveau 1 -->
+            <div class="fragment" data-fragment-index="1" style="width:82%;background:rgba(0,85,255,.05);border:1px solid rgba(0,85,255,.16);border-radius:8px;padding:7px 20px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:rgba(147,197,253,.7);background:rgba(0,85,255,.1);border-radius:4px;padding:1px 6px;">1</span>
+                <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.35);">Consultation</span>
+              </div>
+              <div style="font-size:.72em;font-weight:700;color:#fff;margin-bottom:2px;">IA conversationnelle</div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.5);line-height:1.35;">L'IA répond à des questions pour expliquer, générer ou rechercher de l'information.</div>
+            </div>
+            <!-- Niveau 0 — base, plus large -->
+            <div class="fragment" data-fragment-index="0" style="width:97%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 24px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:rgba(255,255,255,.4);background:rgba(255,255,255,.07);border-radius:4px;padding:1px 6px;">0</span>
+                <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);">Aucune utilisation</span>
+              </div>
+              <div style="font-size:.72em;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:2px;">Sans IA</div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.38);line-height:1.35;">Aucun outil d'intelligence artificielle n'est intégré au workflow.</div>
+            </div>
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Conseils & astuces
+          </p>
+        </section>
+        <!-- 07b : Conseils -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Niveaux d'outils</div>
+          <h2 style="margin-bottom:24px;">Quelques conseils pour appréhender les outils IA</h2>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:740px;">
+            <div class="callout callout--warning fragment fade-up">
+				<svg viewBox="0 0 24 24">
+				  <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
+						   M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
+						fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="callout__text"><strong style="color:#FBBF24;">Ne pas brûler les étapes</strong> : Y aller progressivement, on monte en niveau dans la pyramide quand on est à l'aise avec le précédent et qu'on est prêt à explorer.</div>
+            </div>
+            <div class="callout callout--warning fragment fade-up">
+				<svg viewBox="0 0 24 24">
+				  <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
+						   M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
+						fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="callout__text"><strong style="color:#FBBF24;">La confiance se gagne</strong> : Que ce soit pour un outil ou un modèle précis, ne pas faire confiance aveuglément. Avec le temps et l'usage on cerne mieux les possibilités et les limites.</div>
+            </div>
+            <div class="callout callout--warning fragment fade-up">
+				<svg viewBox="0 0 24 24">
+				  <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
+						   M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
+						fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="callout__text"><strong style="color:#FBBF24;">La taille compte</strong> : La puissance du LLM utilisé influence énormément la qualité du résultat obtenu. Ce n'est évidemment pas le seul élément, mais c'est celui le plus actionnable en tant que consommateur.</div>
+            </div>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 10 · DIVIDER — Outils
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">04</div>
+        <div class="section-title">Mes 2 outils clés</div>
+        <div class="section-desc">Ceux que j'utilise quotidiennement 💙</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 11 · 2 OUTILS CLÉS
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Outils</div>
+        <h2 style="margin-bottom:24px;">2 outils qui font partie de mon quotidien</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+          <div class="feature-card fragment fade-up" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div class="feature-icon" style="width:32px;height:32px;flex-shrink:0;">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              </div>
+              <div style="font-size:1em;font-weight:800;color:#fff;">Perplexity</div>
+            </div>
+            <div style="font-size:.78em;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:12px;">Agent conversationnel permettant la <strong style="color:rgba(255,255,255,.8);">recherche web</strong>, avec un ton plutôt neutre et factuel.</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.35);color:#fb923c;">Mission</span>
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#34d399;">Perso</span>
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">Freelance</span>
+            </div>
+          </div>
+          <div class="feature-card fragment fade-up" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div class="feature-icon" style="width:32px;height:32px;flex-shrink:0;">
+                <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <div style="font-size:1em;font-weight:800;color:#fff;">Cursor</div>
+            </div>
+            <div style="font-size:.78em;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:12px;">Agent directement dans l'<strong style="color:rgba(255,255,255,.8);">IDE</strong>. Contexte projet, mode agent, modifications de fichiers, complétion de code.</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#34d399;">Perso</span>
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">Freelance</span>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout--info fragment fade-up">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
+          <div class="callout__text"><strong style="color:#60A5FA;">Au fond, peu importe l'outil : l'essentiel c'est d'expérimenter et de trouver les usages qui vous apportent réellement quelque chose.</strong> Chaque besoin, chaque contexte et chaque sensibilité sont différents.</div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 12 · DIVIDER — Exemples
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">✦</div>
+        <div class="section-title">Usages<br>concrets</div>
+        <div class="section-desc">Parce que c'est plus clair visuellement 👀</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 13 · PERPLEXITY (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <!-- 13a : Image d'ensemble Perplexity -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Premier outil : Perplexity</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;">
+            <img src="assets/perplexity/perplexity_0.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Perplexity" />
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Détails
+          </p>
+        </section>
+        <!-- 13b : Sceptique vs Réalité -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Juste de l'IA conversationnelle ?</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+            <div class="fragment fade-up" style="padding:18px 20px;border-radius:12px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <div style="width:7px;height:7px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+                <span style="font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#f87171;">Le sceptique</span>
+              </div>
+              <p style="font-size:.84em;margin:0;line-height:1.6;color:rgba(255,255,255,.8);">"C'est juste un ChatGPT qui fait des recherches Google ?"</p>
+            </div>
+            <div class="fragment fade-up" style="padding:18px 20px;border-radius:12px;background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.14);">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <div style="width:7px;height:7px;border-radius:50%;background:#10B981;flex-shrink:0;"></div>
+                <span style="font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#34d399;">La réalité</span>
+              </div>
+              <p style="font-size:.84em;margin:0;line-height:1.6;color:rgba(255,255,255,.8);">C'est un agrégateur de sources, sur une question posée, avec un ton plutôt neutre et factuel, avec les sources citées.</p>
+            </div>
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Cas concret
+          </p>
+        </section>
+        <!-- 13c : Cas concret Perplexity -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Exemple : Le cas d'une recherche technique</h2>
+          <div style="display:flex;flex-direction:column;gap:12px;max-width:740px;">
+            <div class="callout callout--info fragment fade-up">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <div class="callout__text"><strong style="color:#60A5FA;">Cas d'usage :</strong> J'ai besoin d'une réponse à ma question, sur une technologie précise, ou en tout cas de renseignements.</div>
+            </div>
+            <div class="callout callout--warning fragment fade-up">
+              <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+              <div class="callout__text"><strong style="color:#FBBF24;">Le réfractaire est en droit de se demander :</strong> Est-ce qu'on est sûrs de ces informations données par l'IA ?</div>
+            </div>
+            <div class="callout callout--success fragment fade-up">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+              <div class="callout__text">
+                <strong style="color:#34D399;">La réponse :</strong> Dans un premier temps on se fiche que ce soit vrai ou pas : <strong style="color:#fff;">on a une piste à explorer.</strong>
+                <br>Le travail de vérification suivra, et les premières sources sont déjà mentionnées.
+                <br><strong style="color:#fff;">➔</strong> L’IA ne remplace pas la vérification, elle accélère la phase d’exploration.
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 13d : Capture Perplexity 1 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Exemple concret : ORY Kratos</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:70%;margin:0 auto;">
+            <img src="assets/perplexity/perplexity_1.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 1" />
+          </div>
+        </section>
+        <!-- 13e : Capture Perplexity 2 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;">
+            <img src="assets/perplexity/perplexity_2.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 2" />
+          </div>
+        </section>
+        <!-- 13f : Capture Perplexity 3 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;">
+            <img src="assets/perplexity/perplexity_3.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 3" />
+          </div>
+        </section>
+        <!-- 13g : Capture Perplexity 4 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;">
+            <img src="assets/perplexity/perplexity_4.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 3" />
+          </div>
+        </section>
+        <!-- 13h : Capture Perplexity 5 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;">
+            <img src="assets/perplexity/perplexity_5.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 3" />
+          </div>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 14 · CURSOR DEMO (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <!-- 14a : Intro démo Cursor -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Exemple 2</div>
+          <h2 style="margin-bottom:20px;">Second outil : Cursor</h2>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:740px;">
+            <div class="callout callout--info fragment fade-up">
+              <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <div class="callout__text"><strong style="color:#60A5FA;">Format :</strong> Démonstration en direct — Agent qui code une feature supplémentaire.</div>
+            </div>
+            <div class="card fragment fade-up" style="padding:20px;">
+              <div style="font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(0,85,255,.7);margin-bottom:12px;">Ce que l'on va voir</div>
+              <ul style="list-style:none;padding:0;margin:0;">
+                <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">→ Ouverture du projet dans Cursor</li>
+                <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">→ Prompt d'une nouvelle feature</li>
+                <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">→ Supervision des modifications proposées</li>
+                <li style="padding:8px 0;font-size:.86em;color:rgba(255,255,255,.78);">→ Itération et validation</li>
+              </ul>
+            </div>
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Détails
+          </p>
+        </section>
+        <!-- 14ab : Comparaison modèles -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Exemple 2</div>
+          <h2 style="margin-bottom:24px;">Les 3 modèles que j'utilise</h2>
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>Modèle</th>
+                <th>Puissance</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color:#fff;">Claude Opus 4.6</strong></td>
+                <td><span class="badge-bad">Très fort</span></td>
+                <td>Pour les grosses tâches / grosses réflexions / bugs chiants</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#fff;">Claude Sonnet 4.6</strong></td>
+                <td><span class="badge-mid">Fort</span></td>
+                <td>Usage standard</td>
+              </tr>
+              <tr>
+                <td><strong style="color:#fff;">Composer 1.5</strong></td>
+                <td><span class="badge-good">Plutôt bon</span></td>
+                <td>Pour les petites tâches / actions rapides</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <!-- 14b : Captures démo Cursor -->
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:10px;font-size:1.2em;">Visualiser la capacité des différents modèles</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:85%;margin:0 auto;" class="capture-grid">
+            <div class="capture-cell fragment fade-up" onclick="openLightbox(this.querySelector('img'))">
+              <div style="cursor:zoom-in;">
+                <img src="assets/todo_app/0.png" alt="Capture 1">
+              </div>
+              <div style="margin-top:4px;text-align:center;">
+                <div style="font-size:.58em;font-weight:700;color:#fff;">Application initiale</div>
+                <div style="font-size:.48em;color:rgba(255,255,255,.4);margin-top:1px;">Sans design</div>
+              </div>
+            </div>
+            <div class="capture-cell fragment fade-up" onclick="openLightbox(this.querySelector('img'))">
+              <div style="cursor:zoom-in;">
+                <img src="assets/todo_app/1.png" alt="Capture 2">
+              </div>
+              <div style="margin-top:4px;text-align:center;">
+                <div style="font-size:.58em;font-weight:700;color:#fff;"><strong>Composer 1.5</strong></div>
+                <div style="font-size:.48em;color:rgba(255,255,255,.4);margin-top:1px;">~1 minute de temps de réponse</div>
+              </div>
+            </div>
+            <div class="capture-cell fragment fade-up" onclick="openLightbox(this.querySelector('img'))">
+              <div style="cursor:zoom-in;">
+                <img src="assets/todo_app/2.png" alt="Capture 3">
+              </div>
+              <div style="margin-top:4px;text-align:center;">
+                <div style="font-size:.58em;font-weight:700;color:#fff;"><strong>Claude Sonnet 4.6</strong></div>
+                <div style="font-size:.48em;color:rgba(255,255,255,.4);margin-top:1px;">~3 minute de temps de réponse</div>
+              </div>
+            </div>
+            <div class="capture-cell fragment fade-up" onclick="openLightbox(this.querySelector('img'))">
+              <div style="cursor:zoom-in;">
+                <img src="assets/todo_app/3.png" alt="Capture 4">
+              </div>
+              <div style="margin-top:4px;text-align:center;">
+                <div style="font-size:.58em;font-weight:700;color:#fff;"><strong>Claude Opus 4.6</strong></div>
+                <div style="font-size:.48em;color:rgba(255,255,255,.4);margin-top:1px;">~7 minute de temps de réponse</div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 15 · AUTRES EXEMPLES
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Bonus</div>
+        <h2 style="margin-bottom:24px;">D'autres exemples</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+          <div class="feature-card fragment fade-up">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><rect x="9" y="17" width="6" height="1.5" rx="0.75"/><rect x="11" y="18.5" width="2" height="2.5" rx="1"/></svg>
+            </div>
+            <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Cette présentation</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Réalisée avec reveal.js et Claude Sonnet</div>
+          </div>
+          <div class="feature-card fragment fade-up">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+            </div>
+            <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">JiraCadabra</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Mon assistant Dinooto pour la rédaction de tickets Jira</div>
+          </div>
+          <div class="feature-card fragment fade-up" style="border:2px dashed rgba(255,255,255,.1);background:transparent;">
+            <div class="feature-icon" style="background:rgba(255,255,255,.03);">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </div>
+            <div style="font-size:.86em;font-weight:700;color:rgba(255,255,255,.3);margin-bottom:6px;">À venir…</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.2);line-height:1.5;">Placeholder</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 18 · DIVIDER — Conclusion
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">06</div>
+        <div class="section-title"><br>Conclusion</div>
+        <div class="section-desc">Mon avis, les perspectives et évolution du rôle de développeur 💻</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 19 · AVENIR ET CONCLUSION (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <!-- 17a : Les questionnements -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Ressenti</div>
+          <h2 style="margin-bottom:22px;">Les questions légitimes et le doute</h2>
+          <div style="display:flex;flex-direction:column;gap:9px;max-width:740px;">
+            <div class="callout callout--error fragment fade-up">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1.5 1-1.5 1.7V14"/><circle cx="12" cy="17" r="0.5"/></svg>
+              <div class="callout__text">L'impression que <strong style="color:#fca5a5;">tout évolue très vite</strong> : difficile de suivre sans courir après chaque nouveauté ?</div>
+            </div>
+            <div class="callout callout--error fragment fade-up">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1.5 1-1.5 1.7V14"/><circle cx="12" cy="17" r="0.5"/></svg>
+              <div class="callout__text">L'impression <strong style="color:#fca5a5;">d'être remplaçable</strong> et le sentiment qu'il va falloir s'adapter à ces outils ?</div>
+            </div>
+              <div class="callout callout--error fragment fade-up" style="margin-bottom:18px;">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1.5 1-1.5 1.7V14"/><circle cx="12" cy="17" r="0.5"/></svg>
+                <div class="callout__text">Au vu de la puissance de ces outils, si l'IA peut faire mieux et plus vite ; <strong style="color:#fca5a5;">Quel est le sens et la valeur de mon travail</strong> de développeur ?</div>
+              </div>
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Quelques éléments de réponse
+          </p>
+        </section>
+        <!-- 17b : Perte de sens -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Ressenti</div>
+          <h2 style="margin-bottom:22px;">Quelques éléments de réponse</h2>
+          <div>
+              <div class="callout callout--info fragment fade-up">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
+                  <div class="callout__text">
+                    <strong style="color:#60A5FA;">Pas besoin d'avoir le dernier truc tech qui brille et qui fait du bruit</strong>
+                    <br><span style="font-style:italic;">"Ne pas courir comme un poulet sans tête 🐓💨"</span>
+                    <br>➔ Avoir quelques wagons de retard sur les nouveautés c'est OK
+                    <br>➔ On laisse le temps aux choses de maturer et d'être adoptées
+                  </div>
+              </div>
+          </div>
+          <div class="callout callout--info fragment fade-up">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
+            <div class="callout__text">
+              <strong style="color:#60A5FA;">Le métier évolue, il ne disparaît pas</strong><br>
+              Les outils changent, mais les besoins restent : comprendre un problème, concevoir une solution, avoir l'esprit critique.
+              <br>➔ L'IA fait évoluer <strong>comment</strong> on travaille, pas <strong>pourquoi</strong> on travaille.
+            </div>
+          </div>
+        </section>
+        <!-- 19b : Perspectives -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Avenir</div>
+          <h2 style="margin-bottom:22px;">Ce qui comptera vraiment à l'avenir</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:800px;">
+            <div class="feature-card fragment fade-up">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Vision produit</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Comprendre le "pourquoi" du produit, penser parcours utilisateur, prioriser.</div>
+            </div>
+            <div class="feature-card fragment fade-up">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Choix &amp; orientations techniques</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Décisions d'architecture, arbitrages techniques, supervision de ce que l'IA produit.</div>
+            </div>
+            <div class="feature-card fragment fade-up">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">De l'exécutant au superviseur</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Le métier ne va pas disparaître ; il va se transformer.</div>
+            </div>
+            <div class="feature-card fragment fade-up">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/></svg>
+              </div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Esprit critique &amp; qualité</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Valider, challenger et garantir ce que l'IA produit. Le jugement reste humain.</div>
+            </div>
+          </div>
+        </section>
+        <!-- 19a : Citation -->
+        <section style="display:flex;flex-direction:column;justify-content:center;padding-left:80px;padding-right:80px;">
+          <div style="max-width:680px;">
+            <div style="font-size:5em;line-height:.75;color:#0055FF;font-weight:900;margin-bottom:14px;user-select:none;">"</div>
+            <div style="font-size:1.3em;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:1.3;margin-bottom:24px;">
+              Ce n'est pas la plus forte des espèces qui survit, ni la plus intelligente, mais celle qui s'adapte le mieux au changement.
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:32px;height:2px;background:#0055FF;border-radius:1px;flex-shrink:0;"></div>
+              <span style="font-size:.76em;font-weight:500;color:rgba(255,255,255,.42);">Charles Darwin</span>
+            </div>
+          </div>
+        </section>
+        <!-- 19c : Conclusion checklist -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Conclusion</div>
+          <h2 style="margin-bottom:22px;">La clé : Rester prêt à évoluer</h2>
+          <ul class="checklist" style="max-width:640px;">
+            <li class="ok fragment fade-up"><span class="icon">✓</span>Le monde de la tech bouge vite</li>
+            <li class="ok fragment fade-up"><span class="icon">✓</span>L'adoption générale est lente, ce qui nous donne du temps</li>
+            <li class="ok fragment fade-up"><span class="icon">✓</span>Pour les outils, l'usage et l'adoption prévaut</li>
+            <li class="ok fragment fade-up"><span class="icon">✓</span>Être sensibilisé à ces sujets est essentiel : Junior comme Senior</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 20 · Q&A FINAL
+      ══════════════════════════════════════════ -->
+      <section style="display:flex;flex-direction:column;justify-content:center;padding-left:52px;padding-right:52px;">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center;">
+          <div>
+            <h1 style="margin-bottom:10px;font-size:2.6em;">
+              Merci<br>
+              <span style="color:#0055FF;">Des questions ?</span>
+            </h1>
+            <p style="color:rgba(255,255,255,.38);font-size:.8em;max-width:380px;margin:0 0 28px;line-height:1.65;">
+              N'hésitez pas à poser vos questions ou à partager vos retours.
+            </p>
+            <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:20px;">
+              <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:12px;">Ressources utiles</div>
+              <ul style="list-style:none;padding:0;margin:0;">
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[1]</span>
+                  <span>Perplexity : <a href="https://www.perplexity.ai" target="_blank" style="color:#60a5fa;text-decoration:none;">perplexity.ai</a></span>
+                </li>
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[2]</span>
+                  <span>Cursor : <a href="https://www.cursor.com" target="_blank" style="color:#60a5fa;text-decoration:none;">cursor.com</a></span>
+                </li>
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[3]</span>
+                  <span>Étude : <a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" style="color:#60a5fa;text-decoration:none;">Labor market impacts of AI</a> - Anthropic, mars 2026</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+            <div style="width:130px;height:130px;box-sizing:border-box;background:rgba(0,85,255,.08);border:1px solid rgba(0,85,255,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" style="width:44px;height:44px;stroke:#0055FF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                <path d="M8 12l3 3 5-5"/>
+              </svg>
+            </div>
+            <div style="margin-top:12px;text-align:center;">
+              <div style="font-size:.72em;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:-.01em;">RetEx Outils IA</div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.3);margin-top:3px;">Mars 2026</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           ↓↓↓  TEMPLATE V2  —  Slides de référence ci-dessous  ↓↓↓
+      ═══════════════════════════════════════════════════════════════ -->
+
+      <!-- ══════════════════════════════════════════
+           01 · INTRO
+      ══════════════════════════════════════════ -->
+      <section style="display:flex;flex-direction:column;justify-content:center;padding-left:80px;padding-right:80px;">
+        <div class="tag" style="margin-bottom:24px;">Accueil</div>
+        <h1 style="margin-bottom:16px;">
+          Présentation<br>
+          <span style="color:#0055FF;">Template V2</span>
+        </h1>
+        <p style="max-width:500px;margin:0 0 24px;font-size:.9em;color:rgba(255,255,255,.45);">
+          Design pour vos présentations internes.
+        </p>
+        <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:8px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);max-width:500px;margin-bottom:40px;">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;flex-shrink:0;stroke:#EF4444;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/>
+          </svg>
+          <span style="font-size:.72em;font-weight:700;color:#f87171;line-height:1.4;">Réservé exclusivement aux collaborateurs Néosoft</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:3px;height:40px;background:#0055FF;border-radius:2px;flex-shrink:0;"></div>
+          <div>
+            <div style="font-size:.65em;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);font-weight:700;margin-bottom:3px;">Kilian LE DU</div>
+            <div style="font-size:.85em;font-weight:600;color:rgba(255,255,255,.6);">2026</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           02 · SOMMAIRE
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Plan</div>
+        <h2 style="margin-bottom:24px;">Sommaire</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">01</span>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Contexte et objectifs</div>
+              <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Enjeux business et parties prenantes</div>
+            </div>
+          </div>
+          <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">02</span>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Proposition de solution</div>
+              <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Architecture technique retenue</div>
+            </div>
+          </div>
+          <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">03</span>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Démonstration</div>
+              <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Présentation live avec cas d'usage</div>
+            </div>
+          </div>
+          <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">04</span>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Feuille de route</div>
+              <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Planning et jalons prévisionnels</div>
+            </div>
+          </div>
+          <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">05</span>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Q&amp;A</div>
+              <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Questions et réponses avec l'équipe</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           03 · DIVIDER — Séparateur de section
+           (Dupliquer pour chaque chapitre)
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">01</div>
+        <div class="section-title">Contexte &amp;<br>Objectifs</div>
+        <div class="section-desc">Présentation du contexte projet, des enjeux business et des parties prenantes impliquées.</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           04 · AGENDA
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Organisation</div>
+        <h2 style="margin-bottom:24px;">Agenda de la session</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 48px;">
+          <div style="border-top:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Contexte et objectifs</span>
+            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">15 min</span>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Proposition de solution</span>
+            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">20 min</span>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Démonstration technique</span>
+            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">25 min</span>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Feuille de route</span>
+            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">10 min</span>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Questions &amp; Réponses</span>
+            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">15 min</span>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:.88em;font-weight:500;color:rgba(255,255,255,.38);">Durée totale estimée</span>
+            <span style="font-size:.7em;color:rgba(255,255,255,.35);font-weight:600;padding:2px 10px;">85 min</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           05 · INTERVENANT
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Intervenant</div>
+        <h2 style="margin-bottom:28px;">Qui suis-je ?</h2>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start;max-width:700px;">
+          <div style="position:relative;flex-shrink:0;">
+            <img style="width:96px;height:96px;border-radius:14px;object-fit:cover;display:block;" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop" alt="Photo intervenant">
+            <div style="position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;background:#10B981;border-radius:50%;border:2px solid #0B1426;"></div>
+          </div>
+          <div>
+            <div style="font-size:1.25em;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;">Alexandre Martin</div>
+            <div style="font-size:.82em;color:#60a5fa;font-weight:600;margin-bottom:14px;">Lead Developer & Tech Architect · Néosoft</div>
+            <p style="font-size:.8em;color:rgba(255,255,255,.5);line-height:1.6;margin:0 0 14px;">Spécialiste en architecture front-end et accessibilité web, 10+ ans d'expérience JavaScript. Expert React, Vue.js et performance web.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);">React</span>
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);">Vue.js</span>
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);">Architecture</span>
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);">TypeScript</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           06 · DEUX COLONNES — Problème / Solution
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Analyse</div>
+        <h2 style="margin-bottom:24px;">Analyse comparative</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div style="padding:18px 20px;border-radius:12px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+              <span style="font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#f87171;">Défis identifiés</span>
+            </div>
+            <ul style="list-style:none;padding:0;margin:0;">
+              <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">⚠ Dette technique élevée</li>
+              <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">⚠ Performance variable</li>
+              <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">⚠ UX incohérente</li>
+              <li style="padding:8px 0;font-size:.86em;color:rgba(255,255,255,.78);">⚠ Manque de scalabilité</li>
+            </ul>
+          </div>
+          <div style="padding:18px 20px;border-radius:12px;background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.14);">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#10B981;flex-shrink:0;"></div>
+              <span style="font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#34d399;">Solutions proposées</span>
+            </div>
+            <ul style="list-style:none;padding:0;margin:0;">
+              <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">✓ Design system unifié</li>
+              <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">✓ Audit &amp; optimisations ciblées</li>
+              <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86em;color:rgba(255,255,255,.78);">✓ Tests utilisateurs &amp; A/B</li>
+              <li style="padding:8px 0;font-size:.86em;color:rgba(255,255,255,.78);">✓ Architecture microservices</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           07 · FEATURES — Grille de points forts
+           (Slide nouvelle)
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Fonctionnalités</div>
+        <h2 style="margin-bottom:24px;">Points forts de la solution</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+          <div class="feature-card">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Performance</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Score Lighthouse &gt; 95, TTI &lt; 1.2s</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Sécurité</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">OAuth 2.0, chiffrement bout-en-bout</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+            <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Scalabilité</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Auto-scaling Kubernetes, multi-région</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+            <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Time-to-market</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">CI/CD automatisé, livraison continue</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Collaboration</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Design system partagé, doc vivante</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Monitoring</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Alertes temps réel, dashboards Grafana</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           08 · KPI
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Résultats</div>
+        <h2 style="margin-bottom:32px;">Chiffres clés</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border-radius:16px;overflow:hidden;">
+          <div style="background:#0B1426;padding:28px 24px;">
+            <div class="kpi-value" style="color:#0055FF;">+47%</div>
+            <div class="kpi-label">Amélioration<br>des performances</div>
+            <div class="kpi-bar"><span style="width:47%;background:#0055FF;"></span></div>
+          </div>
+          <div style="background:#0B1426;padding:28px 24px;">
+            <div class="kpi-value" style="color:#10B981;">−65%</div>
+            <div class="kpi-label">Réduction du<br>temps de chargement</div>
+            <div class="kpi-bar"><span style="width:65%;background:#10B981;"></span></div>
+          </div>
+          <div style="background:#0B1426;padding:28px 24px;">
+            <div class="kpi-value" style="color:#F59E0B;">+38%</div>
+            <div class="kpi-label">Taux de<br>conversion</div>
+            <div class="kpi-bar"><span style="width:38%;background:#F59E0B;"></span></div>
+          </div>
+        </div>
+        <p style="margin-top:16px;font-size:.65em;color:rgba(255,255,255,.28);text-align:center;">Mesures sur 6 mois post-déploiement · Rapport interne Q3 2024</p>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           09 · CITATION
+      ══════════════════════════════════════════ -->
+      <section style="display:flex;flex-direction:column;justify-content:center;padding-left:80px;padding-right:80px;">
+        <div style="max-width:660px;">
+          <div style="font-size:5em;line-height:.75;color:#0055FF;font-weight:900;margin-bottom:14px;user-select:none;">"</div>
+          <div style="font-size:1.35em;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:1.3;margin-bottom:24px;">
+            La simplicité est la sophistication suprême. Un bon design est aussi peu de design que possible.
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:32px;height:2px;background:#0055FF;border-radius:1px;flex-shrink:0;"></div>
+            <span style="font-size:.76em;font-weight:500;color:rgba(255,255,255,.42);">Dieter Rams, Designer industriel</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           10 · TABLEAU COMPARATIF
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Évaluation</div>
+        <h2 style="margin-bottom:24px;">Comparaison des solutions</h2>
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th>Critère</th>
+              <th>Solution A</th>
+              <th>Solution B</th>
+              <th>Solution C</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Coût de développement</td>
+              <td><span class="badge-mid">Moyen</span></td>
+              <td><span class="badge-bad">Élevé</span></td>
+              <td><span class="badge-good">Faible</span></td>
+            </tr>
+            <tr>
+              <td>Délai de mise en œuvre</td>
+              <td><span class="badge-mid">3 mois</span></td>
+              <td><span class="badge-bad">6 mois</span></td>
+              <td><span class="badge-good">2 mois</span></td>
+            </tr>
+            <tr>
+              <td>Niveau de risque</td>
+              <td><span class="badge-good">Faible</span></td>
+              <td><span class="badge-mid">Moyen</span></td>
+              <td><span class="badge-bad">Élevé</span></td>
+            </tr>
+            <tr>
+              <td>Scalabilité</td>
+              <td><span class="badge-good">Excellente</span></td>
+              <td><span class="badge-good">Très bonne</span></td>
+              <td><span class="badge-bad">Limitée</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           11 · CALLOUTS
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Alertes</div>
+        <h2 style="margin-bottom:22px;">Points d'attention</h2>
+        <div class="callout callout--info">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
+          <div class="callout__text">Information importante à retenir pour la suite du projet</div>
+        </div>
+        <div class="callout callout--warning">
+          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+          <div class="callout__text">Attention particulière requise pour cette étape critique du déploiement</div>
+        </div>
+        <div class="callout callout--error">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+          <div class="callout__text">Blocage identifié — action requise avant de passer à la phase suivante</div>
+        </div>
+        <div class="callout callout--success">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+          <div class="callout__text">Validation réussie des tests de performance en environnement de staging</div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           12 · CHECKLIST
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Suivi</div>
+        <h2 style="margin-bottom:24px;">État d'avancement</h2>
+        <ul class="checklist" style="max-width:560px;">
+          <li class="ok"><span class="icon">✓</span>Objectifs métier clairement définis</li>
+          <li class="ok"><span class="icon">✓</span>Parties prenantes alignées sur la vision</li>
+          <li class="ok"><span class="icon">✓</span>Équipe technique constituée et formée</li>
+          <li class="ok"><span class="icon">✓</span>Budget et ressources allouées</li>
+          <li class="ko"><span class="icon">✗</span>Plan de migration des données</li>
+          <li class="ko"><span class="icon">✗</span>Tests de charge validés</li>
+        </ul>
+        <p style="margin-top:18px;font-size:.65em;color:rgba(255,255,255,.28);">4 / 6 tâches complétées · Mise à jour 10 mars 2025</p>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           13 · ROADMAP — Étapes
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Planning</div>
+        <h2 style="margin-bottom:24px;">Roadmap de déploiement</h2>
+        <ol class="steps-list" style="max-width:620px;">
+          <li>Phase de découverte et cadrage technique</li>
+          <li>Design system et prototypage interactif</li>
+          <li>Développement itératif par sprints (4 × 2 sem.)</li>
+          <li>Tests utilisateurs et optimisations</li>
+          <li>Déploiement progressif en production</li>
+          <li>Monitoring et ajustements post-lancement</li>
+        </ol>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           14 · TIMELINE — Jalons (slide nouvelle)
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Historique</div>
+        <h2 style="margin-bottom:28px;">Jalons du projet</h2>
+        <div class="timeline" style="max-width:600px;">
+          <div class="timeline-item">
+            <div class="timeline-date">Janvier 2025</div>
+            <div class="timeline-title">Lancement du projet</div>
+            <div class="timeline-desc">Kick-off avec les équipes métier et technique. Définition des OKR.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">Février 2025</div>
+            <div class="timeline-title">Phase design &amp; prototype</div>
+            <div class="timeline-desc">Création du design system Figma, tests utilisateurs sur maquettes.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">Mars – Avril 2025</div>
+            <div class="timeline-title">Développement Sprint 1 &amp; 2</div>
+            <div class="timeline-desc">Implémentation des composants core, intégration API, tests unitaires.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">Mai 2025</div>
+            <div class="timeline-title">Mise en production</div>
+            <div class="timeline-desc">Déploiement progressif (10% → 50% → 100%), monitoring actif.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           15 · IMAGE
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Architecture</div>
+        <h2 style="margin-bottom:18px;">Architecture proposée</h2>
+        <figure style="margin:0;">
+          <img style="display:block;max-height:calc(52vh - 72px);width:auto;max-width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.1);object-fit:contain;" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop" alt="Architecture système">
+          <figcaption style="margin-top:10px;font-size:.65em;color:rgba(255,255,255,.3);font-style:italic;">Schéma d'architecture de la solution microservices proposée</figcaption>
+        </figure>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           16 · CODE
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Technique</div>
+        <h2 style="margin-bottom:18px;">Implémentation</h2>
+        <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);">
+          <div class="pre-header">
+            <div class="pre-dot" style="background:#EF4444;"></div>
+            <div class="pre-dot" style="background:#F59E0B;"></div>
+            <div class="pre-dot" style="background:#10B981;"></div>
+            <span class="pre-lang">TypeScript</span>
+          </div>
+          <pre style="margin:0;border-radius:0;border:none;"><code class="language-typescript">import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-enhanced-card',
+  template: `
+    &lt;div class="card card--premium"&gt;
+      &lt;h3&gt;{{ title }}&lt;/h3&gt;
+      &lt;span class="badge"&gt;{{ status }}&lt;/span&gt;
+    &lt;/div&gt;
+  `
+})
+export class EnhancedCardComponent {
+  @Input() title: string = '';
+  @Input() status: 'active' | 'pending' | 'completed' = 'pending';
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           17 · SLIDES VERTICAUX — Architecture détaillée
+      ══════════════════════════════════════════ -->
+      <section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Deep dive</div>
+          <h2 style="margin-bottom:16px;">Architecture en détail</h2>
+          <p>Plongée technique dans les composants principaux. Naviguez verticalement pour explorer chaque couche.</p>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Flèche bas pour explorer les couches
+          </p>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Frontend</div>
+          <h2 style="margin-bottom:18px;">Frontend Layer</h2>
+          <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);">
+            <div class="pre-header">
+              <div class="pre-dot" style="background:#EF4444;"></div>
+              <div class="pre-dot" style="background:#F59E0B;"></div>
+              <div class="pre-dot" style="background:#10B981;"></div>
+              <span class="pre-lang">JavaScript</span>
+            </div>
+            <pre style="margin:0;border-radius:0;border:none;"><code class="language-javascript">const store = configureStore({
+  reducer: {
+    user: userReducer,
+    products: productsReducer,
+    cart: cartReducer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false })
+});</code></pre>
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">API</div>
+          <h2 style="margin-bottom:18px;">API Gateway</h2>
+          <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);">
+            <div class="pre-header">
+              <div class="pre-dot" style="background:#EF4444;"></div>
+              <div class="pre-dot" style="background:#F59E0B;"></div>
+              <div class="pre-dot" style="background:#10B981;"></div>
+              <span class="pre-lang">YAML</span>
+            </div>
+            <pre style="margin:0;border-radius:0;border:none;"><code class="language-yaml">services:
+  - name: user-service
+    url: http://user-service:3001
+    routes:
+      - paths: ["/api/users"]
+        methods: ["GET", "POST", "PUT"]
+  - name: product-service
+    url: http://product-service:3002
+    routes:
+      - paths: ["/api/products"]
+        methods: ["GET", "POST"]</code></pre>
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Database</div>
+          <h2 style="margin-bottom:18px;">Base de données</h2>
+          <div style="border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);">
+            <div class="pre-header">
+              <div class="pre-dot" style="background:#EF4444;"></div>
+              <div class="pre-dot" style="background:#F59E0B;"></div>
+              <div class="pre-dot" style="background:#10B981;"></div>
+              <span class="pre-lang">SQL</span>
+            </div>
+            <pre style="margin:0;border-radius:0;border:none;"><code class="language-sql">CREATE TABLE users (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email        VARCHAR(255) UNIQUE NOT NULL,
+  profile_data JSONB,
+  created_at   TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX CONCURRENTLY idx_users_email
+  ON users USING btree (email);</code></pre>
+          </div>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           DÉMO ANIMATIONS — Divider
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">✦</div>
+        <div class="section-title">Démo<br>Animations</div>
+        <div class="section-desc">Slides de référence pour visualiser les classes d'animation disponibles. Ces slides sont des placeholders — à supprimer dans la version finale.</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           DÉMO · anim-slide-up
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Placeholder · Animation</div>
+        <h2 style="margin-bottom:24px;">anim-slide-up</h2>
+        <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:28px;">Les éléments montent depuis le bas. Idéal pour des listes, des cartes ou du contenu principal.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+          <div class="anim-slide-up card" style="min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;">
+            <div style="height:10px;border-radius:4px;background:rgba(0,85,255,.25);"></div>
+            <div style="height:8px;border-radius:4px;background:rgba(0,85,255,.15);width:70%;"></div>
+            <div style="font-size:.65em;color:rgba(255,255,255,.3);margin-top:6px;font-weight:700;">anim-slide-up</div>
+          </div>
+          <div class="anim-slide-up anim-delay-2 card" style="min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;">
+            <div style="height:10px;border-radius:4px;background:rgba(0,85,255,.25);"></div>
+            <div style="height:8px;border-radius:4px;background:rgba(0,85,255,.15);width:55%;"></div>
+            <div style="font-size:.65em;color:rgba(255,255,255,.3);margin-top:6px;font-weight:700;">+ anim-delay-2</div>
+          </div>
+          <div class="anim-slide-up anim-delay-4 card" style="min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;">
+            <div style="height:10px;border-radius:4px;background:rgba(0,85,255,.25);"></div>
+            <div style="height:8px;border-radius:4px;background:rgba(0,85,255,.15);width:80%;"></div>
+            <div style="font-size:.65em;color:rgba(255,255,255,.3);margin-top:6px;font-weight:700;">+ anim-delay-4</div>
+          </div>
+        </div>
+        <div style="margin-top:20px;padding:12px 16px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+          <code style="font-size:.7em;color:#60a5fa;">&lt;div class="<span style="color:#fbbf24;">anim-slide-up anim-delay-2</span>"&gt;…&lt;/div&gt;</code>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           DÉMO · anim-slide-right
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Placeholder · Animation</div>
+        <h2 style="margin-bottom:24px;">anim-slide-right</h2>
+        <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:28px;">Les éléments arrivent depuis la gauche. Parfait pour des étapes, des listes ou un contenu narratif séquentiel.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:560px;">
+          <div class="anim-slide-right card" style="display:flex;align-items:center;gap:14px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.15);margin-bottom:6px;width:60%;"></div>
+              <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:80%;"></div>
+            </div>
+            <span style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;">anim-slide-right</span>
+          </div>
+          <div class="anim-slide-right anim-delay-2 card" style="display:flex;align-items:center;gap:14px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.15);margin-bottom:6px;width:45%;"></div>
+              <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:65%;"></div>
+            </div>
+            <span style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;">+ anim-delay-2</span>
+          </div>
+          <div class="anim-slide-right anim-delay-4 card" style="display:flex;align-items:center;gap:14px;">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.15);margin-bottom:6px;width:70%;"></div>
+              <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:50%;"></div>
+            </div>
+            <span style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;">+ anim-delay-4</span>
+          </div>
+        </div>
+        <div style="margin-top:20px;padding:12px 16px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+          <code style="font-size:.7em;color:#60a5fa;">&lt;div class="<span style="color:#fbbf24;">anim-slide-right anim-delay-4</span>"&gt;…&lt;/div&gt;</code>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           DÉMO · anim-slide-left + anim-slide-down
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Placeholder · Animation</div>
+        <h2 style="margin-bottom:24px;">anim-slide-left &amp; anim-slide-down</h2>
+        <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:24px;">Directions inverses — depuis la droite ou depuis le haut. Utile pour créer des effets de miroir ou d'entrée en opposition.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:12px;">← depuis la droite</div>
+            <div class="anim-slide-left card" style="min-height:70px;display:flex;align-items:center;justify-content:space-between;">
+              <div style="flex:1;">
+                <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;width:65%;"></div>
+                <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:40%;"></div>
+              </div>
+              <span style="font-size:.6em;color:rgba(255,255,255,.25);font-weight:700;margin-left:12px;">anim-slide-left</span>
+            </div>
+            <div class="anim-slide-left anim-delay-3 card" style="min-height:70px;display:flex;align-items:center;justify-content:space-between;margin-top:10px;">
+              <div style="flex:1;">
+                <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;width:50%;"></div>
+                <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:70%;"></div>
+              </div>
+              <span style="font-size:.6em;color:rgba(255,255,255,.25);font-weight:700;margin-left:12px;">+ anim-delay-3</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:12px;">↓ depuis le haut</div>
+            <div class="anim-slide-down card" style="min-height:70px;display:flex;align-items:center;justify-content:space-between;">
+              <div style="flex:1;">
+                <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;width:55%;"></div>
+                <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:75%;"></div>
+              </div>
+              <span style="font-size:.6em;color:rgba(255,255,255,.25);font-weight:700;margin-left:12px;">anim-slide-down</span>
+            </div>
+            <div class="anim-slide-down anim-delay-3 card" style="min-height:70px;display:flex;align-items:center;justify-content:space-between;margin-top:10px;">
+              <div style="flex:1;">
+                <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;width:80%;"></div>
+                <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:45%;"></div>
+              </div>
+              <span style="font-size:.6em;color:rgba(255,255,255,.25);font-weight:700;margin-left:12px;">+ anim-delay-3</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           DÉMO · anim-fade + anim-zoom
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Placeholder · Animation</div>
+        <h2 style="margin-bottom:24px;">anim-fade &amp; anim-zoom</h2>
+        <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:24px;">Sans déplacement. <code style="font-size:.9em;color:#60a5fa;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px;">anim-fade</code> pour une apparition douce, <code style="font-size:.9em;color:#60a5fa;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px;">anim-zoom</code> pour un effet de focus.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:12px;">Fondu simple</div>
+            <div class="anim-fade card" style="padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;border-radius:12px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);margin:0 auto 12px;"></div>
+              <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;"></div>
+              <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:60%;margin:0 auto;"></div>
+              <div style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;margin-top:12px;">anim-fade</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:12px;">Zoom</div>
+            <div class="anim-zoom card" style="padding:24px;text-align:center;">
+              <div style="width:48px;height:48px;border-radius:12px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);margin:0 auto 12px;"></div>
+              <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;"></div>
+              <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:60%;margin:0 auto;"></div>
+              <div style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;margin-top:12px;">anim-zoom</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:20px;padding:12px 16px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+          <code style="font-size:.7em;color:#60a5fa;">&lt;div class="<span style="color:#fbbf24;">anim-zoom anim-delay-3</span>"&gt;…&lt;/div&gt;</code>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           DÉMO · Récapitulatif des classes
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Placeholder · Référence</div>
+        <h2 style="margin-bottom:24px;">Toutes les classes disponibles</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:10px;">Animations</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#fbbf24;">anim-slide-up</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">↑ monte depuis le bas</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#fbbf24;">anim-slide-down</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">↓ descend depuis le haut</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#fbbf24;">anim-slide-right</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">→ arrive depuis la gauche</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#fbbf24;">anim-slide-left</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">← arrive depuis la droite</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#fbbf24;">anim-fade</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">fondu, sans déplacement</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#fbbf24;">anim-zoom</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">zoom depuis légèrement plus petit</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:10px;">Délais combinables</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#34d399;">anim-delay-1</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">100 ms</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#34d399;">anim-delay-2</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">200 ms</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#34d399;">anim-delay-3</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">300 ms</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#34d399;">anim-delay-4</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">400 ms</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#34d399;">anim-delay-5</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">500 ms</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
+                <code style="font-size:.72em;color:#34d399;">anim-delay-6</code>
+                <span style="font-size:.65em;color:rgba(255,255,255,.35);">600 ms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           19 · CONCLUSION
+           — QR_URL  : URL encodée dans le QR code
+           — QR_LABEL: texte affiché sous le QR
+           — Références : modifier la liste <ul>
+      ══════════════════════════════════════════ -->
+      <section style="display:flex;flex-direction:column;justify-content:center;padding-left:52px;padding-right:52px;">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center;">
+
+          <!-- Colonne gauche -->
+          <div>
+            <h1 style="margin-bottom:10px;font-size:2.6em;">
+              Questions &amp;<br>
+              <span style="color:#0055FF;">Discussion</span>
+            </h1>
+            <p style="color:rgba(255,255,255,.65);font-size:.88em;max-width:380px;margin:0 0 6px;font-weight:500;">
+              Merci pour votre attention 🦖
+            </p>
+            <p style="color:rgba(255,255,255,.38);font-size:.8em;max-width:380px;margin:0 0 28px;line-height:1.65;">
+              N'hésitez pas à poser vos questions ou à partager vos retours !
+            </p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;">
+              <a href="https://www.neosoft.fr/contact" target="_blank" rel="noopener"
+                 style="display:inline-flex;align-items:center;gap:8px;background:#0055FF;color:#fff;font-weight:700;font-size:.75em;padding:10px 18px;border-radius:9px;text-decoration:none;">
+                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                </svg>
+                Nous contacter
+              </a>
+              <a href="https://www.neosoft.fr" target="_blank" rel="noopener"
+                 style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.65);font-weight:600;font-size:.75em;padding:10px 18px;border-radius:9px;text-decoration:none;">
+                neosoft.fr →
+              </a>
+            </div>
+
+            <!-- ── Sources & Références ── -->
+            <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:20px;">
+              <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:12px;">Sources &amp; Références</div>
+              <ul style="list-style:none;padding:0;margin:0;">
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[1]</span>
+                  <span>Titre de la source — <a href="https://example.com" target="_blank" style="color:#60a5fa;text-decoration:none;">example.com</a></span>
+                </li>
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[2]</span>
+                  <span>Deuxième référence — <a href="https://example.com" target="_blank" style="color:#60a5fa;text-decoration:none;">example.com</a></span>
+                </li>
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[3]</span>
+                  <span>Troisième référence — <a href="https://example.com" target="_blank" style="color:#60a5fa;text-decoration:none;">example.com</a></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Colonne droite : QR code -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+            <!-- Modifier QR_URL ci-dessous pour changer l'URL du QR code -->
+            <div style="width:204px;height:204px;box-sizing:border-box;padding:12px;background:#fff;border-radius:14px;box-shadow:0 0 40px rgba(0,85,255,.2);display:flex;align-items:center;justify-content:center;">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://neosoft.fr&format=svg&qzone=0"
+                width="180" height="180"
+                alt="QR Code"
+                style="display:block;"
+              >
+            </div>
+            <div style="margin-top:12px;text-align:center;">
+              <!-- Modifier le libellé affiché sous le QR -->
+              <div style="font-size:.72em;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:-.01em;">neosoft.fr</div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.3);margin-top:3px;">Scanner pour accéder aux ressources</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      transition: 'fade',
+      transitionSpeed: 'fast',
+      backgroundTransition: 'none',
+      plugins: [ RevealHighlight, RevealNotes ]
+    });
+
+    (function() {
+      var counterEl = document.getElementById('slideCounter');
+      function updateSlideCounter() {
+        if (!counterEl || !window.Reveal) return;
+        var currentSlide = Reveal.getCurrentSlide();
+        if (!currentSlide) return;
+        counterEl.textContent = Reveal.getSlidePastCount(currentSlide) + 1;
+      }
+      Reveal.on('ready', updateSlideCounter);
+      Reveal.on('slidechanged', updateSlideCounter);
+    })();
+  </script>
+
+  <!-- Curseur personnalisé -->
+  <div id="custom-cursor"></div>
+  <div id="custom-cursor-ring"></div>
+  <script>
+    (function() {
+      const dot  = document.getElementById('custom-cursor');
+      const ring = document.getElementById('custom-cursor-ring');
+      let mouseX = -100, mouseY = -100;
+      let ringX  = -100, ringY  = -100;
+
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = mouseX + 'px';
+        dot.style.top  = mouseY + 'px';
+      });
+
+      function animateRing() {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        ring.style.left = ringX + 'px';
+        ring.style.top  = ringY + 'px';
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+
+      document.addEventListener('mousedown', function() {
+        dot.style.width  = '20px';
+        dot.style.height = '20px';
+        ring.style.width  = '48px';
+        ring.style.height = '48px';
+        ring.style.opacity = '0.3';
+      });
+      document.addEventListener('mouseup', function() {
+        dot.style.width  = '14px';
+        dot.style.height = '14px';
+        ring.style.width  = '36px';
+        ring.style.height = '36px';
+        ring.style.opacity = '1';
+      });
+    })();
+
+    /* ── Lightbox pour captures ─── */
+    function openLightbox(imgEl) {
+      var lb = document.getElementById('img-lightbox');
+      document.getElementById('lightbox-img').src = imgEl.src;
+      lb.style.display = 'flex';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() { lb.classList.add('lb-visible'); });
+      });
+    }
+    function closeLightbox() {
+      var lb = document.getElementById('img-lightbox');
+      lb.classList.remove('lb-visible');
+      setTimeout(function() { lb.style.display = 'none'; }, 250);
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+  <!-- Lightbox — hors des sections reveal.js pour éviter les conflits de transform -->
+  <div id="img-lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+</body>
+</html>
