@@ -23,16 +23,16 @@
 
   <style>
     /* ── ANIMATIONS ENTRE SLIDES ─────────────────── */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(18px); }
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(40px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes fadeInLeft {
-      from { opacity: 0; transform: translateX(-18px); }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-48px); }
       to   { opacity: 1; transform: translateX(0); }
     }
     .reveal .slides section.present > * {
-      animation: fadeInUp .5s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: slideInUp .5s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
     .reveal .slides section.present > *:nth-child(1) { animation-delay: .00s; }
     .reveal .slides section.present > *:nth-child(2) { animation-delay: .07s; }
@@ -41,9 +41,9 @@
     .reveal .slides section.present > *:nth-child(5) { animation-delay: .28s; }
     .reveal .slides section.present > *:nth-child(6) { animation-delay: .35s; }
     /* Dividers : le chiffre géant entre en glissant depuis la gauche */
-    .reveal .slides section.present .section-num   { animation: fadeInLeft .6s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .0s; }
-    .reveal .slides section.present .section-title { animation: fadeInUp  .55s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .08s; }
-    .reveal .slides section.present .section-desc  { animation: fadeInUp  .5s  cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .18s; }
+    .reveal .slides section.present .section-num   { animation: slideInLeft .55s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .0s; }
+    .reveal .slides section.present .section-title { animation: slideInUp   .5s  cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .08s; }
+    .reveal .slides section.present .section-desc  { animation: slideInUp   .45s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .18s; }
 
     /* ── ANIMATIONS UTILITAIRES (opt-in) ─────────────
          Usage : ajouter la classe sur n'importe quel élément
@@ -78,6 +78,36 @@
     .anim-delay-4 { animation-delay: .4s !important; }
     .anim-delay-5 { animation-delay: .5s !important; }
     .anim-delay-6 { animation-delay: .6s !important; }
+
+    /* ── CORRECTIONS MODE VUE D'ENSEMBLE (Échap) ─────
+       En mode overview, on coupe toutes les animations
+       et on force la visibilité pour que toutes les
+       slides et leurs fragments soient lisibles.
+    ─────────────────────────────────────────────── */
+    .reveal.overview .slides section {
+      opacity:    1 !important;
+      visibility: visible !important;
+    }
+    /* Enfants directs SAUF les <section> imbriquées dont le transform
+       sert au positionnement des slides verticales dans la grille. */
+    .reveal.overview .slides section > *:not(section) {
+      animation:  none !important;
+      opacity:    1 !important;
+      transform:  none !important;
+      visibility: visible !important;
+    }
+    /* Couper TOUTES les animations sur l'ensemble des descendants */
+    .reveal.overview .slides section * {
+      animation:  none !important;
+    }
+    /* Fragments + variantes de transition (fade-up, fade-down…) :
+       on force l'opacité, la visibilité ET on reset le transform
+       que Reveal.js applique aux variantes fade-*. */
+    .reveal.overview .slides section .fragment {
+      opacity:    1 !important;
+      visibility: visible !important;
+      transform:  none !important;
+    }
 
     /* ── BASE ─────────────────────────────────────── */
     *, html, body {
@@ -422,7 +452,7 @@
         <div style="display:flex;flex-direction:column;gap:10px;">
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">01</span>
-            <div style="font-weight:700;color:#fff;font-size:.9em;">Disclaimer &amp; biais</div>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Disclaimer &amp; Biais</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">02</span>
@@ -430,19 +460,15 @@
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">03</span>
-            <div style="font-weight:700;color:#fff;font-size:.9em;">Mon usage de l'IA</div>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Mes 2 outils clés</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">04</span>
-            <div style="font-weight:700;color:#fff;font-size:.9em;">2 outils clés</div>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Usages concrets</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">05</span>
-            <div style="font-weight:700;color:#fff;font-size:.9em;">Questionnements &amp; avenir</div>
-          </div>
-          <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">06</span>
-            <div style="font-weight:700;color:#fff;font-size:.9em;">Conclusion & Questions</div>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Conclusion &amp; Questions</div>
           </div>
         </div>
       </section>
@@ -702,7 +728,7 @@
         </div>
         <div class="callout callout--info fragment fade-up">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
-          <div class="callout__text"><strong style="color:#60A5FA;">Au fond, peu importe l'outil : l'essentiel c'est d'expérimenter et de trouver les usages qui vous apportent réellement quelque chose.</strong> Chaque besoin, chaque contexte et chaque sensibilité sont différents.</div>
+          <div class="callout__text"><strong style="color:#60A5FA;">Au fond, peu importe l'outil :</strong> l'essentiel c'est d'expérimenter et de trouver les usages qui vous apportent réellement quelque chose. Chaque besoin, chaque contexte et chaque sensibilité sont différents.</div>
         </div>
       </section>
 
@@ -879,7 +905,7 @@
         <!-- 14b : Captures démo Cursor -->
         <section>
           <div class="tag" style="margin-bottom:8px;">Cursor</div>
-          <h2 style="margin-bottom:10px;font-size:1.2em;">Visualiser la capacité des différents modèles</h2>
+          <h2 style="margin-bottom:10px;font-size:1.2em;">Visualiser les capacités des différents modèles</h2>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:85%;margin:0 auto;" class="capture-grid">
             <div class="capture-cell fragment fade-up" onclick="openLightbox(this.querySelector('img'))">
               <div style="cursor:zoom-in;">
@@ -919,6 +945,15 @@
             </div>
           </div>
 
+        </section>
+
+        <!-- 14c : Cas pratique -->
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:16px;font-size:1.2em;">Cas pratique</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/todo_app/3.png" alt="Cas pratique" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
         </section>
       </section>
 
@@ -1942,7 +1977,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
   <script>
     Reveal.initialize({
       hash: true,
-      transition: 'fade',
+      transition: 'slide',
       transitionSpeed: 'fast',
       backgroundTransition: 'none',
       plugins: [ RevealHighlight, RevealNotes ]
