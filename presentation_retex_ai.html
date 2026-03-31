@@ -487,7 +487,7 @@
             <div style="font-size:1.25em;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;">Kilian LE DU</div>
             <div style="font-size:.82em;color:#60a5fa;font-weight:600;margin-bottom:8px;">Technical Leader · Néosoft</div>
             <div style="font-size:.72em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:8px;">En mission chez <span style="color:#f97316;">Orange Business Services</span></div>
-            <p style="font-size:.72em;color:#d6d6d6;line-height:1.6;margin:0 0 14px;">🚧🚧🚧 Spécialiste en architecture front-end et accessibilité web, 10+ ans d'expérience JavaScript. Expert React, Vue.js et performance web.</p>
+            <p style="font-size:.72em;color:#d6d6d6;line-height:1.6;margin:0 0 14px;">🚧🚧🚧 </p>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.35);color:#f87171;">🅰️ Angular</span>
               <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">🐘 Symfony</span>
@@ -740,7 +740,7 @@
         </div>
         <div class="callout callout--info fragment fade-up">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
-          <div class="callout__text"><strong style="color:#60A5FA;">Au fond, peu importe l'outil :</strong> l'essentiel c'est d'expérimenter et de trouver les usages qui vous apportent réellement quelque chose. Chaque besoin, chaque contexte et chaque sensibilité sont différents.</div>
+          <div class="callout__text"><strong style="color:#60A5FA;">Au fond, peu importe l'outil :</strong> l'essentiel c'est de trouver les usages qui vous apportent réellement quelque chose. Chaque besoin, chaque contexte et chaque sensibilité sont différents.</div>
         </div>
       </section>
 
@@ -761,8 +761,10 @@
         <section>
           <div class="tag" style="margin-bottom:16px;">Perplexity</div>
           <h2 style="margin-bottom:20px;">Premier outil : Perplexity</h2>
-          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;">
-            <img src="assets/perplexity/perplexity_0.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Perplexity" />
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_0.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Perplexity" />
+            </div>
           </div>
           <p class="hint-v">
             <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
@@ -786,7 +788,7 @@
                 <div style="width:7px;height:7px;border-radius:50%;background:#10B981;flex-shrink:0;"></div>
                 <span style="font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#34d399;">La réalité</span>
               </div>
-              <p style="font-size:.84em;margin:0;line-height:1.6;color:rgba(255,255,255,.8);">C'est un agrégateur de sources, sur une question posée, avec un ton plutôt neutre et factuel, avec les sources citées.</p>
+              <p style="font-size:.84em;margin:0;line-height:1.6;color:rgba(255,255,255,.8);">C'est un moteur de réponse sur une question posée, avec un ton neutre et factuel, avec pour chaque affirmation en réponse les sources citées.</p>
             </div>
           </div>
           <p class="hint-v">
@@ -797,7 +799,7 @@
         <!-- 13c : Cas concret Perplexity -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Perplexity</div>
-          <h2 style="margin-bottom:20px;">Exemple : Le cas d'une recherche technique</h2>
+          <h2 style="margin-bottom:20px;">Le cas d'une recherche technique</h2>
           <div style="display:flex;flex-direction:column;gap:12px;max-width:740px;">
             <div class="callout callout--info fragment fade-up">
               <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -805,7 +807,7 @@
             </div>
             <div class="callout callout--warning fragment fade-up">
               <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
-              <div class="callout__text"><strong style="color:#FBBF24;">Le réfractaire est en droit de se demander :</strong> Est-ce qu'on est sûrs de ces informations données par l'IA ?</div>
+              <div class="callout__text"><strong style="color:#FBBF24;">Doute :</strong> Est-ce qu'on est sûrs de ces informations données par l'IA ?</div>
             </div>
             <div class="callout callout--success fragment fade-up">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
@@ -820,39 +822,106 @@
         <!-- 13d : Capture Perplexity 1 -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Perplexity</div>
-          <h2 style="margin-bottom:20px;">Exemple concret : ORY Kratos</h2>
-          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:70%;margin:0 auto;">
-            <img src="assets/perplexity/perplexity_1.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 1" />
+          <h2 style="margin-bottom:20px;">La question posée</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:70%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_1.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 1" />
+            </div>
           </div>
         </section>
         <!-- 13e : Capture Perplexity 2 -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Perplexity</div>
-          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;">
-            <img src="assets/perplexity/perplexity_2.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 2" />
+          <h2 style="margin-bottom:20px;">Le raisonnement et la recherche de sources</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_2.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 2" />
+            </div>
           </div>
         </section>
         <!-- 13f : Capture Perplexity 3 -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Perplexity</div>
-          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;">
-            <img src="assets/perplexity/perplexity_3.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 3" />
+          <h2 style="margin-bottom:20px;">Synthèse et réponse principale</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_3.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 3" />
+            </div>
           </div>
         </section>
         <!-- 13g : Capture Perplexity 4 -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Perplexity</div>
-          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;">
-            <img src="assets/perplexity/perplexity_4.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 3" />
+          <h2 style="margin-bottom:20px;">Mention des sources pour chaque affirmation</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_4.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 4" />
+            </div>
           </div>
         </section>
         <!-- 13h : Capture Perplexity 5 -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Perplexity</div>
-          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;">
-            <img src="assets/perplexity/perplexity_5.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 3" />
+          <h2 style="margin-bottom:20px;">Onglet "Liens" pour les sources</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_5.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 5" />
+            </div>
           </div>
         </section>
+        <!-- 13i : Capture Perplexity 6 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Espaces : un contexte commun et partageable</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_6.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 6" />
+            </div>
+          </div>
+        </section>
+        <!-- 13j : Capture Perplexity 7 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Recherche approfondie : pour aller plus loin</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_7.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 7" />
+            </div>
+          </div>
+        </section>
+        <!-- 13k : Captures Perplexity 8 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Cartes & vie quotidienne</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_8.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 7" />
+            </div>
+          </div>
+        </section>
+        <!-- 13l : Bonnes pratiques Perplexity -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;max-width:780px;">
+            <div class="feature-icon" style="width:44px;height:44px;margin-bottom:0;flex-shrink:0;color:#60a5fa;">
+              <svg viewBox="0 0 24 24">
+                <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
+                         M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
+                      fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h2 style="margin:0;">Quelques conseils</h2>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0;max-width:720px;">
+            <li class="fragment fade-up" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">Poser une question <strong style="color:#fff;">précise</strong> avec le contexte utile (stack, contraintes).</li>
+            <li class="fragment fade-up" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">S’appuyer sur les <strong style="color:#fff;">sources</strong> pour vérifier, pas seulement sur la synthèse.</li>
+            <li class="fragment fade-up" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">Quand c’est critique : <strong style="color:#fff;">croiser</strong> et <strong style="color:#fff;">tester</strong> avant de valider.</li>
+            <li class="fragment fade-up" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;"><strong style="color:#fff;">Aucune donnée sensible</strong> dans le prompt (secrets, clients, prod).</li>
+            <li class="fragment fade-up" style="padding:11px 0;font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;"><strong style="color:#fff;">Itérer</strong> : une relance ciblée vaut mieux qu’un gros pavé initial.</li>
+          </ul>
+        </section>
+
       </section>
 
       <!-- ══════════════════════════════════════════
@@ -1046,8 +1115,7 @@
                   <div class="callout__text">
                     <strong style="color:#60A5FA;">Pas besoin d'avoir le dernier truc tech qui brille et qui fait du bruit</strong>
                     <br><span style="font-style:italic;">"Ne pas courir comme un poulet sans tête 🐓💨"</span>
-                    <br>➔ Avoir quelques wagons de retard sur les nouveautés c'est OK
-                    <br>➔ On laisse le temps aux choses de maturer et d'être adoptées
+                    <br>➔ L’objectif n’est pas d’être en avance et précurseur, mais d’adopter au bon moment
                   </div>
               </div>
           </div>
@@ -1057,6 +1125,7 @@
               <strong style="color:#60A5FA;">Le métier évolue, il ne disparaît pas</strong><br>
               Les outils changent, mais les besoins restent : comprendre un problème, concevoir une solution, avoir l'esprit critique.
               <br>➔ L'IA fait évoluer <strong>comment</strong> on travaille, pas <strong>pourquoi</strong> on travaille.
+              <br>➔ Le plaisir ne disparaît pas, il se déplace vers d’autres aspects du métier
             </div>
           </div>
         </section>
@@ -1066,32 +1135,24 @@
           <h2 style="margin-bottom:22px;">Ce qui comptera vraiment à l'avenir</h2>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:800px;">
             <div class="feature-card fragment fade-up">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              </div>
-              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Vision produit</div>
-              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Comprendre le "pourquoi" du produit, penser parcours utilisateur, prioriser.</div>
+              <div class="feature-icon" style="font-size:1.25em;line-height:1;">🎯</div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Vision &amp; sens</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Comprendre le problème, les utilisateurs, et pourquoi on construit</div>
             </div>
             <div class="feature-card fragment fade-up">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-              </div>
-              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Choix &amp; orientations techniques</div>
-              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Décisions d'architecture, arbitrages techniques, supervision de ce que l'IA produit.</div>
+              <div class="feature-icon" style="font-size:1.25em;line-height:1;">🧠</div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Conception &amp; créativité</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Imaginer des solutions, explorer, designer des approches</div>
             </div>
             <div class="feature-card fragment fade-up">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
-              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">De l'exécutant au superviseur</div>
-              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Le métier ne va pas disparaître ; il va se transformer.</div>
+              <div class="feature-icon" style="font-size:1.25em;line-height:1;">⚙️</div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Décisions techniques</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Choisir les outils, architectures, compromis</div>
             </div>
             <div class="feature-card fragment fade-up">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/></svg>
-              </div>
-              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Esprit critique &amp; qualité</div>
-              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Valider, challenger et garantir ce que l'IA produit. Le jugement reste humain.</div>
+              <div class="feature-icon" style="font-size:1.25em;line-height:1;">🛡️</div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Esprit critique &amp; supervision</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Vérifier, challenger, garantir la qualité et la sécurité</div>
             </div>
           </div>
         </section>
@@ -1100,40 +1161,27 @@
           <div style="max-width:680px;">
             <div style="font-size:5em;line-height:.75;color:#0055FF;font-weight:900;margin-bottom:14px;user-select:none;">"</div>
             <div style="font-size:1.3em;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:1.3;margin-bottom:24px;">
-              Ce n'est pas la plus forte des espèces qui survit, ni la plus intelligente, mais celle qui s'adapte le mieux au changement.
+              AI will not replace you, but someone using AI will.
             </div>
             <div style="display:flex;align-items:center;gap:12px;">
               <div style="width:32px;height:2px;background:#0055FF;border-radius:1px;flex-shrink:0;"></div>
-              <span style="font-size:.76em;font-weight:500;color:rgba(255,255,255,.42);">Charles Darwin</span>
+              <span style="font-size:.76em;font-weight:500;color:rgba(255,255,255,.42);">Jensen Huang, Nvidia CEO</span>
             </div>
           </div>
-        </section>
-        <!-- 19c : Conclusion checklist -->
-        <section>
-          <div class="tag" style="margin-bottom:16px;">Conclusion</div>
-          <h2 style="margin-bottom:22px;">La clé : Rester prêt à évoluer</h2>
-          <ul class="checklist" style="max-width:640px;">
-            <li class="ok fragment fade-up"><span class="icon">✓</span>Le monde de la tech bouge vite</li>
-            <li class="ok fragment fade-up"><span class="icon">✓</span>L'adoption générale est lente, ce qui nous donne du temps</li>
-            <li class="ok fragment fade-up"><span class="icon">✓</span>Pour les outils, l'usage et l'adoption prévaut</li>
-            <li class="ok fragment fade-up"><span class="icon">✓</span>Être sensibilisé à ces sujets est essentiel : Junior comme Senior</li>
-          </ul>
         </section>
       </section>
 
       <!-- ══════════════════════════════════════════
-           RETEX IA · 20 · Q&A FINAL
+           RETEX IA · 20 · Q&A FINAL — Merci, échanges, ressources, QR
       ══════════════════════════════════════════ -->
       <section style="display:flex;flex-direction:column;justify-content:center;padding-left:52px;padding-right:52px;">
-        <div style="display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center;">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;">
           <div>
-            <h1 style="margin-bottom:10px;font-size:2.6em;">
-              Merci<br>
-              <span style="color:#0055FF;">Des questions ?</span>
+            <h1 style="margin:0 0 18px;font-size:2.25em;line-height:1.1;font-weight:800;letter-spacing:-.035em;">
+              <span style="color:#fff;">À vos</span><br>
+              <span style="color:#0055FF;">questions</span>
             </h1>
-            <p style="color:rgba(255,255,255,.38);font-size:.8em;max-width:380px;margin:0 0 28px;line-height:1.65;">
-              N'hésitez pas à poser vos questions ou à partager vos retours.
-            </p>
+            <div style="font-size:.78em;color:rgba(255,255,255,.48);letter-spacing:.01em;margin-bottom:10px;">Merci pour votre attention 🙂</div>
             <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:20px;">
               <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:12px;">Ressources utiles</div>
               <ul style="list-style:none;padding:0;margin:0;">
@@ -1152,16 +1200,19 @@
               </ul>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-            <div style="width:130px;height:130px;box-sizing:border-box;background:rgba(0,85,255,.08);border:1px solid rgba(0,85,255,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;">
-              <svg viewBox="0 0 24 24" style="width:44px;height:44px;stroke:#0055FF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-                <path d="M8 12l3 3 5-5"/>
-              </svg>
+          <!-- QR : modifier l'URL dans le paramètre data= de l'API si besoin -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0;">
+            <div style="width:244px;height:244px;box-sizing:border-box;padding:14px;background:#fff;border-radius:16px;box-shadow:0 0 48px rgba(0,85,255,.18);display:flex;align-items:center;justify-content:center;">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=216x216&data=https://neosoft.fr&format=svg&qzone=0"
+                width="216" height="216"
+                alt="QR code"
+                style="display:block;"
+              >
             </div>
-            <div style="margin-top:12px;text-align:center;">
+            <div style="margin-top:14px;text-align:center;max-width:220px;">
               <div style="font-size:.72em;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:-.01em;">RetEx Outils IA</div>
-              <div style="font-size:.6em;color:rgba(255,255,255,.3);margin-top:3px;">Mars 2026</div>
+              <div style="font-size:.62em;color:rgba(255,255,255,.34);margin-top:4px;line-height:1.4;">Scannez pour retrouver les liens et ressources utiles</div>
             </div>
           </div>
         </div>
