@@ -341,6 +341,10 @@
     .badge-good { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(16,185,129,.12); color: #34d399; border: 1px solid rgba(16,185,129,.25); font-size: .83em; font-weight: 600; }
     .badge-bad  { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(239,68,68,.1);  color: #f87171; border: 1px solid rgba(239,68,68,.22);  font-size: .83em; font-weight: 600; }
     .badge-mid  { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(245,158,11,.1); color: #fbbf24; border: 1px solid rgba(245,158,11,.22); font-size: .83em; font-weight: 600; }
+    /* Profils modèles : indigo (expert) → bleu (polyvalent) → cyan (rapide) */
+    .badge-model-expert     { display: inline-block; padding: 2px 10px; border-radius: 100px; background: linear-gradient(145deg, #3730a3 0%, #312e81 100%); color: #e0e7ff; border: 1px solid rgba(129,140,248,.45); box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset; font-size: .83em; font-weight: 600; }
+    .badge-model-polyvalent { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(59,130,246,.14); color: #93c5fd; border: 1px solid rgba(96,165,250,.38); font-size: .83em; font-weight: 600; }
+    .badge-model-rapide     { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(6,182,212,.12); color: #67e8f9; border: 1px solid rgba(34,211,238,.35); font-size: .83em; font-weight: 600; }
 
     /* KPI */
     .kpi-value { font-size: 3em; font-weight: 900; letter-spacing: -.04em; line-height: 1; }
@@ -369,6 +373,69 @@
     .section-num   { font-size: 7em; font-weight: 900; line-height: 1; color: rgba(0,85,255,.14); letter-spacing: -.05em; margin-bottom: -.05em; }
     .section-title { font-size: 2.4em; font-weight: 900; color: #fff; letter-spacing: -.03em; line-height: 1.1; }
     .section-desc  { font-size: .88em; color: rgba(255,255,255,.42); margin-top: 14px; max-width: 480px; line-height: 1.65; }
+
+    /* Auto-évaluation 1–10 (checkup) — dégradé 1 = négatif → 10 = positif */
+    .slide-self-checkup { font-size: .82em; }
+    .self-checkup { width: 100%; max-width: 1080px; margin: 0 auto; }
+    .self-checkup-intro { font-size: .66em; color: rgba(255,255,255,.45); margin-bottom: 18px; line-height: 1.45; max-width: 820px; }
+    .self-checkup-pager { font-size: .58em; font-weight: 700; color: rgba(255,255,255,.32); letter-spacing: .06em; margin-bottom: 8px; }
+    .self-checkup-theme { font-size: .88em; font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.35; }
+    .grade-row {
+      --score: 5;
+      margin-bottom: 22px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .grade-row:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .grade-q { font-size: .78em; font-weight: 600; color: #fff; line-height: 1.35; margin-bottom: 8px; }
+    .grade-caps {
+      display: flex; justify-content: space-between; gap: 16px;
+      font-size: .48em; color: rgba(255,255,255,.42); line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    .grade-caps span { flex: 1; }
+    .grade-caps span:last-child { text-align: right; }
+    .grade-rail-wrap { position: relative; height: 26px; }
+    .grade-rail {
+      position: absolute; left: 0; right: 0; top: 8px;
+      height: 8px; border-radius: 4px;
+      background: linear-gradient(90deg, #b91c1c 0%, #ea580c 22%, #ca8a04 50%, #65a30d 78%, #15803d 100%);
+      border: 1px solid rgba(0,0,0,.35);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+    }
+    /* 1 = gauche = souhaitable (vert) · 10 = droite = moins souhaitable (rouge) — ex. fréquence d’erreurs */
+    .grade-row--invert .grade-rail {
+      background: linear-gradient(90deg, #15803d 0%, #65a30d 18%, #ca8a04 50%, #ea580c 72%, #b91c1c 100%);
+    }
+    .grade-marker {
+      position: absolute; top: 2px;
+      width: 20px; height: 20px; border-radius: 50%;
+      box-sizing: border-box;
+      background: #fff;
+      border: 3px solid #0f172a;
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.95),
+        0 3px 12px rgba(0,0,0,.55),
+        0 0 24px rgba(0,85,255,.65);
+      transform: translateX(-50%);
+      left: calc((var(--score) - 0.5) / 10 * 100%);
+      z-index: 2;
+    }
+    .grade-nums {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      margin-top: 10px;
+      font-size: .44em;
+      font-weight: 700;
+      color: rgba(255,255,255,.3);
+      letter-spacing: .02em;
+      line-height: 1.2;
+    }
+    .grade-nums span { text-align: center; }
 
     /* Code blocks */
     .reveal pre { background: rgba(0,0,0,.35) !important; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; overflow: hidden; box-shadow: 0 24px 48px rgba(0,0,0,.3); margin: 0; }
@@ -439,7 +506,7 @@
           <span style="color:#0055FF;">Outils IA</span>
         </h1>
         <p style="max-width:520px;margin:0 0 32px;font-size:.9em;color:rgba(255,255,255,.45);">
-          L'objectif est d'avoir une fenêtre d'aperçu de ce qui est possible à travers mon usage, pas une vérité absolue 🌞
+          Un aperçu, pas une vérité 🌞
         </p>
       </section>
 
@@ -452,11 +519,11 @@
         <div style="display:flex;flex-direction:column;gap:10px;">
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">01</span>
-            <div style="font-weight:700;color:#fff;font-size:.9em;">Disclaimer &amp; Biais</div>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Cadre, limites & biais</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">02</span>
-            <div style="font-weight:700;color:#fff;font-size:.9em;">Les niveaux d'utilisation IA</div>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Du simple prompt à l’autonomie</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">03</span>
@@ -468,7 +535,7 @@
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
             <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">05</span>
-            <div style="font-weight:700;color:#fff;font-size:.9em;">Conclusion &amp; Questions</div>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Conclusion</div>
           </div>
         </div>
       </section>
@@ -501,7 +568,7 @@
       ══════════════════════════════════════════ -->
       <section class="section-divider">
         <div class="section-num">01</div>
-        <div class="section-title">Disclaimer &amp;<br>Biais</div>
+        <div class="section-title">Cadre, limites & biais</div>
         <div class="section-desc">Quelques éléments de contexte pour cadrer la présentation et éviter les malentendus 😇</div>
       </section>
 
@@ -510,7 +577,7 @@
       ══════════════════════════════════════════ -->
       <section>
         <div class="tag" style="margin-bottom:16px;">Cadre</div>
-        <h2 style="margin-bottom:24px;">⚠️ Disclaimer</h2>
+        <h2 style="margin-bottom:24px;">⚠️ Avertissement</h2>
         <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
           <div class="callout callout--warning fragment fade-up">
             <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
@@ -537,7 +604,7 @@
       <section>
         <section>
         <div class="tag" style="margin-bottom:16px;">Biais</div>
-        <h2 style="margin-bottom:24px;">Les biais sur la perception de l'IA</h2>
+        <h2 style="margin-bottom:24px;">Biais de perception autour de l’IA</h2>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
           <div class="card fragment fade-up" style="padding:20px;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
@@ -590,7 +657,7 @@
         <!-- 05b : Courbe de hype -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Biais</div>
-          <h2 style="margin-bottom:20px;">Biais de hype autour de l'IA</h2>
+          <h2 style="margin-bottom:20px;">Le cycle de hype de l’IA</h2>
           <div style="display:flex;align-items:center;justify-content:center;width:70%;max-width:900px;margin:0;">
             <img src="assets/graph-hype.png" style="width:100%;border-radius:12px;" alt="Courbe de hype d'un outil IA" />
           </div>
@@ -602,8 +669,8 @@
       ══════════════════════════════════════════ -->
       <section class="section-divider">
         <div class="section-num">02</div>
-        <div class="section-title">Les niveaux<br>d'utilisation IA</div>
-        <div class="section-desc">Une façon de visualiser où on en est, et vers quoi on peut aller 🛣️</div>
+        <div class="section-title">Du simple prompt à l’autonomie</div>
+        <div class="section-desc">Les niveaux d'outils IA ; Une façon de visualiser où on en est, et vers quoi on peut aller 🛣️</div>
       </section>
 
       <!-- ══════════════════════════════════════════
@@ -960,6 +1027,24 @@
             </div>
           </div>
         </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <h2 style="margin-bottom:20px;">Exemple simple d'utilisation</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/cursor/1_preview.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Cursor" />
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <h2 style="margin-bottom:20px;">Un tas de modèles disponibles</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/cursor/2_models.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Cursor" />
+            </div>
+          </div>
+        </section>
         <!-- 14ab : Comparaison modèles -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Cursor</div>
@@ -968,25 +1053,25 @@
             <thead>
               <tr>
                 <th>Modèle</th>
-                <th>Puissance</th>
+                <th>Profil</th>
                 <th>Usage</th>
               </tr>
             </thead>
             <tbody>
               <tr class="fragment fade-up">
-                <td><strong style="color:#fff;">Composer 2 Fast</strong></td>
-                <td><span class="badge-bad">Plutôt bon</span></td>
-                <td>Pour les petites tâches / actions rapides</td>
+                <td><strong style="color:#fff;">Claude Opus 4.6</strong></td>
+                <td><span class="badge-model-expert">Expert</span></td>
+                <td>Pour les grosses tâches, choix architecturaux ou bugs chiants</td>
               </tr>
               <tr class="fragment fade-up">
                 <td><strong style="color:#fff;">Claude Sonnet 4.6</strong></td>
-                <td><span class="badge-mid">Fort</span></td>
-                <td>Usage standard</td>
+                <td><span class="badge-model-polyvalent">Polyvalent</span></td>
+                <td>Usage par défaut</td>
               </tr>
               <tr class="fragment fade-up">
-                <td><strong style="color:#fff;">Claude Opus 4.6</strong></td>
-                <td><span class="badge-good">Très fort</span></td>
-                <td>Pour les grosses tâches / choix architecturaux / bugs chiants</td>
+                <td><strong style="color:#fff;">Composer 2</strong></td>
+                <td><span class="badge-model-rapide">Rapide</span></td>
+                <td>Pour les petites tâches, actions rapides</td>
               </tr>
             </tbody>
           </table>
@@ -994,7 +1079,7 @@
         <!-- 14b : Démo — pas de benchmark, app initiale + prompt -->
         <section>
           <div class="tag" style="margin-bottom:8px;">Cursor</div>
-          <h2 style="margin-bottom:18px;font-size:1.35em;line-height:1.35;max-width:720px;">Un benchmark ? Non la flemme, trop de chiffres</h2>
+          <h2 style="margin-bottom:18px;font-size:1.35em;line-height:1.35;max-width:720px;">Un benchmark ? Non, 1 prompt, 3 designs</h2>
           <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:center;max-width:920px;margin:0 auto;">
             <div class="fragment fade-up" style="flex:1;min-width:260px;max-width:440px;">
               <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.45);margin-bottom:10px;">Application initiale</div>
@@ -1038,10 +1123,10 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:92%;margin:0 auto;" class="capture-grid">
             <div class="capture-cell fragment fade-up" onclick="openLightbox(this.querySelector('img'))">
               <div style="cursor:zoom-in;">
-                <img src="assets/todo_app/1.png" alt="Capture Composer 2 Fast">
+                <img src="assets/todo_app/1.png" alt="Capture Composer 2">
               </div>
               <div style="margin-top:4px;text-align:center;">
-                <div style="font-size:.58em;font-weight:700;color:#fff;"><strong>Composer 2 Fast</strong></div>
+                <div style="font-size:.58em;font-weight:700;color:#fff;"><strong>Composer 2</strong></div>
                 <div style="font-size:.48em;color:rgba(255,255,255,.4);margin-top:1px;">~1 minute de temps de réponse</div>
               </div>
             </div>
@@ -1182,6 +1267,77 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
            RETEX IA · 19 · AVENIR ET CONCLUSION (vertical)
       ══════════════════════════════════════════ -->
       <section>
+        <!-- Checkup : auto-évaluation 1–10 (2 slides · 3 barres / slide) -->
+        <section class="slide-self-checkup">
+          <div class="tag" style="margin-bottom:10px;">Ressenti</div>
+          <h2 style="margin-bottom:8px;">État des lieux personnel</h2>
+          <div class="self-checkup-pager">1 / 2</div>
+          <div class="self-checkup-theme">📌 Productivité &amp; qualité</div>
+          <div class="self-checkup">
+            <div class="grade-row fragment fade-up" style="--score: 10;">
+              <div class="grade-q">Gain de temps sur le développement au quotidien ?</div>
+              <div class="grade-caps"><span>1 — Aucun gain</span><span>10 — Très fort</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+            <div class="grade-row grade-row--invert fragment fade-up" style="--score: 4;">
+              <div class="grade-q">Fréquence des hallucinations d'IA ou erreurs ?</div>
+              <div class="grade-caps"><span>1 — Rare / quasi absentes</span><span>10 — Très fréquentes</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+            <div class="grade-row fragment fade-up" style="--score: 8;">
+              <div class="grade-q">Confiance dans un livrable sans relecture exhaustive / tests ?</div>
+              <div class="grade-caps"><span>1 — Faible, tout relire / tout tester</span><span>10 — Très confiant</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+          </div>
+        </section>
+        <section class="slide-self-checkup">
+          <div class="tag" style="margin-bottom:10px;">Ressenti</div>
+          <h2 style="margin-bottom:8px;">État des lieux personnel</h2>
+          <div class="self-checkup-pager">2 / 2</div>
+          <div class="self-checkup-theme">🧠 Ressenti pur</div>
+          <div class="self-checkup">
+            <div class="grade-row fragment fade-up" style="--score: 9;">
+              <div class="grade-q">Plaisir à développer et créer ?</div>
+              <div class="grade-caps"><span>1 — Aucun</span><span>10 — Beaucoup</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+            <div class="grade-row grade-row--invert fragment fade-up" style="--score: 5;">
+              <div class="grade-q">Sentiment de perte de capacité / régression individuelle ?</div>
+              <div class="grade-caps"><span>1 — Aucune, compétences OK</span><span>10 — Forte perte ressentie</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+            <div class="grade-row fragment fade-up" style="--score: 6;">
+              <div class="grade-q">Mon jugement reste indispensable ?</div>
+              <div class="grade-caps"><span>1 — Pas indispensable</span><span>10 — Indispensable</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+          </div>
+        </section>
         <!-- 17a : Les questionnements -->
         <section>
           <div class="tag" style="margin-bottom:16px;">Ressenti</div>
