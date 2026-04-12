@@ -7,6 +7,13 @@
 - [Recherche "Labor market impacts of AI"](https://www.anthropic.com/research/labor-market-impacts) — Anthropic, mars 2026  
 - [Depuis quand avez-vous honte de votre code ? — Frederic Bouchery](https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/)
 
+### 📌 Applications ToDo
+
+- [ToDo App (base)](https://ledukilian.github.io/RetEx_AI_Tools/demo_app/0_vanilla_no_design/index.html)
+- [Version Composer 2](https://ledukilian.github.io/RetEx_AI_Tools/demo_app/1_composer_version/index.html)
+- [Version Claude Sonnet 4.6](https://ledukilian.github.io/RetEx_AI_Tools/demo_app/2_claude_sonnet_version/index.html)
+- [Version Claude Opus 4.6](https://ledukilian.github.io/RetEx_AI_Tools/demo_app/3_claude_opus_version/index.html)
+
 ### 🌳 Arborescence du projet
 
 ```
