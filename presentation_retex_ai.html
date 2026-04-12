@@ -190,6 +190,11 @@
     .reveal p  { color: rgba(255,255,255,.8);  line-height: 1.65; font-size: .92em; }
     .reveal li { color: rgba(255,255,255,.8);  line-height: 1.7;  font-size: .92em; }
     .reveal a  { color: var(--accent); text-decoration: none; }
+    .reveal a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
 
     /* ── BARRE DE PROGRESSION (conservée, nouveau gradient) ── */
     .reveal .progress {
