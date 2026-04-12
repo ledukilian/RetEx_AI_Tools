@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TodoList</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="shortcut icon" href="check.png" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <div class="header-icon">
+          <i class="fas fa-check-double"></i>
+        </div>
+        <h1>My Todo List</h1>
+        <p class="header-subtitle">Stay organized, get things done</p>
+      </header>
+
+      <main class="app-card">
+        <form class="todo-form" id="todo-form">
+          <div class="input-wrapper">
+            <input
+              type="text"
+              class="todo-input"
+              placeholder="What needs to be done?"
+            />
+            <button type="submit" class="todo-button">
+              <i class="fas fa-plus"></i>
+              <span>Add</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="filter-bar">
+          <button type="button" class="filter-btn active" data-filter="all">
+            All
+          </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="completed"
+          >
+            Completed
+          </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="uncompleted"
+          >
+            Active
+          </button>
+        </div>
+
+        <div class="todo-container">
+          <ul class="todo-list"></ul>
+          <div class="empty-state" id="empty-state">
+            <div class="empty-icon">
+              <i class="far fa-clipboard"></i>
+            </div>
+            <p>No tasks yet</p>
+            <span>Add a task above to get started</span>
+          </div>
+        </div>
+
+        <footer class="app-footer" id="app-footer">
+          <span id="todo-count"></span>
+        </footer>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

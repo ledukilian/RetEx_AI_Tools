@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Néosoft - RetEx Outils IA</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/nord.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="icon" type="image/png" href="https://www.neosoft.fr/wp-content/themes/neosoft/favicons/favicon-32x32.png">
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-navy:  #0B1426;
+      --color-blue:  #003DB5;
+      --color-accent: #0055FF;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+  </style>
+
+  <style>
+    /* ── ANIMATIONS ENTRE SLIDES ─────────────────── */
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-48px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .reveal .slides section.present > * {
+      animation: slideInUp .5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .reveal .slides section.present > *:nth-child(1) { animation-delay: .00s; }
+    .reveal .slides section.present > *:nth-child(2) { animation-delay: .07s; }
+    .reveal .slides section.present > *:nth-child(3) { animation-delay: .14s; }
+    .reveal .slides section.present > *:nth-child(4) { animation-delay: .21s; }
+    .reveal .slides section.present > *:nth-child(5) { animation-delay: .28s; }
+    .reveal .slides section.present > *:nth-child(6) { animation-delay: .35s; }
+    /* Dividers : le chiffre géant entre en glissant depuis la gauche */
+    .reveal .slides section.present .section-num   { animation: slideInLeft .55s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .0s; }
+    .reveal .slides section.present .section-title { animation: slideInUp   .5s  cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .08s; }
+    .reveal .slides section.present .section-desc  { animation: slideInUp   .45s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: .18s; }
+
+    /* Présentation (hors .slide-template) : entrée horizontale au lieu de slideInUp */
+    .reveal .slides section:not(.slide-template).present > * {
+      animation-name: slideInLeft;
+    }
+    .reveal .slides section:not(.slide-template).present .section-title,
+    .reveal .slides section:not(.slide-template).present .section-desc {
+      animation-name: slideInLeft;
+    }
+
+    /* ── ANIMATIONS UTILITAIRES (opt-in) ─────────────
+         Usage : ajouter la classe sur n'importe quel élément
+         Ex : <div class="anim-slide-right anim-delay-2">...</div>
+
+         Classes disponibles :
+           anim-slide-up    → monte depuis le bas
+           anim-slide-down  → descend depuis le haut
+           anim-slide-right → arrive depuis la gauche
+           anim-slide-left  → arrive depuis la droite
+           anim-fade        → simple fondu (sans déplacement)
+           anim-zoom        → zoom depuis légèrement plus petit
+           anim-delay-1 … anim-delay-6 → décalage de 100ms à 600ms
+    ─────────────────────────────────────────────── */
+    @keyframes slideUp    { from { opacity:0; transform: translateY(36px);  } to { opacity:1; transform: translateY(0); } }
+    @keyframes slideDown  { from { opacity:0; transform: translateY(-36px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes slideRight { from { opacity:0; transform: translateX(-36px); } to { opacity:1; transform: translateX(0); } }
+    @keyframes slideLeft  { from { opacity:0; transform: translateX(36px);  } to { opacity:1; transform: translateX(0); } }
+    @keyframes simpleFade { from { opacity:0; }                               to { opacity:1; } }
+    @keyframes zoomIn     { from { opacity:0; transform: scale(.92); }        to { opacity:1; transform: scale(1); } }
+
+    .reveal .slides section.present .anim-slide-up    { animation: slideUp    .55s cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-slide-down  { animation: slideDown  .55s cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-slide-right { animation: slideRight .55s cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-slide-left  { animation: slideLeft  .55s cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-fade        { animation: simpleFade .5s  cubic-bezier(0.22,1,0.36,1) both; }
+    .reveal .slides section.present .anim-zoom        { animation: zoomIn     .5s  cubic-bezier(0.22,1,0.36,1) both; }
+
+    .anim-delay-1 { animation-delay: .1s !important; }
+    .anim-delay-2 { animation-delay: .2s !important; }
+    .anim-delay-3 { animation-delay: .3s !important; }
+    .anim-delay-4 { animation-delay: .4s !important; }
+    .anim-delay-5 { animation-delay: .5s !important; }
+    .anim-delay-6 { animation-delay: .6s !important; }
+
+    /* ── CORRECTIONS MODE VUE D'ENSEMBLE (Échap) ─────
+       Reveal masque les slides .past/.future (opacity:0) et les fragments
+       non révélés (opacity:0 + visibility:hidden). Le thème overview ne
+       remet pas toujours visibility sur les fragments. Nos animations
+       d’entrée (section.present > *) peuvent laisser un état illisible.
+       On force donc un rendu « figé final » pour toutes les vignettes.
+    ─────────────────────────────────────────────── */
+    .reveal.overview .slides > section.past,
+    .reveal.overview .slides > section.future,
+    .reveal.overview .slides > section.present,
+    .reveal.overview .slides section > section.past,
+    .reveal.overview .slides section > section.future,
+    .reveal.overview .slides section > section.present {
+      opacity:    1 !important;
+      visibility: visible !important;
+    }
+    .reveal.overview .slides section {
+      opacity:    1 !important;
+      visibility: visible !important;
+    }
+    /* Enfants directs SAUF les <section> imbriquées (stack vertical) */
+    .reveal.overview .slides section > *:not(section) {
+      animation:  none !important;
+      opacity:    1 !important;
+      transform:  none !important;
+      visibility: visible !important;
+    }
+    .reveal.overview .slides section * {
+      animation:  none !important;
+    }
+    /* Tout le contenu hors balises <section> imbriquées : opacité / visibilité */
+    .reveal.overview .slides section *:not(section) {
+      opacity:    1 !important;
+      visibility: visible !important;
+    }
+    /* Fragments Reveal + variantes fade-* (transform inclus) */
+    .reveal.overview .slides section .fragment,
+    .reveal.overview .slides section .fragment.visible {
+      opacity:    1 !important;
+      visibility: visible !important;
+      transform:  none !important;
+    }
+
+    /* ── BASE ─────────────────────────────────────── */
+    *, html, body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    :root {
+      --header-height: 72px;
+      --navy:   #0B1426;
+      --blue:   #003DB5;
+      --accent: #0055FF;
+      --r-background-color: #0B1426;
+      --r-main-color:    #FFFFFF;
+      --r-heading-color: #FFFFFF;
+      --r-link-color:    #0055FF;
+      --r-selection-background-color: #0055FF;
+      --r-selection-color: #fff;
+    }
+
+    /* ── FOND ─────────────────────────────────────── */
+    .reveal {
+      background: #0B1426;
+      color: #fff;
+      font-size: 28px;
+      font-family: "Inter", sans-serif;
+    }
+    /* Orbs de couleur */
+    .reveal::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 8% 15%,  rgba(0,85,255,.13) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 55% at 92% 85%, rgba(0,61,181,.1)  0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Grille de points subtile */
+    .reveal::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .reveal .slides { position: relative; z-index: 1; }
+
+    /* ── SECTIONS ─────────────────────────────────── */
+    .reveal section {
+      padding-top: calc(var(--header-height) + 10px);
+      padding-bottom: 24px;
+      padding-left: 52px;
+      padding-right: 52px;
+      font-size: .85em;
+      text-align: left;
+    }
+
+    /* ── TYPOGRAPHIE ──────────────────────────────── */
+    .reveal h1 {
+      font-size: 3em; font-weight: 900; color: #fff;
+      line-height: 1.05; letter-spacing: -.04em; margin-bottom: .3em;
+    }
+    .reveal h2 {
+      font-size: 1.75em; font-weight: 800; color: #fff;
+      letter-spacing: -.025em; line-height: 1.2;
+      margin-bottom: .2em;
+      position: relative; padding-bottom: .5em;
+      text-transform: none;
+    }
+    .reveal h2::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 40px; height: 3px;
+      background: var(--accent); border-radius: 2px;
+    }
+    .reveal h3 {
+      font-size: 1.05em; font-weight: 700; color: #fff;
+      margin-bottom: .45em; letter-spacing: -.01em;
+    }
+    .reveal p  { color: rgba(255,255,255,.8);  line-height: 1.65; font-size: .92em; }
+    .reveal li { color: rgba(255,255,255,.8);  line-height: 1.7;  font-size: .92em; }
+    .reveal a  { color: var(--accent); text-decoration: none; }
+
+    /* ── BARRE DE PROGRESSION ──
+       Reveal remplit la barre avec transform: scaleX(p) sur un span à width:100%.
+       Pour les petits p, l’échelle compresse le bord droit → flou large ; plus p
+       augmente, plus c’est net. On ignore scaleX (voir JS : width en %). ── */
+    .reveal .progress {
+      position: fixed; top: var(--header-height); bottom: auto;
+      left: 0; right: 0; height: 3px;
+      background: rgba(255,255,255,.08);
+      z-index: 1100; pointer-events: none;
+      isolation: isolate;
+    }
+    .reveal .progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      max-width: 100%;
+      box-sizing: border-box;
+      background: var(--accent);
+      box-shadow: 0 0 3px rgba(0, 85, 255, 0.45);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transition: none !important;
+      transform: none !important;
+      transform-origin: left center;
+    }
+
+    /* ── FLÈCHES REVEAL.JS (conservées) ──────────── */
+    .reveal .controls button,
+    .reveal .controls .navigate-left,
+    .reveal .controls .navigate-right,
+    .reveal .controls .navigate-up,
+    .reveal .controls .navigate-down {
+      color: rgba(255,255,255,.4) !important;
+      fill: rgba(255,255,255,.4) !important;
+      transition: color .2s, fill .2s;
+    }
+    .reveal .controls button:hover {
+      color: #fff !important;
+      fill: #fff !important;
+    }
+
+    /* ── COMPOSANTS RÉUTILISABLES ─────────────────── */
+
+    /* Tag */
+    .tag {
+      display: inline-block;
+      font-size: .62em; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px;
+      background: rgba(0,85,255,.12); border: 1px solid rgba(0,85,255,.3); color: #60a5fa;
+    }
+
+    /* Card générique */
+    .card {
+      padding: 18px 20px; border-radius: 12px;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
+      transition: background .2s, border-color .2s;
+    }
+    .card:hover { background: rgba(0,85,255,.06); border-color: rgba(0,85,255,.2); }
+
+    /* Capture grid cells */
+    .capture-grid img { max-height: 18vh; width: 100%; object-fit: contain; border-radius: 12px; display: block; }
+    .capture-cell { transition: transform .2s ease; cursor: zoom-in; }
+    .capture-cell:hover { transform: translateY(-4px); }
+
+    /* Lightbox */
+    #img-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(6px);
+      cursor: zoom-out;
+      opacity: 0;
+      transition: opacity .22s ease;
+    }
+    #img-lightbox.lb-visible {
+      display: flex;
+      opacity: 1;
+    }
+    #img-lightbox img {
+      max-width: 72vw;
+      max-height: 72vh;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 12px 48px rgba(0,0,0,.6);
+      transform: scale(.94);
+      transition: transform .28s cubic-bezier(.22,1,.36,1);
+    }
+    #img-lightbox.lb-visible img {
+      transform: scale(1);
+    }
+
+    /* Callouts */
+    .callout {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px; border-radius: 0 10px 10px 0; border-left: 3px solid;
+      margin: 10px 0; font-size: .88em;
+    }
+    .callout svg { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; stroke: currentColor; }
+    .callout__text { color: rgba(255,255,255,.9); line-height: 1.55; }
+    .callout--info    { background: rgba(0,85,255,.08);   border-color: #0055FF; color: #93c5fd; }
+    .callout--warning { background: rgba(245,158,11,.08); border-color: #F59E0B; color: #fcd34d; }
+    .callout--error   { background: rgba(239,68,68,.08);  border-color: #EF4444; color: #fca5a5; }
+    .callout--success { background: rgba(16,185,129,.08); border-color: #10B981; color: #6ee7b7; }
+
+    /* Steps / roadmap */
+    .steps-list { counter-reset: step; list-style: none; padding: 0; margin: 0; }
+    .steps-list li {
+      counter-increment: step;
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.07);
+      font-size: .9em; color: rgba(255,255,255,.88);
+      transition: padding-left .2s;
+    }
+    .steps-list li:last-child { border-bottom: none; }
+    .steps-list li:hover { padding-left: 6px; }
+    .steps-list li::before {
+      content: counter(step, decimal-leading-zero);
+      flex-shrink: 0; font-size: .72em; font-weight: 800; color: var(--accent);
+      background: rgba(0,85,255,.1); border: 1px solid rgba(0,85,255,.28);
+      border-radius: 7px; padding: 3px 8px; letter-spacing: .02em;
+    }
+
+    /* Checklist */
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.07);
+      color: rgba(255,255,255,.88); font-size: .9em;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li .icon {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75em; font-weight: 700;
+    }
+    .checklist li.ok .icon { background: rgba(16,185,129,.15); color: #10B981; border: 1px solid rgba(16,185,129,.3); }
+    .checklist li.ko       { opacity: .6; }
+    .checklist li.ko .icon { background: rgba(239,68,68,.1);  color: #EF4444; border: 1px solid rgba(239,68,68,.2); }
+
+    /* Tableau comparatif */
+    .cmp-table { width: 100%; border-collapse: collapse; font-size: .85em; }
+    .cmp-table thead th {
+      padding: 10px 16px; font-weight: 700; font-size: .72em;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: rgba(255,255,255,.4); border-bottom: 1px solid rgba(255,255,255,.1);
+      text-align: center;
+    }
+    .cmp-table thead th:first-child { text-align: left; }
+    .cmp-table tbody td {
+      padding: 12px 16px; color: rgba(255,255,255,.82);
+      border-bottom: 1px solid rgba(255,255,255,.06); text-align: center;
+    }
+    .cmp-table tbody td:first-child { text-align: left; font-weight: 600; color: #fff; }
+    .cmp-table thead th:last-child { text-align: left; }
+    .cmp-table tbody td:last-child  { text-align: left; }
+    .cmp-table tbody tr:hover td { background: rgba(255,255,255,.025); }
+    .badge-good { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(16,185,129,.12); color: #34d399; border: 1px solid rgba(16,185,129,.25); font-size: .83em; font-weight: 600; }
+    .badge-bad  { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(239,68,68,.1);  color: #f87171; border: 1px solid rgba(239,68,68,.22);  font-size: .83em; font-weight: 600; }
+    .badge-mid  { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(245,158,11,.1); color: #fbbf24; border: 1px solid rgba(245,158,11,.22); font-size: .83em; font-weight: 600; }
+    /* Profils modèles : indigo (expert) → bleu (polyvalent) → cyan (rapide) */
+    /* Badges modèles : feu vert → jaune → rouge (niveau / usage) */
+    .badge-model-expert     { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(16,185,129,.18); color: #6ee7b7; border: 1px solid rgba(52,211,153,.45); font-size: .83em; font-weight: 600; }
+    .badge-model-polyvalent { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(245,158,11,.16); color: #fcd34d; border: 1px solid rgba(251,191,36,.42); font-size: .83em; font-weight: 600; }
+    .badge-model-rapide     { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(239,68,68,.14); color: #fca5a5; border: 1px solid rgba(248,113,113,.4); font-size: .83em; font-weight: 600; }
+
+    /* Bloc prompt démo : pseudo-coloration + pastilles hex */
+    .prompt-demo-pre {
+      margin: 0; width: 110%; min-height: 120px; max-height: 38vh; overflow: auto; resize: vertical;
+      box-sizing: border-box; padding: 7px 10px; border-radius: 10px;
+      background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.12);
+      font-size: .56em; line-height: 1.08; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      text-align: left;
+    }
+    .prompt-demo-code {
+      display: block; margin: 0; color: rgba(255,255,255,.88); white-space: pre-wrap; word-break: break-word;
+      font-family: inherit; font-size: inherit; line-height: 1.08;
+    }
+    .prompt-demo-code .prompt-css-var { color: #7dd3fc; font-weight: 600; }
+    .prompt-demo-code .prompt-css-punct { color: rgba(255,255,255,.45); }
+    .prompt-demo-code .prompt-hex-wrap { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
+    .prompt-demo-code .prompt-swatch {
+      display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+      border: 1px solid rgba(255,255,255,.28); box-shadow: 0 0 0 1px rgba(0,0,0,.35) inset; flex-shrink: 0;
+    }
+    .prompt-demo-code .prompt-hex-val { color: #e2e8f0; font-weight: 600; letter-spacing: .02em; }
+    .prompt-demo-code .prompt-lead { color: rgba(255,255,255,.92); }
+    .prompt-demo-code .prompt-em { color: #fcd34d; font-weight: 700; }
+    /* Lignes « liste » sans <ul> : interligne minimal (les <li> gardent trop d’air) */
+    .prompt-demo-code .prompt-list {
+      display: block; margin: 0.04em 0 0.08em; padding: 0;
+      color: rgba(255,255,255,.78);
+    }
+    .prompt-demo-code .prompt-list > span {
+      display: block; margin: 0; padding: 0; line-height: 1; font-size: inherit;
+    }
+    .prompt-demo-code .prompt-list .prompt-dash { color: #60a5fa; margin-right: 0.35em; }
+    .prompt-demo-code .prompt-css-line { display: block; margin: 0; line-height: 1.08; padding-left: 0; }
+    .prompt-demo-code .prompt-lead--tight { display: block; margin: 0.1em 0 0; line-height: 1.08; }
+
+    /* KPI */
+    .kpi-value { font-size: 3em; font-weight: 900; letter-spacing: -.04em; line-height: 1; }
+    .kpi-label { font-size: .68em; color: rgba(255,255,255,.45); font-weight: 500; margin-top: 6px; text-transform: uppercase; letter-spacing: .06em; line-height: 1.4; }
+    .kpi-bar   { margin-top: 14px; height: 2px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; }
+    .kpi-bar span { display: block; height: 100%; border-radius: 2px; }
+
+    /* Feature cards */
+    .feature-card { padding: 18px; border-radius: 12px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); transition: background .2s, border-color .2s; }
+    .feature-card:hover { background: rgba(0,85,255,.06); border-color: rgba(0,85,255,.22); }
+    .feature-icon { width: 38px; height: 38px; border-radius: 9px; background: rgba(0,85,255,.1); border: 1px solid rgba(0,85,255,.22); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .feature-icon svg { width: 18px; height: 18px; stroke: #60a5fa; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 26px; }
+    .timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--accent), rgba(0,85,255,.08)); border-radius: 2px; }
+    .timeline-item { position: relative; padding-bottom: 22px; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(0,85,255,.18); }
+    .timeline-date  { font-size: .68em; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 3px; }
+    .timeline-title { font-size: .92em; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .timeline-desc  { font-size: .8em; color: rgba(255,255,255,.48); line-height: 1.5; }
+
+    /* Section divider */
+    .section-divider { display: flex !important; flex-direction: column; justify-content: center !important; }
+    .section-num   { font-size: 7em; font-weight: 900; line-height: 1; color: rgba(0,85,255,.14); letter-spacing: -.05em; margin-bottom: -.05em; }
+    .section-title { font-size: 2.4em; font-weight: 900; color: #fff; letter-spacing: -.03em; line-height: 1.1; }
+    .section-desc  { font-size: .88em; color: rgba(255,255,255,.42); margin-top: 14px; max-width: 480px; line-height: 1.65; }
+
+    /* Auto-évaluation 0–10 (checkup) — dégradé 0 = négatif → 10 = positif */
+    .slide-self-checkup { font-size: .82em; }
+    .self-checkup { width: 100%; max-width: 1080px; margin: 0 auto; }
+    .self-checkup-intro { font-size: .66em; color: rgba(255,255,255,.45); margin-bottom: 18px; line-height: 1.45; max-width: 820px; }
+    .self-checkup-pager { font-size: .58em; font-weight: 700; color: rgba(255,255,255,.32); letter-spacing: .06em; margin-bottom: 8px; }
+    .self-checkup-theme { font-size: .88em; font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.35; }
+    .grade-row {
+      --score: 5;
+      margin-bottom: 22px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .grade-row:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .grade-q { font-size: .78em; font-weight: 600; color: #fff; line-height: 1.35; margin-bottom: 8px; }
+    .grade-caps {
+      display: flex; justify-content: space-between; gap: 16px;
+      font-size: .48em; color: rgba(255,255,255,.42); line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    .grade-caps span { flex: 1; }
+    .grade-caps span:last-child { text-align: right; }
+    .grade-rail-wrap { position: relative; height: 26px; }
+    .grade-rail {
+      position: absolute; left: 0; right: 0; top: 8px;
+      height: 8px; border-radius: 4px;
+      background: linear-gradient(90deg, #b91c1c 0%, #ea580c 22%, #ca8a04 50%, #65a30d 78%, #15803d 100%);
+      border: 1px solid rgba(0,0,0,.35);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+    }
+    /* 0 = gauche = souhaitable (vert) · 10 = droite = moins souhaitable (rouge) — ex. fréquence d’erreurs */
+    .grade-row--invert .grade-rail {
+      background: linear-gradient(90deg, #15803d 0%, #65a30d 18%, #ca8a04 50%, #ea580c 72%, #b91c1c 100%);
+    }
+    .grade-marker {
+      position: absolute; top: 2px;
+      width: 20px; height: 20px; border-radius: 50%;
+      box-sizing: border-box;
+      background: #fff;
+      border: 3px solid #0f172a;
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.95),
+        0 3px 12px rgba(0,0,0,.55),
+        0 0 24px rgba(0,85,255,.65);
+      left: calc(var(--score) / 10 * 100%);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    /* Graduations 0…10 alignées sur la barre : 0 et 10 aux extrémités */
+    .grade-nums {
+      position: relative;
+      height: 1.35em;
+      margin-top: 10px;
+      font-size: .44em;
+      font-weight: 700;
+      color: rgba(255,255,255,.3);
+      letter-spacing: .02em;
+      line-height: 1.2;
+    }
+    .grade-nums span {
+      position: absolute;
+      top: 0;
+      white-space: nowrap;
+    }
+    .grade-nums span:nth-child(1) { left: 0; transform: translateX(0); }
+    .grade-nums span:nth-child(11) { left: 100%; transform: translateX(-100%); }
+    .grade-nums span:nth-child(2) { left: 10%; transform: translateX(-50%); }
+    .grade-nums span:nth-child(3) { left: 20%; transform: translateX(-50%); }
+    .grade-nums span:nth-child(4) { left: 30%; transform: translateX(-50%); }
+    .grade-nums span:nth-child(5) { left: 40%; transform: translateX(-50%); }
+    .grade-nums span:nth-child(6) { left: 50%; transform: translateX(-50%); }
+    .grade-nums span:nth-child(7) { left: 60%; transform: translateX(-50%); }
+    .grade-nums span:nth-child(8) { left: 70%; transform: translateX(-50%); }
+    .grade-nums span:nth-child(9) { left: 80%; transform: translateX(-50%); }
+    .grade-nums span:nth-child(10) { left: 90%; transform: translateX(-50%); }
+
+    /* Code blocks */
+    .reveal pre { background: rgba(0,0,0,.35) !important; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; overflow: hidden; box-shadow: 0 24px 48px rgba(0,0,0,.3); margin: 0; }
+    .reveal code { font-size: .82em; }
+    .pre-header { background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,255,255,.07); padding: 9px 14px; display: flex; align-items: center; gap: 7px; }
+    .pre-dot    { width: 10px; height: 10px; border-radius: 50%; }
+    .pre-lang   { margin-left: auto; font-size: .62em; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+
+    /* Hint navigation verticale */
+    .hint-v { display: inline-flex; align-items: center; gap: 7px; font-size: .68em; color: rgba(255,255,255,.3); margin-top: 18px; }
+    .hint-v svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    /* Curseur personnalisé */
+    *, *::before, *::after { cursor: none !important; }
+    #custom-cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 14px; height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
+      mix-blend-mode: difference;
+    }
+    #custom-cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 2px solid rgba(255,255,255,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: top 0.12s ease, left 0.12s ease, width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+
+    <!-- ══════════════════════════════════════════════
+         HEADER — intouché
+    ══════════════════════════════════════════════ -->
+    <div class="deck-header fixed top-0 left-0 right-0 flex items-center justify-between px-8 py-4 h-[72px] box-border bg-[rgba(11,20,38,0.96)] backdrop-blur-xl border-b border-white/[0.07] z-[1000]">
+      <div class="flex items-center gap-4">
+        <a href="https://www.neosoft.fr" target="_blank" rel="noopener">
+          <img class="h-8 w-auto object-contain" src="https://www.neosoft.fr/wp-content/themes/neosoft/dist/images/logo-neosoft-white.svg" alt="Logo Néosoft">
+        </a>
+        <div class="text-white font-bold tracking-wide text-[1.1em]">
+          <span class="text-white/30 mx-4">•</span>
+          <span>Retour d'expérience - Outils IA</span>
+        </div>
+      </div>
+      <div class="text-white font-bold text-[0.9em]" id="slideCounter">1</div>
+    </div>
+
+    <div class="slides">
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 01 · TITRE
+      ══════════════════════════════════════════ -->
+      <section style="display:flex;flex-direction:column;justify-content:center;padding-left:80px;padding-right:80px;">
+        <div class="tag" style="margin-bottom:24px;">2026</div>
+        <h1 style="margin-bottom:16px;">
+          Retour d'expérience<br>
+          <span style="color:#0055FF;">Outils IA</span>
+        </h1>
+        <p style="max-width:520px;margin:0 0 32px;font-size:.9em;color:rgba(255,255,255,.45);">
+          Un aperçu, pas une vérité absolue 🌞
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 02 · SOMMAIRE
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Plan</div>
+        <h2 style="margin-bottom:24px;">Sommaire</h2>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="card fragment fade-left" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">01</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Cadre, limites & biais</div>
+          </div>
+          <div class="card fragment fade-left" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">02</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Du simple prompt à l’autonomie</div>
+          </div>
+          <div class="card fragment fade-left" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">03</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Mes 2 outils clés</div>
+          </div>
+          <div class="card fragment fade-left" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">04</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Usages concrets</div>
+          </div>
+          <div class="card fragment fade-left" style="display:flex;align-items:center;gap:14px;">
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">05</span>
+            <div style="font-weight:700;color:#fff;font-size:.9em;">Conclusion</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 02b · QUI SUIS-JE ?
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Intervenant</div>
+        <h2 style="margin-bottom:28px;">Qui suis-je ?</h2>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start;max-width:700px;">
+          <div style="position:relative;flex-shrink:0;">
+            <img style="width:96px;height:96px;border-radius:14px;object-fit:cover;display:block;" src="assets/profile.png" alt="Photo intervenant">
+          </div>
+          <div>
+            <div style="font-size:1.25em;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;">Kilian LE DU</div>
+            <div style="font-size:.72em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:8px;">Actuellement en mission chez <span style="color:#f97316;">Orange Business</span></div>
+            <p style="font-size:.72em;color:#d6d6d6;line-height:1.6;margin:0 0 14px;">Développeur fullstack et utilisateur quotidien d’outils IA.
+              <br/> Approche centrée sur l’impact et les résultats plutôt que la perfection technique.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.35);color:#f87171;">Angular</span>
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">Symfony</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 03 · DIVIDER — Cadre
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">01</div>
+        <div class="section-title">Cadre, limites & biais</div>
+        <div class="section-desc">Quelques éléments de contexte pour éviter les malentendus 😇</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 04 · DISCLAIMER
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Cadre</div>
+        <h2 style="margin-bottom:24px;">⚠️ Avertissement</h2>
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
+          <div class="callout callout--warning fragment fade-left">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <div class="callout__text"><strong style="color:#FBBF24;">Avis personnel :</strong> Chaque avis énoncé concerne uniquement mon avis et ma perception de ces outils.</div>
+          </div>
+          <div class="callout callout--warning fragment fade-left">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <div class="callout__text"><strong style="color:#FBBF24;">Objectif :</strong> Cette présentation n'est pas technique ; elle a uniquement pour objectif de donner un exemple d'utilisation et un aperçu des possibilités.</div>
+          </div>
+          <div class="callout callout--warning fragment fade-left">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <div class="callout__text"><strong style="color:#FBBF24;">Éthique :</strong> Je fais volontairement abstraction du coût environnemental et des questions éthiques associées à ces technologies.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 05 · BIAIS SUR LA PERCEPTION
+      ══════════════════════════════════════════ -->
+      <section>
+        <section>
+        <div class="tag" style="margin-bottom:16px;">Biais</div>
+        <h2 style="margin-bottom:24px;">Biais de perception autour de l’IA</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="card fragment fade-left" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;"></div>
+              <span style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fbbf24;">Le miracle</span>
+            </div>
+            <p style="font-size:.84em;margin:0;line-height:1.6;">
+              <span style="font-style: italic;">"L'IA peut tout résoudre"</span>
+              <br><span style="font-style: italic;">"C'est surpuissant"</span>
+            </p>
+            <p class="fragment fade-left" style="font-size:.84em;margin:12px 0 0;line-height:1.6;">
+              ➔ <strong style="color:#fff;"> Non, ce n'est pas un outil magique 🪄</strong><br> On prend l'IA pour ses forces et ses limites, un arbitrage entre utilité et risque.
+            </p>
+          </div>
+          <div class="card fragment fade-left" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;"></div>
+              <span style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fbbf24;">Le tout ou rien</span>
+            </div>
+            <p style="font-size:.84em;margin:0;line-height:1.6;">
+              <span style="font-style: italic;">"Utiliser l'IA = accepter tout ce qu'elle propose"</span>
+            </p>
+            <p class="fragment fade-left" style="font-size:.84em;margin:12px 0 0;line-height:1.6;">
+              ➔ <strong style="color:#fff;">Non, l'IA propose et l'humain dispose 🧠</strong>
+              <br>On doit toujours choisir de garder, modifier ou ignorer ce qu'elle produit.
+            </p>
+          </div>
+          <div class="card fragment fade-left" style="padding:20px;grid-column:1/-1;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+              <span style="font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#f87171;">La connotation négative</span>
+            </div>
+            <p style="font-size:.84em;margin:0;line-height:1.6;">Utiliser l'IA, c'est être assisté, donc moins légitime ? Comme si la compétence se mesurait au mal qu'on se donne ? Comme une honte, un tabou ou une question d'égo ?</p>
+            <p class="fragment fade-left" style="font-size:.84em;margin:10px 0 0;line-height:1.65;">
+              <strong style="color:#fff;">➔ La valeur n’est pas dans le geste, mais dans ce qu’on apporte</strong>
+            </p>
+            <p class="fragment fade-left" style="font-size:.84em;margin:12px 0 0;line-height:1.65;">
+              <strong style="color:#fff;">➔ Un outil ne remplace pas le jugement : on reste responsable du résultat qu’on livre</strong>
+            </p>
+            <p class="fragment fade-left" style="font-size:.84em;margin:10px 0 0;line-height:1.65;">
+              <strong style="color:#fff;">➔ On peut questionner l'IA sans en faire un méchant</strong> ; elle n'est pas <i>(encore)</i> notre ennemie 🤖
+              <br><span style="font-size:.82em;">🔗 Article de Frederic Bouchery — <a href="https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:none;">Depuis quand avez-vous honte de votre code ?</a></span>
+            </p>
+          </div>
+        </div>
+        <aside class="notes">
+          <p>Précision : Pour les profils juniors, il reste au contraire souhaitable de prendre le temps de la pratique et des fondamentaux (même si ce chemin est plus long).</p>
+        </aside>
+        </section>
+        <!-- 05b : Courbe de hype -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Biais</div>
+          <h2 style="margin-bottom:20px;">Le cycle de hype autour de l’IA</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:70%;max-width:900px;margin:0;">
+            <img src="assets/graph-hype.png" style="width:100%;border-radius:12px;" alt="Courbe de hype d'un outil IA" />
+          </div>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 06 · DIVIDER — Niveaux
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">02</div>
+        <div class="section-title">Du simple prompt à l’autonomie</div>
+        <div class="section-desc">Beaucoup d'outils existent, comment visualiser où on en est, et vers quoi on peut aller 🛣️</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 07 · NIVEAUX (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <!-- 07a : Les niveaux 0→4 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Niveaux d'outils</div>
+          <h2 style="margin-bottom:20px;">Pyramide des niveaux d'utilisation IA</h2>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;max-width:960px;margin:0 auto;">
+            <!-- Niveau 4 — sommet (largeurs harmonisées ~11% d’écart entre étages) -->
+            <div class="fragment" data-fragment-index="4" style="width:55%;background:rgba(0,85,255,.22);border:1px solid rgba(0,85,255,.6);border-radius:8px;padding:7px 14px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#fff;background:rgba(0,85,255,.55);border-radius:4px;padding:1px 6px;">4</span>
+                <span style="font-size:.72em;font-weight:700;color:#fff;">IA autonome</span>
+              </div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">Agents IA en arrière-plan, orchestrant plusieurs systèmes en grande/totale autonomie (ex: OpenClaw).</div>
+            </div>
+            <!-- Niveau 3 -->
+            <div class="fragment" data-fragment-index="3" style="width:66%;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.42);border-radius:8px;padding:7px 16px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#93c5fd;background:rgba(0,85,255,.28);border-radius:4px;padding:1px 6px;">3</span>
+                <span style="font-size:.72em;font-weight:700;color:#fff;">IA agent</span>
+              </div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">L'IA exécute des tâches directement, sous supervision (ex: agit sur le code dans l'IDE).</div>
+            </div>
+            <!-- Niveau 2 -->
+            <div class="fragment" data-fragment-index="2" style="width:77%;background:rgba(0,85,255,.09);border:1px solid rgba(0,85,255,.28);border-radius:8px;padding:7px 18px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#93c5fd;background:rgba(0,85,255,.16);border-radius:4px;padding:1px 6px;">2</span>
+                <span style="font-size:.72em;font-weight:700;color:#fff;">IA contextualisée</span>
+              </div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">L'IA connaît le contexte (ex: dans l'IDE, lit le code)</div>
+            </div>
+            <!-- Niveau 1 -->
+            <div class="fragment" data-fragment-index="1" style="width:88%;background:rgba(0,85,255,.05);border:1px solid rgba(0,85,255,.16);border-radius:8px;padding:7px 20px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:rgba(147,197,253,.7);background:rgba(0,85,255,.1);border-radius:4px;padding:1px 6px;">1</span>
+                <span style="font-size:.72em;font-weight:700;color:#fff;">IA conversationnelle</span>
+              </div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.5);line-height:1.35;">L'IA répond pour expliquer, générer ou rechercher de l'information à partir de son entraînement.</div>
+            </div>
+            <!-- Niveau 0 — base, plus large -->
+            <div style="width:98%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 24px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:rgba(255,255,255,.4);background:rgba(255,255,255,.07);border-radius:4px;padding:1px 6px;">0</span>
+                <span style="font-size:.72em;font-weight:700;color:#fff;">Sans IA</span>
+              </div>
+              <div style="font-size:.6em;color:rgba(255,255,255,.38);line-height:1.35;">Aucun outil d'intelligence artificielle n'est intégré au workflow.</div>
+            </div>
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Conseils & astuces
+          </p>
+        </section>
+        <!-- 07b : Conseils -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Niveaux d'outils</div>
+          <h2 style="margin-bottom:24px;">Quelques conseils pour appréhender les outils IA</h2>
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:740px;">
+            <div class="callout callout--info fragment fade-left">
+				<svg viewBox="0 0 24 24">
+				  <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
+						   M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
+						fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="callout__text"><strong style="color:#60A5FA;">Ne pas brûler les étapes</strong> : Y aller progressivement, on monte en niveau d'outil quand on est à l'aise avec le précédent et qu'on est prêt à explorer.
+          <br/><span class="fragment" style="display:inline-block;margin-top:4px;font-size:.78em;color:rgba(255,255,255,.48);">Le FOMO n’est pas une stratégie d’apprentissage 📚</span></div>
+            </div>
+            <div class="callout callout--info fragment fade-left">
+				<svg viewBox="0 0 24 24">
+				  <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
+						   M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
+						fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="callout__text"><strong style="color:#60A5FA;">La confiance se gagne</strong> : Que ce soit pour un outil ou un modèle précis, ne pas faire confiance aveuglément. Avec le temps et l'usage on cerne mieux les possibilités et les limites.
+          <br/><span class="fragment" style="display:inline-block;margin-top:4px;font-size:.78em;color:rgba(255,255,255,.48);">Au début tu relis tout ; plus tard tu sais quoi relire. 🔎</span></div>
+            </div>
+            <div class="callout callout--info fragment fade-left">
+				<svg viewBox="0 0 24 24">
+				  <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
+						   M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
+						fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="callout__text">
+          <strong style="color:#60A5FA;">La taille compte</strong> : La puissance du LLM utilisé influence énormément la qualité du résultat obtenu. Ce n'est évidemment pas le seul élément, mais c'est celui le plus actionnable en tant que consommateur.
+          <br/><span class="fragment" style="display:inline-block;margin-top:4px;font-size:.78em;color:rgba(255,255,255,.48);">Attention à ne pas essayer de tuer une fourmi avec un lance-roquette 🐜💥</span>
+          </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 10 · DIVIDER — Outils
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">04</div>
+        <div class="section-title">Mes 2 outils clés</div>
+        <div class="section-desc">Ceux que j'utilise quotidiennement 💙</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 11 · 2 OUTILS CLÉS
+      ══════════════════════════════════════════ -->
+      <section>
+        <div class="tag" style="margin-bottom:16px;">Outils</div>
+        <h2 style="margin-bottom:24px;">2 outils qui font partie de mon quotidien</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+          <div class="feature-card fragment fade-left" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div class="feature-icon" style="width:32px;height:32px;flex-shrink:0;">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              </div>
+              <div>
+                <div style="font-size:1em;font-weight:800;color:#fff;">Perplexity</div>
+                <div style="font-size:.68em;color:rgba(255,255,255,.52);font-weight:600;margin-top:2px;">~20$ par mois</div>
+              </div>
+            </div>
+            <div style="font-size:.78em;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:12px;">Agent conversationnel permettant la <strong style="color:rgba(255,255,255,.8);">recherche web</strong>, avec un ton plutôt neutre et factuel.</div>
+            <div style="font-size:.68em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:10px;">≈ 170 millions de visites mensuelles web</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.35);color:#fb923c;">Mission</span>
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#34d399;">Perso</span>
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">Freelance</span>
+            </div>
+          </div>
+          <div class="feature-card fragment fade-left" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div class="feature-icon" style="width:32px;height:32px;flex-shrink:0;">
+                <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <div>
+                <div style="font-size:1em;font-weight:800;color:#fff;">Cursor</div>
+                <div style="font-size:.68em;color:rgba(255,255,255,.52);font-weight:600;margin-top:2px;">~20 à 60$ par mois</div>
+              </div>
+            </div>
+            <div style="font-size:.78em;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:12px;"><strong style="color:rgba(255,255,255,.8);">IDE</strong> avec IA directement intégrée. Contexte projet, mode agent, modifications de fichiers, complétion, planification etc..</div>
+            <div style="font-size:.68em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:10px;">≈ 1 million d'utilisateurs</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#34d399;">Perso</span>
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">Freelance</span>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout--info fragment fade-left">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
+          <div class="callout__text">
+            <strong style="color:#60A5FA;">Au fond, peu importe l'outil :</strong> l'essentiel c'est de trouver les usages qui vous apportent réellement quelque chose.
+            <p class="fragment fade-left" style="font-size:.84em;margin:12px 0 0;line-height:1.65;">
+              <strong style="color:#fff;">➔ Chaque besoin, chaque contexte et chaque sensibilité sont différentes</strong>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 12 · DIVIDER — Exemples
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">✦</div>
+        <div class="section-title">Usages<br>concrets</div>
+        <div class="section-desc">Parce qu'un exemple vaut mieux qu'un long discours 👀</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 13 · PERPLEXITY (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <!-- 13a : Image d'ensemble Perplexity -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Premier outil : Perplexity</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_0.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Perplexity" />
+            </div>
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Détails
+          </p>
+        </section>
+        <!-- 13b : Sceptique vs Réalité -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Juste de l'IA conversationnelle ?</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+            <div class="" style="padding:18px 20px;border-radius:12px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.14);">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <div style="width:7px;height:7px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+                <span style="font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#f87171;">Le sceptique</span>
+              </div>
+              <p style="font-size:.84em;margin:0;line-height:1.6;color:rgba(255,255,255,.8);">"C'est juste un ChatGPT qui fait des recherches Google ?"</p>
+            </div>
+            <div class="fragment fade-left" style="padding:18px 20px;border-radius:12px;background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.14);">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <div style="width:7px;height:7px;border-radius:50%;background:#10B981;flex-shrink:0;"></div>
+                <span style="font-size:.7em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#34d399;">La réalité</span>
+              </div>
+              <p style="font-size:.84em;margin:0;line-height:1.6;color:rgba(255,255,255,.8);">C'est un moteur de réponse, avec un ton neutre et factuel, avec pour chaque affirmation les sources citées.</p>
+            </div>
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Cas concret
+          </p>
+        </section>
+        <!-- 13c : Cas concret Perplexity -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Peut-on faire confiance à ce qu'on lit ?</h2>
+          <div style="display:flex;flex-direction:column;gap:12px;max-width:740px;">
+            <div class="callout callout--info fragment fade-left">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <div class="callout__text"><strong style="color:#60A5FA;">Cas d'usage :</strong> J'ai besoin d'une réponse à une question, sur une technologie précise.</div>
+            </div>
+            <div class="callout callout--warning fragment fade-left">
+              <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+              <div class="callout__text"><strong style="color:#FBBF24;">Doute :</strong> Est-ce qu'on est sûrs de cette information donnée par l'IA ?</div>
+            </div>
+            <div class="callout callout--success fragment fade-left">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+              <div class="callout__text">
+                <strong style="color:#34D399;">La réponse :</strong>
+                <ul style="margin:10px 0 0;padding-left:1.2em;line-height:1.55;color:rgba(255,255,255,.92);">
+                  <li style="margin-bottom:10px;"><strong style="color:#fff;">Les sources sont là</strong> : on sait d’où vient l’info, ce n’est plus une réponse sans fondement, on peut avancer avec plus de confiance.</li>
+                  <li class="fragment fade-left"><strong style="color:#fff;">Phase exploratoire accélérée</strong> : On cherche sans toujours savoir <em>quoi</em> chercher au départ ; l’outil raccourcit cette étape 🗺️</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 13d : Capture Perplexity 1 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Exemple avec une question posée</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:70%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_1.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 1" />
+            </div>
+          </div>
+        </section>
+        <!-- 13e : Capture Perplexity 2 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Le raisonnement et la recherche de sources</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_2.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 2" />
+            </div>
+          </div>
+        </section>
+        <!-- 13f : Capture Perplexity 3 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Synthèse et réponse</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_3.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 3" />
+            </div>
+          </div>
+        </section>
+        <!-- 13g : Capture Perplexity 4 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Mention des sources pour chaque affirmation</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_4.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 4" />
+            </div>
+          </div>
+        </section>
+        <!-- 13h : Capture Perplexity 5 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Onglet "Liens" pour les sources</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_5.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 5" />
+            </div>
+          </div>
+        </section>
+        <!-- 13j : Capture Perplexity 7 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Recherche approfondie : pour aller plus loin</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_7.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 7" />
+            </div>
+          </div>
+        </section>
+        <!-- 13i : Capture Perplexity 6 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Espaces : un contexte commun et partageable</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_6.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 6" />
+            </div>
+          </div>
+        </section>
+        <!-- 13k : Captures Perplexity 8 -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <h2 style="margin-bottom:20px;">Widgets & usage dans la vie quotidienne</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:75%;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/perplexity/perplexity_8.png" style="width:100%;border-radius:12px;" alt="Capture Perplexity 7" />
+            </div>
+          </div>
+        </section>
+        <!-- 13l : Bonnes pratiques Perplexity -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Perplexity</div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;max-width:780px;">
+            <div class="feature-icon" style="width:56px;height:56px;margin-bottom:0;flex-shrink:0;color:#60a5fa;">
+              <svg viewBox="0 0 24 24" style="width:36px;height:36px;">
+                <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
+                         M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
+                      fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h2 style="margin:0;">Quelques conseils</h2>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0;max-width:720px;">
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">💡 Poser une question <strong style="color:#fff;">précise</strong> avec le contexte utile (stack, contraintes).</li>
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">💡 S’appuyer sur les <strong style="color:#fff;">sources</strong> pour vérifier, pas seulement sur la synthèse.</li>
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">💡 Quand c’est critique : <strong style="color:#fff;">croiser</strong> et <strong style="color:#fff;">tester</strong> avant de valider.</li>
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">💡 <strong style="color:#fff;">Aucune donnée sensible</strong> dans le prompt (secrets, clients, prod).</li>
+            <li class="fragment fade-left" style="padding:11px 0;font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">💡 <strong style="color:#fff;">Itérer</strong> : une relance ciblée vaut mieux qu’un gros pavé initial.</li>
+          </ul>
+        </section>
+
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 14 · CURSOR DEMO (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <!-- 14a : Image d'ensemble Cursor (comme Perplexity 13a) -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <h2 style="margin-bottom:20px;">Second outil : Cursor</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/cursor/0_preview.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Cursor" />
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <h2 style="margin-bottom:20px;">Un tas de modèles disponibles</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/cursor/2_models.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Cursor" />
+            </div>
+          </div>
+        </section>
+        <!-- 14ab : Comparaison modèles -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <h2 style="margin-bottom:24px;">Les 3 modèles que j'utilise</h2>
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>Modèle</th>
+                <th>Profil</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fragment fade-left">
+                <td><strong style="color:#fff;">Claude Opus 4.6</strong></td>
+                <td><span class="badge-model-expert">Expert</span></td>
+                <td>Pour les grosses tâches, choix architecturaux ou bugs chiants</td>
+              </tr>
+              <tr class="fragment fade-left">
+                <td><strong style="color:#fff;">Claude Sonnet 4.6</strong></td>
+                <td><span class="badge-model-polyvalent">Polyvalent</span></td>
+                <td>Usage par défaut</td>
+              </tr>
+              <tr class="fragment fade-left">
+                <td><strong style="color:#fff;">Composer 2</strong></td>
+                <td><span class="badge-model-rapide">Rapide</span></td>
+                <td>Pour les petites tâches, actions rapides</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <!-- 14b : Démo — pas de benchmark, app initiale + prompt -->
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:18px;font-size:1.35em;line-height:1.35;max-width:720px;">Un benchmark chiffré pour comparer ? Non, c'est chiant</h2>
+          <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:center;max-width:920px;margin:0 auto;">
+            <div class="fragment fade-left" style="flex:1;min-width:260px;max-width:440px;">
+              <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.45);margin-bottom:10px;">Application initiale</div>
+              <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:100%;">
+                <div style="cursor:zoom-in;">
+                  <img src="assets/todo_app/0.png" alt="Application initiale" style="max-height:22vh;width:100%;object-fit:contain;border-radius:12px;display:block;">
+                </div>
+                <div style="margin-top:8px;text-align:center;">
+                  <div style="font-size:.62em;font-weight:700;color:#fff;">Sans design</div>
+                </div>
+              </div>
+            </div>
+            <div class="fragment fade-left" style="flex:1;min-width:260px;max-width:440px;">
+              <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.45);margin-bottom:10px;">Instructions</div>
+              <div class="prompt-demo-pre" tabindex="0" role="region" aria-label="Exemple de prompt avec coloration des variables CSS et pastilles de couleurs"><div class="prompt-demo-code"><span class="prompt-lead">Je veux que tu améliores drastiquement le design de cette application.
+Tu es libre d'en faire ce que tu veux, tu as juste 3 couleurs à respecter dans la charte graphique :
+</span><span class="prompt-css-line"><span class="prompt-css-var">--color-navy</span><span class="prompt-css-punct">:</span>  <span class="prompt-hex-wrap"><span class="prompt-swatch" style="background-color:#0B1426" title="#0B1426"></span><span class="prompt-hex-val">#0B1426</span></span>;</span><span class="prompt-css-line"><span class="prompt-css-var">--color-blue</span><span class="prompt-css-punct">:</span>  <span class="prompt-hex-wrap"><span class="prompt-swatch" style="background-color:#003DB5" title="#003DB5"></span><span class="prompt-hex-val">#003DB5</span></span>;</span><span class="prompt-css-line"><span class="prompt-css-var">--color-accent</span><span class="prompt-css-punct">:</span>  <span class="prompt-hex-wrap"><span class="prompt-swatch" style="background-color:#0055FF" title="#0055FF"></span><span class="prompt-hex-val">#0055FF</span></span>;</span>
+<span class="prompt-em">Attention</span><span class="prompt-lead"> : tu ne dois surtout pas modifier les features de l'application, je veux garder :
+</span><div class="prompt-list" role="list">
+<span role="listitem"><span class="prompt-dash">-</span>Titre de l'application</span>
+<span role="listitem"><span class="prompt-dash">-</span>Affichage, création, mise à jour, suppression de ToDo</span>
+<span role="listitem"><span class="prompt-dash">-</span>Filtre par statut du ToDo</span>
+<span role="listitem"><span class="prompt-dash">-</span>Stockage LocalStorage</span>
+</div><span class="prompt-lead prompt-lead--tight">Tu es libre d'ajouter d'autres couleurs si tu le souhaites.
+Tu es aussi libre d'adapter le template HTML et le code JS si nécessaire.
+Tu es libre d'ajuster la disposition, la taille ou le comportement des éléments, tant que c'est en accord avec les features que je souhaite.</span></div></div>
+            </div>
+          </div>
+        </section>
+        <!-- 14bb : Comparaison visuelle des modèles -->
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:14px;font-size:1.25em;">Visualiser les capacités des différents modèles</h2>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:92%;margin:0 auto;" class="capture-grid">
+            <div class="capture-cell fragment fade-left" onclick="openLightbox(this.querySelector('img'))">
+              <div style="cursor:zoom-in;">
+                <img src="assets/todo_app/1.png" alt="Capture Composer 2">
+              </div>
+              <div style="margin-top:4px;text-align:center;">
+                <div style="font-size:.58em;font-weight:700;color:#fff;"><strong>Composer 2</strong></div>
+                <div style="font-size:.48em;color:rgba(255,255,255,.4);margin-top:1px;">~1 minute de temps de réponse</div>
+              </div>
+            </div>
+            <div class="capture-cell fragment fade-left" onclick="openLightbox(this.querySelector('img'))">
+              <div style="cursor:zoom-in;">
+                <img src="assets/todo_app/2.png" alt="Capture Claude Sonnet 4.6">
+              </div>
+              <div style="margin-top:4px;text-align:center;">
+                <div style="font-size:.58em;font-weight:700;color:#fff;"><strong>Claude Sonnet 4.6</strong></div>
+                <div style="font-size:.48em;color:rgba(255,255,255,.4);margin-top:1px;">~3 minute de temps de réponse</div>
+              </div>
+            </div>
+            <div class="capture-cell fragment fade-left" onclick="openLightbox(this.querySelector('img'))">
+              <div style="cursor:zoom-in;">
+                <img src="assets/todo_app/3.png" alt="Capture Claude Opus 4.6">
+              </div>
+              <div style="margin-top:4px;text-align:center;">
+                <div style="font-size:.58em;font-weight:700;color:#fff;"><strong>Claude Opus 4.6</strong></div>
+                <div style="font-size:.48em;color:rgba(255,255,255,.4);margin-top:1px;">~7 minute de temps de réponse</div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <h2 style="margin-bottom:20px;">Exemple d'utilisation</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/cursor/1_preview.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Cursor" />
+            </div>
+          </div>
+        </section>
+        <!-- 14c-bis : Fonctionnement de base (checklist) -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;max-width:780px;">
+            <div class="feature-icon" style="width:56px;height:56px;margin-bottom:0;flex-shrink:0;color:#60a5fa;">
+              <svg viewBox="0 0 24 24" style="width:36px;height:36px;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <h2 style="margin:0;">Récap' des fonctionnalités de base</h2>
+          </div>
+          <ul style="list-style:none;padding:0;margin:8px 0 0;max-width:720px;">
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">
+              👉 <strong style="color:#fff;">On prompte, ça code</strong> <span style="font-size:.82em;font-weight:400;color:rgba(255,255,255,.38);">— Que ce soit un prompt général abstrait ou très précis</span></li>
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">
+              👉 <strong style="color:#fff;">On peut voir les changements en live</strong> <span style="font-size:.82em;font-weight:400;color:rgba(255,255,255,.38);">— Différentiel comme GIT</span></li>
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">
+              👉 <strong style="color:#fff;">L’agent reconnaît le contexte</strong> <span style="font-size:.82em;font-weight:400;color:rgba(255,255,255,.38);">— Il explore, interprète, comprend</span></li>
+            <li class="fragment fade-left" style="padding:11px 0;font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">
+              👉 <strong style="color:#fff;">L’agent explique ce qu’il a fait</strong> <span style="font-size:.82em;font-weight:400;color:rgba(255,255,255,.38);">— Résumé pour suivre sans tout relire</span></li>
+          </ul>
+          <p class="fragment fade-left" style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.45;max-width:720px;margin:16px 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);font-style:italic;">
+            C’est le minimum de ce qu’on peut attendre en 2026 quand on développe en mode «&nbsp;agentique&nbsp;»
+          </p>
+        </section>
+        <!-- 14d–14m : placeholders -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <h2 style="margin-bottom:20px;">MCP : Supabase</h2>
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:22px 28px;width:100%;max-width:1000px;margin:0 auto;">
+            <div style="flex:1 1 280px;max-width:520px;display:flex;flex-direction:column;gap:10px;">
+              <div class="callout callout--info fragment fade-left" style="margin:0;">
+                <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <div class="callout__text">
+                  <strong style="color:#60A5FA;">Model Context Protocol :</strong> un standard pour <strong style="color:#fff;">brancher des outils</strong> sur l’assistant. L’IDE peut ainsi parler à des services <em>en dehors</em> du simple chat.
+                </div>
+              </div>
+              <div class="capture-cell fragment fade-left" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in;align-self:flex-start;">
+                <img src="assets/cursor/MCP_0.png" alt="Illustration ou logo lié au MCP / Supabase" style="display:block;max-width:min(400px,100%);max-height:24vh;width:auto;height:auto;object-fit:contain;border-radius:10px;">
+              </div>
+              <div class="callout callout--success fragment fade-left" style="margin:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.58 4 8 4s8-1.79 8-4M4 7c0-2.21 3.58-4 8-4s8 1.79 8 4"/></svg>
+                <div class="callout__text">
+                  <strong style="color:#34D399;">Supabase</strong> : notre <strong style="color:#fff;">base de données</strong> (PostgreSQL), <strong style="color:#fff;">exposée en API REST</strong> par la plateforme.
+                </div>
+              </div>
+            </div>
+            <div style="flex:0 1 300px;width:min(36vw,300px);max-width:300px;display:flex;flex-direction:column;gap:10px;border-left:1px solid rgba(255,255,255,.1);padding-left:22px;margin-left:6px;box-sizing:border-box;">
+              <div class="capture-cell fragment fade-left" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in;">
+                <img src="assets/cursor/MCP_1.png" style="width:100%;height:auto;border-radius:12px;display:block;" alt="Capture MCP Supabase dans Cursor" />
+              </div>
+              <div class="capture-cell fragment fade-left" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in;">
+                <img src="assets/cursor/MCP_2.png" style="width:100%;height:auto;border-radius:12px;display:block;" alt="Capture MCP Supabase dans Cursor — 2" />
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <h2 style="margin-bottom:20px;">Pas de magie, juste des règles</h2>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;max-width:900px;margin:0 auto;" onclick="openLightbox(this.querySelector('img'))">
+            <div style="cursor:zoom-in;width:100%;">
+              <img src="assets/cursor/Rule_1.png" style="width:100%;border-radius:12px;" alt="Capture d'écran Cursor" />
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:8px;font-size:1.2em;">Mode Plan : Se rendre compte du chantier à réaliser</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Plan_1.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:16px;font-size:1.2em;">Mode Plan : Répondre à des questions</h2>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:920px;margin:0 auto;width:100%;align-items:start;">
+            <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in;min-width:0;">
+              <img src="assets/cursor/Plan_2.png" alt="Mode Plan — capture 1" style="width:100%;max-height:50vh;object-fit:contain;border-radius:14px;display:block;">
+            </div>
+            <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="cursor:zoom-in;min-width:0;">
+              <img src="assets/cursor/Plan_3.png" alt="Mode Plan — capture 2" style="width:100%;max-height:50vh;object-fit:contain;border-radius:14px;display:block;">
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:8px;font-size:1.2em;">Mode Plan : On rédige le plan</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Plan_4.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:8px;font-size:1.2em;">Mode Plan : On découpe en tâches</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Plan_5.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:8px;font-size:1.2em;">Mode Plan : On exécute</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Plan_6.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:8px;font-size:1.2em;">Mode Plan : On construit dans les nuages ??</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Cloud_1.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:16px;font-size:1.2em;">Agent web : formuler une demande</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Cloud_2.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:16px;font-size:1.2em;">Agent web : Pull request</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Cloud_3.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:16px;font-size:1.2em;">Agent web : Mais qui fait la revue de code ?</h2>
+          <div class="capture-cell fragment fade-left" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Cloud_4.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:8px;">Cursor</div>
+          <h2 style="margin-bottom:16px;font-size:1.2em;">Agent web : Quand l'IA contrôle l'IA</h2>
+          <div class="capture-cell" onclick="openLightbox(this.querySelector('img'))" style="max-width:70%;margin:0 auto;cursor:zoom-in;">
+            <img src="assets/cursor/Cloud_5.png" alt="TITRE" style="width:100%;max-height:55vh;object-fit:contain;border-radius:14px;display:block;">
+          </div>
+        </section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Cursor</div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;max-width:780px;">
+            <div class="feature-icon" style="width:56px;height:56px;margin-bottom:0;flex-shrink:0;color:#60a5fa;">
+              <svg viewBox="0 0 24 24" style="width:36px;height:36px;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <h2 style="margin:0;">Récap' des fonctionnalités avancées</h2>
+          </div>
+          <ul style="list-style:none;padding:0;margin:8px 0 0;max-width:720px;">
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">
+              👉 <strong style="color:#fff;">MCP &amp; outils branchés</strong> <span style="font-size:.82em;font-weight:400;color:rgba(255,255,255,.38);">— Bases, APIs, services externes utilisables comme des « outils »</span></li>
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">
+              👉 <strong style="color:#fff;">Règles &amp; contexte projet</strong> <span style="font-size:.82em;font-weight:400;color:rgba(255,255,255,.38);">— Consignes persistantes, conventions, personnalité</span></li>
+            <li class="fragment fade-left" style="padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">
+              👉 <strong style="color:#fff;">Mode Plan</strong> <span style="font-size:.82em;font-weight:400;color:rgba(255,255,255,.38);">— Cartographier le chantier avant d’écrire du code, contrôler l'implémentation</span></li>
+            <li class="fragment fade-left" style="padding:11px 0;font-size:.88em;color:rgba(255,255,255,.82);line-height:1.5;">
+              👉 <strong style="color:#fff;">Agent long &amp; arrière-plan</strong> <span style="font-size:.82em;font-weight:400;color:rgba(255,255,255,.38);">— Tâches qui dépassent l’onglet : PR, cloud, exécution étalée.</span></li>
+          </ul>
+          <p class="fragment fade-left" style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.45;max-width:720px;margin:16px 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);font-style:italic;">
+            Un ensemble de fonctionnalités qui permettent un tas de possibilités
+          </p>
+        </section>
+
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 15 · AUTRES EXEMPLES (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Bonus</div>
+          <h2 style="margin-bottom:14px;">D'autres exemples d'utilisation</h2>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+            <div class="feature-card fragment fade-left">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><rect x="9" y="17" width="6" height="1.5" rx="0.75"/><rect x="11" y="18.5" width="2" height="2.5" rx="1"/></svg>
+              </div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Cette présentation</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Reveal.js, Cursor, et un peu de HTML/CSS.</div>
+            </div>
+            <div class="feature-card fragment fade-left">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+              </div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Agents Dinootoo</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Assistants en mission chez Orange.</div>
+            </div>
+            <div class="feature-card fragment fade-left" style="border:2px dashed rgba(255,255,255,.1);background:transparent;">
+              <div class="feature-icon" style="background:rgba(255,255,255,.03);">
+                <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              </div>
+              <div style="font-size:.86em;font-weight:700;color:rgba(255,255,255,.3);margin-bottom:6px;">Et bien d'autres…</div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 18 · DIVIDER — Conclusion
+      ══════════════════════════════════════════ -->
+      <section class="section-divider">
+        <div class="section-num">06</div>
+        <div class="section-title"><br>Conclusion</div>
+        <div class="section-desc">Mon avis, les perspectives et évolution du rôle de développeur 💻</div>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 19 · AVENIR ET CONCLUSION (vertical)
+      ══════════════════════════════════════════ -->
+      <section>
+        <!-- Checkup : auto-évaluation 0–10 (2 slides · 3 barres / slide) -->
+        <section class="slide-self-checkup">
+          <div class="tag" style="margin-bottom:10px;">Ressenti</div>
+          <h2 style="margin-bottom:8px;">État des lieux personnel</h2>
+          <div class="self-checkup-pager">1 / 2</div>
+          <div class="self-checkup-theme">📌 Productivité &amp; qualité</div>
+          <div class="self-checkup">
+            <div class="grade-row fragment fade-left" style="--score: 10;">
+              <div class="grade-q">Gain de temps sur le développement au quotidien ?</div>
+              <div class="grade-caps"><span>0 — Aucun gain</span><span>10 — Très fort</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+            <div class="grade-row grade-row--invert fragment fade-left" style="--score: 4;">
+              <div class="grade-q">Fréquence des hallucinations d'IA ou erreurs ?</div>
+              <div class="grade-caps"><span>0 — Rare / quasi absentes</span><span>10 — Très fréquentes</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+            <div class="grade-row fragment fade-left" style="--score: 8;">
+              <div class="grade-q">Confiance dans un livrable sans relecture exhaustive / tests ?</div>
+              <div class="grade-caps"><span>0 — Faible, tout relire / tout tester</span><span>10 — Très confiant</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+          </div>
+        </section>
+        <section class="slide-self-checkup">
+          <div class="tag" style="margin-bottom:10px;">Ressenti</div>
+          <h2 style="margin-bottom:8px;">État des lieux personnel</h2>
+          <div class="self-checkup-pager">2 / 2</div>
+          <div class="self-checkup-theme">🧠 Ressenti pur</div>
+          <div class="self-checkup">
+            <div class="grade-row fragment fade-left" style="--score: 9;">
+              <div class="grade-q">Plaisir à développer et créer ?</div>
+              <div class="grade-caps"><span>0 — Aucun</span><span>10 — Beaucoup</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+            <div class="grade-row grade-row--invert fragment fade-left" style="--score: 5;">
+              <div class="grade-q">Sentiment de perte de capacité / de régression individuelle ?</div>
+              <div class="grade-caps"><span>0 — Aucune, compétences OK</span><span>10 — Forte perte ressentie</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+            <div class="grade-row fragment fade-left" style="--score: 6;">
+              <div class="grade-q">Mon jugement reste indispensable ?</div>
+              <div class="grade-caps"><span>0 — Pas indispensable</span><span>10 — Indispensable</span></div>
+              <div class="grade-rail-wrap" aria-hidden="true">
+                <div class="grade-marker"></div>
+                <div class="grade-rail"></div>
+              </div>
+              <div class="grade-nums"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+            </div>
+          </div>
+        </section>
+        <!-- 17a : Les questionnements -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Ressenti</div>
+          <h2 style="margin-bottom:22px;">Les questions légitimes et le doute</h2>
+          <div style="display:flex;flex-direction:column;gap:9px;max-width:740px;">
+            <div class="callout callout--error fragment fade-left">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1.5 1-1.5 1.7V14"/><circle cx="12" cy="17" r="0.5"/></svg>
+              <div class="callout__text">L'impression <strong style="color:#fca5a5;">d'être remplaçable</strong> et le sentiment qu'il va falloir s'adapter à ces outils ?</div>
+            </div>
+            <div class="callout callout--error fragment fade-left" style="margin-bottom:18px;">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1.5 1-1.5 1.7V14"/><circle cx="12" cy="17" r="0.5"/></svg>
+              <div class="callout__text">Au vu de la puissance de ces outils, si l'IA peut faire mieux et plus vite ; <strong style="color:#fca5a5;">Quel est le sens de mon travail</strong> de développeur ?</div>
+            </div>
+            <div class="callout callout--error fragment fade-left">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1.5 1-1.5 1.7V14"/><circle cx="12" cy="17" r="0.5"/></svg>
+              <div class="callout__text">L'impression que <strong style="color:#fca5a5;">tout évolue très vite</strong> : difficile de suivre sans courir après chaque nouveauté ?</div>
+            </div>
+          </div>
+          <p class="hint-v">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Quelques éléments de réponse
+          </p>
+        </section>
+        <!-- 17b : Perte de sens -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Ressenti</div>
+          <h2 style="margin-bottom:22px;">Quelques éléments de réponse</h2>
+          <div>
+              <div class="callout callout--info fragment fade-left">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
+                  <div class="callout__text">
+                    <strong style="color:#60A5FA;">Pas besoin d'avoir le dernier truc tech qui brille et qui fait du bruit</strong>
+                    <br><strong>➔ L’objectif n’est pas d’être en avance ou précurseur, mais d’adopter au bon moment</strong>
+                    <br/><span style="display:inline-block;margin-top:4px;font-size:.78em;color:rgba(255,255,255,.48);">On ne peut pas manquer un train qui n’est pas encore entré en gare 🚆</span>
+                  </div>
+              </div>
+          </div>
+          <div class="callout callout--info fragment fade-left" style="margin-top:14px;">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
+            <div class="callout__text">
+              <strong style="color:#60A5FA;">Le métier évolue, il ne disparaît pas</strong><br>
+              Les outils et l'exécution changent, mais les besoins restent.
+              <div class="fragment fade-left" style="margin-top:12px;">
+                <strong>➔ L'IA fait évoluer comment on travaille, pas pourquoi on travaille</strong>
+              </div>
+              <div class="fragment fade-left" style="margin-top:12px;">
+                <strong>➔ Ne pas s’attacher à son code, ce n'est ni une fin, ni une signature</strong>
+              </div>
+              <div class="fragment fade-left" style="margin-top:12px;">
+                <strong>➔ Le plaisir ne doit pas disparaître, il doit juste se déplacer vers d’autres aspects du métier</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 19b : Perspectives -->
+        <section>
+          <div class="tag" style="margin-bottom:16px;">Avenir</div>
+          <h2 style="margin-bottom:22px;">Ce qui comptera vraiment à l'avenir</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:800px;">
+            <div class="feature-card fragment fade-left">
+              <div class="feature-icon" style="font-size:1.25em;line-height:1;">🎯</div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Vision &amp; sens</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Comprendre le problème, les utilisateurs, et pourquoi on construit</div>
+            </div>
+            <div class="feature-card fragment fade-left">
+              <div class="feature-icon" style="font-size:1.25em;line-height:1;">🧠</div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Conception &amp; créativité</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Imaginer des solutions, explorer, designer des approches</div>
+            </div>
+            <div class="feature-card fragment fade-left">
+              <div class="feature-icon" style="font-size:1.25em;line-height:1;">⚙️</div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Décisions techniques</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Choisir les outils, architectures, compromis</div>
+            </div>
+            <div class="feature-card fragment fade-left">
+              <div class="feature-icon" style="font-size:1.25em;line-height:1;">🛡️</div>
+              <div style="font-size:.86em;font-weight:700;color:#fff;margin-bottom:6px;">Esprit critique &amp; supervision</div>
+              <div style="font-size:.72em;color:rgba(255,255,255,.45);line-height:1.5;">Vérifier, challenger, garantir la qualité et la sécurité</div>
+            </div>
+          </div>
+        </section>
+        <!-- 19a : Citation -->
+        <section style="display:flex;flex-direction:column;justify-content:center;padding-left:80px;padding-right:80px;">
+          <div style="max-width:680px;">
+            <div style="font-size:5em;line-height:.75;color:#0055FF;font-weight:900;margin-bottom:14px;user-select:none;">"</div>
+            <div style="font-size:1.3em;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:1.3;margin-bottom:24px;">
+              AI will not replace you, but someone using AI will.
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:32px;height:2px;background:#0055FF;border-radius:1px;flex-shrink:0;"></div>
+              <span style="font-size:.76em;font-weight:500;color:rgba(255,255,255,.42);">Jensen Huang, Nvidia CEO</span>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ══════════════════════════════════════════
+           RETEX IA · 20 · Q&A FINAL — Merci, échanges, ressources, QR
+      ══════════════════════════════════════════ -->
+      <section style="display:flex;flex-direction:column;justify-content:center;padding-left:52px;padding-right:52px;">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;">
+          <div>
+            <h1 style="margin:0 0 18px;font-size:2.25em;line-height:1.1;font-weight:800;letter-spacing:-.035em;">
+              <span style="color:#fff;">À vos</span><br>
+              <span style="color:#0055FF;">questions</span>
+            </h1>
+            <div style="font-size:.78em;color:rgba(255,255,255,.48);letter-spacing:.01em;margin-bottom:10px;">Merci pour votre attention 🙂</div>
+            <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:20px;">
+              <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:12px;">Ressources utiles</div>
+              <ul style="list-style:none;padding:0;margin:0;">
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[1]</span>
+                  <span>Perplexity : <a href="https://www.perplexity.ai" target="_blank" style="color:#60a5fa;text-decoration:none;">perplexity.ai</a></span>
+                </li>
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[2]</span>
+                  <span>Cursor : <a href="https://www.cursor.com" target="_blank" style="color:#60a5fa;text-decoration:none;">cursor.com</a></span>
+                </li>
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[3]</span>
+                  <span>Étude : <a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" style="color:#60a5fa;text-decoration:none;">Labor market impacts of AI</a> - Anthropic, mars 2026</span>
+                </li>
+                <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;display:flex;align-items:baseline;gap:8px;">
+                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[4]</span>
+                  <span>Article : Frederic Bouchery — <a href="https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:none;">Depuis quand avez-vous honte de votre code ?</a></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- QR : modifier l'URL dans le paramètre data= de l'API si besoin -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0;">
+            <div style="width:244px;height:244px;box-sizing:border-box;padding:14px;background:#fff;border-radius:16px;box-shadow:0 0 48px rgba(0,85,255,.18);display:flex;align-items:center;justify-content:center;">
+              <img
+                src="assets/qr.svg"
+                width="216" height="216"
+                alt="QR code"
+                style="display:block;"
+              >
+            </div>
+            <div style="margin-top:14px;text-align:center;max-width:220px;">
+              <div style="font-size:.72em;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:-.01em;">RetEx Outils IA</div>
+              <div style="font-size:.62em;color:rgba(255,255,255,.34);margin-top:4px;line-height:1.4;">Scannez pour retrouver les liens et ressources utiles</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      transition: 'slide',
+      transitionSpeed: 'fast',
+      backgroundTransition: 'none',
+      plugins: [ RevealHighlight, RevealNotes ]
+    });
+
+    /* Barre : largeur % au lieu de scaleX (Reveal) — rendu net à tout p. */
+    (function() {
+      function syncProgressBarWidth() {
+        if (!window.Reveal || !Reveal.getConfig().progress) return;
+        var bar = document.querySelector('.reveal .progress span');
+        if (!bar) return;
+        var p = Reveal.getProgress();
+        if (Reveal.getTotalSlides() < 2) p = 0;
+        bar.style.setProperty('width', (Math.max(0, Math.min(1, p)) * 100) + '%', 'important');
+      }
+      Reveal.on('ready', syncProgressBarWidth);
+      Reveal.on('slidechanged', syncProgressBarWidth);
+      Reveal.on('fragmentshown', syncProgressBarWidth);
+      Reveal.on('fragmenthidden', syncProgressBarWidth);
+      Reveal.on('resize', syncProgressBarWidth);
+    })();
+
+    (function() {
+      var counterEl = document.getElementById('slideCounter');
+      function updateSlideCounter() {
+        if (!counterEl || !window.Reveal) return;
+        var currentSlide = Reveal.getCurrentSlide();
+        if (!currentSlide) return;
+        counterEl.textContent = Reveal.getSlidePastCount(currentSlide) + 1;
+      }
+      Reveal.on('ready', updateSlideCounter);
+      Reveal.on('slidechanged', updateSlideCounter);
+    })();
+  </script>
+
+  <!-- Curseur personnalisé -->
+  <div id="custom-cursor"></div>
+  <div id="custom-cursor-ring"></div>
+  <script>
+    (function() {
+      const dot  = document.getElementById('custom-cursor');
+      const ring = document.getElementById('custom-cursor-ring');
+      let mouseX = -100, mouseY = -100;
+      let ringX  = -100, ringY  = -100;
+
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = mouseX + 'px';
+        dot.style.top  = mouseY + 'px';
+      });
+
+      function animateRing() {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        ring.style.left = ringX + 'px';
+        ring.style.top  = ringY + 'px';
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+
+      document.addEventListener('mousedown', function() {
+        dot.style.width  = '20px';
+        dot.style.height = '20px';
+        ring.style.width  = '48px';
+        ring.style.height = '48px';
+        ring.style.opacity = '0.3';
+      });
+      document.addEventListener('mouseup', function() {
+        dot.style.width  = '14px';
+        dot.style.height = '14px';
+        ring.style.width  = '36px';
+        ring.style.height = '36px';
+        ring.style.opacity = '1';
+      });
+    })();
+
+    /* ── Lightbox pour captures ─── */
+    function openLightbox(imgEl) {
+      var lb = document.getElementById('img-lightbox');
+      document.getElementById('lightbox-img').src = imgEl.src;
+      lb.style.display = 'flex';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() { lb.classList.add('lb-visible'); });
+      });
+    }
+    function closeLightbox() {
+      var lb = document.getElementById('img-lightbox');
+      lb.classList.remove('lb-visible');
+      setTimeout(function() { lb.style.display = 'none'; }, 250);
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+  <!-- Lightbox — hors des sections reveal.js pour éviter les conflits de transform -->
+  <div id="img-lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+</body>
+</html>
