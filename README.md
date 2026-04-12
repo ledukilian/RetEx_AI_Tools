@@ -11,7 +11,7 @@
 
 ```
 RetEx_AI_Tools/
-├── presentation_retex_ai.html      # 📌 Présentation principale (slides)
+├── index.html                      # 📌 Présentation principale (slides)
 ├── README.md
 ├── assets/                         # 🖼️ Médias utilisés dans la présentation
 └── demo_app/
