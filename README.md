@@ -5,7 +5,7 @@
 - [Perplexity](https://www.perplexity.ai) — perplexity.ai  
 - [Cursor](https://www.cursor.com) — cursor.com  
 - [Recherche "Labor market impacts of AI"](https://www.anthropic.com/research/labor-market-impacts) — Anthropic, mars 2026  
-- [Depuis quand avez-vous honte de votre code ? — Frederic Bouchery](https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/)
+- [Depuis quand avez-vous honte de votre code ?](https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/) — Frederic Bouchery
 
 ### 📌 Applications ToDo
 
