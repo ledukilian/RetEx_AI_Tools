@@ -7,16 +7,16 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/nord.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/agate.min.css">
   <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/highlight.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="icon" type="image/png" href="https://www.neosoft.fr/wp-content/themes/neosoft/favicons/favicon-32x32.png">
 
   <style type="text/tailwindcss">
     @theme {
-      --color-navy:  #0B1426;
-      --color-blue:  #003DB5;
-      --color-accent: #0055FF;
+      --color-navy:  #1A0A02;
+      --color-blue:  #B84A00;
+      --color-accent: #FF7000;
       --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
   </style>
@@ -115,20 +115,20 @@
     }
     :root {
       --header-height: 72px;
-      --navy:   #0B1426;
-      --blue:   #003DB5;
-      --accent: #0055FF;
-      --r-background-color: #0B1426;
+      --navy:   #1A0A02;
+      --blue:   #B84A00;
+      --accent: #FF7000;
+      --r-background-color: #1A0A02;
       --r-main-color:    #FFFFFF;
       --r-heading-color: #FFFFFF;
-      --r-link-color:    #0055FF;
-      --r-selection-background-color: #0055FF;
+      --r-link-color:    #FF7000;
+      --r-selection-background-color: #FF7000;
       --r-selection-color: #fff;
     }
 
     /* ── FOND ─────────────────────────────────────── */
     .reveal {
-      background: #0B1426;
+      background: #1A0A02;
       color: #fff;
       font-size: 28px;
       font-family: "Inter", sans-serif;
@@ -139,8 +139,8 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 55% 45% at 8% 15%,  rgba(0,85,255,.13) 0%, transparent 70%),
-        radial-gradient(ellipse 45% 55% at 92% 85%, rgba(0,61,181,.1)  0%, transparent 70%);
+        radial-gradient(ellipse 55% 45% at 8% 15%,  rgba(255,112,0,.13) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 55% at 92% 85%, rgba(180,74,0,.12)  0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -200,7 +200,7 @@
     }
     .reveal .progress span {
       background: var(--accent);
-      box-shadow: 0 0 14px rgba(0,85,255,.8);
+      box-shadow: 0 0 14px rgba(255,112,0,.8);
     }
 
     /* ── FLÈCHES REVEAL.JS (conservées) ──────────── */
@@ -225,7 +225,7 @@
       display: inline-block;
       font-size: .62em; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
       padding: 4px 10px; border-radius: 100px;
-      background: rgba(0,85,255,.12); border: 1px solid rgba(0,85,255,.3); color: #60a5fa;
+      background: rgba(255,112,0,.12); border: 1px solid rgba(255,112,0,.3); color: #ffb366;
     }
 
     /* Card générique */
@@ -234,7 +234,7 @@
       background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
       transition: background .2s, border-color .2s;
     }
-    .card:hover { background: rgba(0,85,255,.06); border-color: rgba(0,85,255,.2); }
+    .card:hover { background: rgba(255,112,0,.06); border-color: rgba(255,112,0,.2); }
 
     /* Capture grid cells */
     .capture-grid img { max-height: 18vh; width: 100%; object-fit: contain; border-radius: 12px; display: block; }
@@ -281,7 +281,7 @@
     }
     .callout svg { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; stroke: currentColor; }
     .callout__text { color: rgba(255,255,255,.9); line-height: 1.55; }
-    .callout--info    { background: rgba(0,85,255,.08);   border-color: #0055FF; color: #93c5fd; }
+    .callout--info    { background: rgba(255,112,0,.08);   border-color: #FF7000; color: #ffd4a8; }
     .callout--warning { background: rgba(245,158,11,.08); border-color: #F59E0B; color: #fcd34d; }
     .callout--error   { background: rgba(239,68,68,.08);  border-color: #EF4444; color: #fca5a5; }
     .callout--success { background: rgba(16,185,129,.08); border-color: #10B981; color: #6ee7b7; }
@@ -300,7 +300,7 @@
     .steps-list li::before {
       content: counter(step, decimal-leading-zero);
       flex-shrink: 0; font-size: .72em; font-weight: 800; color: var(--accent);
-      background: rgba(0,85,255,.1); border: 1px solid rgba(0,85,255,.28);
+      background: rgba(255,112,0,.1); border: 1px solid rgba(255,112,0,.28);
       border-radius: 7px; padding: 3px 8px; letter-spacing: .02em;
     }
 
@@ -341,10 +341,10 @@
     .badge-good { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(16,185,129,.12); color: #34d399; border: 1px solid rgba(16,185,129,.25); font-size: .83em; font-weight: 600; }
     .badge-bad  { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(239,68,68,.1);  color: #f87171; border: 1px solid rgba(239,68,68,.22);  font-size: .83em; font-weight: 600; }
     .badge-mid  { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(245,158,11,.1); color: #fbbf24; border: 1px solid rgba(245,158,11,.22); font-size: .83em; font-weight: 600; }
-    /* Profils modèles : indigo (expert) → bleu (polyvalent) → cyan (rapide) */
-    .badge-model-expert     { display: inline-block; padding: 2px 10px; border-radius: 100px; background: linear-gradient(145deg, #3730a3 0%, #312e81 100%); color: #e0e7ff; border: 1px solid rgba(129,140,248,.45); box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset; font-size: .83em; font-weight: 600; }
-    .badge-model-polyvalent { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(59,130,246,.14); color: #93c5fd; border: 1px solid rgba(96,165,250,.38); font-size: .83em; font-weight: 600; }
-    .badge-model-rapide     { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(6,182,212,.12); color: #67e8f9; border: 1px solid rgba(34,211,238,.35); font-size: .83em; font-weight: 600; }
+    /* Profils modèles : brun profond (expert) → orange (polyvalent) → ambre (rapide) */
+    .badge-model-expert     { display: inline-block; padding: 2px 10px; border-radius: 100px; background: linear-gradient(145deg, #7c2d12 0%, #431407 100%); color: #ffedd5; border: 1px solid rgba(251,146,60,.45); box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset; font-size: .83em; font-weight: 600; }
+    .badge-model-polyvalent { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(255,112,0,.14); color: #ffd4a8; border: 1px solid rgba(255,179,102,.38); font-size: .83em; font-weight: 600; }
+    .badge-model-rapide     { display: inline-block; padding: 2px 10px; border-radius: 100px; background: rgba(251,191,36,.12); color: #fde68a; border: 1px solid rgba(252,211,77,.35); font-size: .83em; font-weight: 600; }
 
     /* KPI */
     .kpi-value { font-size: 3em; font-weight: 900; letter-spacing: -.04em; line-height: 1; }
@@ -354,23 +354,23 @@
 
     /* Feature cards */
     .feature-card { padding: 18px; border-radius: 12px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); transition: background .2s, border-color .2s; }
-    .feature-card:hover { background: rgba(0,85,255,.06); border-color: rgba(0,85,255,.22); }
-    .feature-icon { width: 38px; height: 38px; border-radius: 9px; background: rgba(0,85,255,.1); border: 1px solid rgba(0,85,255,.22); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
-    .feature-icon svg { width: 18px; height: 18px; stroke: #60a5fa; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-card:hover { background: rgba(255,112,0,.06); border-color: rgba(255,112,0,.22); }
+    .feature-icon { width: 38px; height: 38px; border-radius: 9px; background: rgba(255,112,0,.1); border: 1px solid rgba(255,112,0,.22); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .feature-icon svg { width: 18px; height: 18px; stroke: #ffb366; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* Timeline */
     .timeline { position: relative; padding-left: 26px; }
-    .timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--accent), rgba(0,85,255,.08)); border-radius: 2px; }
+    .timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--accent), rgba(255,112,0,.08)); border-radius: 2px; }
     .timeline-item { position: relative; padding-bottom: 22px; }
     .timeline-item:last-child { padding-bottom: 0; }
-    .timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(0,85,255,.18); }
+    .timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(255,112,0,.18); }
     .timeline-date  { font-size: .68em; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 3px; }
     .timeline-title { font-size: .92em; font-weight: 700; color: #fff; margin-bottom: 3px; }
     .timeline-desc  { font-size: .8em; color: rgba(255,255,255,.48); line-height: 1.5; }
 
     /* Section divider */
     .section-divider { display: flex !important; flex-direction: column; justify-content: center !important; }
-    .section-num   { font-size: 7em; font-weight: 900; line-height: 1; color: rgba(0,85,255,.14); letter-spacing: -.05em; margin-bottom: -.05em; }
+    .section-num   { font-size: 7em; font-weight: 900; line-height: 1; color: rgba(255,112,0,.14); letter-spacing: -.05em; margin-bottom: -.05em; }
     .section-title { font-size: 2.4em; font-weight: 900; color: #fff; letter-spacing: -.03em; line-height: 1.1; }
     .section-desc  { font-size: .88em; color: rgba(255,255,255,.42); margin-top: 14px; max-width: 480px; line-height: 1.65; }
 
@@ -416,11 +416,11 @@
       width: 20px; height: 20px; border-radius: 50%;
       box-sizing: border-box;
       background: #fff;
-      border: 3px solid #0f172a;
+      border: 3px solid #1c1008;
       box-shadow:
         0 0 0 2px rgba(255,255,255,.95),
         0 3px 12px rgba(0,0,0,.55),
-        0 0 24px rgba(0,85,255,.65);
+        0 0 24px rgba(255,112,0,.65);
       transform: translateX(-50%);
       left: calc((var(--score) - 0.5) / 10 * 100%);
       z-index: 2;
@@ -481,7 +481,7 @@
     <!-- ══════════════════════════════════════════════
          HEADER — intouché
     ══════════════════════════════════════════════ -->
-    <div class="deck-header fixed top-0 left-0 right-0 flex items-center justify-between px-8 py-4 h-[72px] box-border bg-[rgba(11,20,38,0.96)] backdrop-blur-xl border-b border-white/[0.07] z-[1000]">
+    <div class="deck-header fixed top-0 left-0 right-0 flex items-center justify-between px-8 py-4 h-[72px] box-border bg-[rgba(26,10,2,0.96)] backdrop-blur-xl border-b border-white/[0.07] z-[1000]">
       <div class="flex items-center gap-4">
         <a href="https://www.neosoft.fr" target="_blank" rel="noopener">
           <img class="h-8 w-auto object-contain" src="https://www.neosoft.fr/wp-content/themes/neosoft/dist/images/logo-neosoft-white.svg" alt="Logo Néosoft">
@@ -503,7 +503,7 @@
         <div class="tag" style="margin-bottom:24px;">2026</div>
         <h1 style="margin-bottom:16px;">
           Retour d'expérience<br>
-          <span style="color:#0055FF;">Outils IA</span>
+          <span style="color:#FF7000;">Outils IA</span>
         </h1>
         <p style="max-width:520px;margin:0 0 32px;font-size:.9em;color:rgba(255,255,255,.45);">
           Un aperçu, pas une vérité 🌞
@@ -518,23 +518,23 @@
         <h2 style="margin-bottom:24px;">Sommaire</h2>
         <div style="display:flex;flex-direction:column;gap:10px;">
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">01</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">01</span>
             <div style="font-weight:700;color:#fff;font-size:.9em;">Cadre, limites & biais</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">02</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">02</span>
             <div style="font-weight:700;color:#fff;font-size:.9em;">Du simple prompt à l’autonomie</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">03</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">03</span>
             <div style="font-weight:700;color:#fff;font-size:.9em;">Mes 2 outils clés</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">04</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">04</span>
             <div style="font-weight:700;color:#fff;font-size:.9em;">Usages concrets</div>
           </div>
           <div class="card fragment fade-up" style="display:flex;align-items:center;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">05</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">05</span>
             <div style="font-weight:700;color:#fff;font-size:.9em;">Conclusion</div>
           </div>
         </div>
@@ -552,12 +552,12 @@
           </div>
           <div>
             <div style="font-size:1.25em;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;">Kilian LE DU</div>
-            <div style="font-size:.82em;color:#60a5fa;font-weight:600;margin-bottom:8px;">Technical Leader · Néosoft</div>
+            <div style="font-size:.82em;color:#ffb366;font-weight:600;margin-bottom:8px;">Technical Leader · Néosoft</div>
             <div style="font-size:.72em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:8px;">En mission chez <span style="color:#f97316;">Orange Business Services</span></div>
             <p style="font-size:.72em;color:#d6d6d6;line-height:1.6;margin:0 0 14px;">Développeur fullstack et utilisateur quotidien d’outils IA, avec une approche pragmatique centrée sur l’impact et les résultats plutôt que la perfection technique.</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.35);color:#f87171;">🅰️ Angular</span>
-              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">🐘 Symfony</span>
+              <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.35);color:#ffb366;">🐘 Symfony</span>
             </div>
           </div>
         </div>
@@ -593,7 +593,7 @@
           </div>
           <!--<div class="callout callout--info fragment fade-up">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
-            <div class="callout__text"><strong style="color:#60A5FA;">Mon positionnement :</strong> Sur le spectre des utilisateurs de l'IA au sens large, je suis plutôt un consommateur régulier et plutôt favorable à l'IA.</div>
+            <div class="callout__text"><strong style="color:#FFB366;">Mon positionnement :</strong> Sur le spectre des utilisateurs de l'IA au sens large, je suis plutôt un consommateur régulier et plutôt favorable à l'IA.</div>
           </div>-->
         </div>
       </section>
@@ -646,7 +646,7 @@
             </p>
             <p class="fragment fade-up" style="font-size:.84em;margin:10px 0 0;line-height:1.65;">
               <strong style="color:#fff;">➔ On peut questionner l'IA sans en faire un méchant</strong> ; elle n'est pas <i>(encore)</i> notre ennemie 🤖
-              <br><span style="font-size:.82em;">🔗 Article de Frederic Bouchery — <a href="https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:none;">Depuis quand avez-vous honte de votre code ?</a></span>
+              <br><span style="font-size:.82em;">🔗 Article de Frederic Bouchery — <a href="https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/" target="_blank" rel="noopener noreferrer" style="color:#ffb366;text-decoration:none;">Depuis quand avez-vous honte de votre code ?</a></span>
             </p>
           </div>
         </div>
@@ -683,36 +683,36 @@
           <h2 style="margin-bottom:20px;">Pyramide des niveaux d'utilisation IA</h2>
           <div style="display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;max-width:840px;margin:0 auto;">
             <!-- Niveau 4 — sommet, plus étroit -->
-            <div class="fragment" data-fragment-index="4" style="width:38%;background:rgba(0,85,255,.22);border:1px solid rgba(0,85,255,.6);border-radius:8px;padding:7px 14px;">
+            <div class="fragment" data-fragment-index="4" style="width:38%;background:rgba(255,112,0,.22);border:1px solid rgba(255,112,0,.6);border-radius:8px;padding:7px 14px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
-                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#fff;background:rgba(0,85,255,.55);border-radius:4px;padding:1px 6px;">4</span>
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#fff;background:rgba(255,112,0,.55);border-radius:4px;padding:1px 6px;">4</span>
                 <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.5);">Automatisation</span>
               </div>
               <div style="font-size:.72em;font-weight:700;color:#fff;margin-bottom:2px;">IA autonome</div>
               <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">Agents IA en arrière-plan, orchestrant plusieurs systèmes en grande/totale autonomie (ex: OpenClaw).</div>
             </div>
             <!-- Niveau 3 -->
-            <div class="fragment" data-fragment-index="3" style="width:53%;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.42);border-radius:8px;padding:7px 16px;">
+            <div class="fragment" data-fragment-index="3" style="width:53%;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.42);border-radius:8px;padding:7px 16px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
-                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#93c5fd;background:rgba(0,85,255,.28);border-radius:4px;padding:1px 6px;">3</span>
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#ffd4a8;background:rgba(255,112,0,.28);border-radius:4px;padding:1px 6px;">3</span>
                 <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.45);">Délégation</span>
               </div>
               <div style="font-size:.72em;font-weight:700;color:#fff;margin-bottom:2px;">IA agent</div>
               <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">L'IA modifie du code et exécute des tâches directement, sous supervision (ex: agit dans l'IDE).</div>
             </div>
             <!-- Niveau 2 -->
-            <div class="fragment" data-fragment-index="2" style="width:68%;background:rgba(0,85,255,.09);border:1px solid rgba(0,85,255,.28);border-radius:8px;padding:7px 18px;">
+            <div class="fragment" data-fragment-index="2" style="width:68%;background:rgba(255,112,0,.09);border:1px solid rgba(255,112,0,.28);border-radius:8px;padding:7px 18px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
-                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#93c5fd;background:rgba(0,85,255,.16);border-radius:4px;padding:1px 6px;">2</span>
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:#ffd4a8;background:rgba(255,112,0,.16);border-radius:4px;padding:1px 6px;">2</span>
                 <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.4);">Collaboration</span>
               </div>
               <div style="font-size:.72em;font-weight:700;color:#fff;margin-bottom:2px;">IA contextualisée</div>
               <div style="font-size:.6em;color:rgba(255,255,255,.55);line-height:1.35;">L'IA connaît le contexte (ex: dans l'IDE, lit le code, a accès à l'historique)</div>
             </div>
             <!-- Niveau 1 -->
-            <div class="fragment" data-fragment-index="1" style="width:82%;background:rgba(0,85,255,.05);border:1px solid rgba(0,85,255,.16);border-radius:8px;padding:7px 20px;">
+            <div class="fragment" data-fragment-index="1" style="width:82%;background:rgba(255,112,0,.05);border:1px solid rgba(255,112,0,.16);border-radius:8px;padding:7px 20px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
-                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:rgba(147,197,253,.7);background:rgba(0,85,255,.1);border-radius:4px;padding:1px 6px;">1</span>
+                <span style="flex-shrink:0;font-size:.55em;font-weight:800;color:rgba(255,212,168,.7);background:rgba(255,112,0,.1);border-radius:4px;padding:1px 6px;">1</span>
                 <span style="font-size:.55em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.35);">Consultation</span>
               </div>
               <div style="font-size:.72em;font-weight:700;color:#fff;margin-bottom:2px;">IA conversationnelle</div>
@@ -745,7 +745,7 @@
 						fill="none" stroke="currentColor" stroke-width="2"
 						stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
-				<div class="callout__text"><strong style="color:#60A5FA;">Ne pas brûler les étapes</strong> : Y aller progressivement, on monte en niveau d'outil quand on est à l'aise avec le précédent et qu'on est prêt à explorer.
+				<div class="callout__text"><strong style="color:#FFB366;">Ne pas brûler les étapes</strong> : Y aller progressivement, on monte en niveau d'outil quand on est à l'aise avec le précédent et qu'on est prêt à explorer.
           <br/><span style="display:inline-block;margin-top:4px;font-size:.78em;color:rgba(255,255,255,.48);">Le FOMO n’est pas une stratégie d’apprentissage 📚</span></div>
             </div>
             <div class="callout callout--info fragment fade-up">
@@ -755,7 +755,7 @@
 						fill="none" stroke="currentColor" stroke-width="2"
 						stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
-				<div class="callout__text"><strong style="color:#60A5FA;">La confiance se gagne</strong> : Que ce soit pour un outil ou un modèle précis, ne pas faire confiance aveuglément. Avec le temps et l'usage on cerne mieux les possibilités et les limites.
+				<div class="callout__text"><strong style="color:#FFB366;">La confiance se gagne</strong> : Que ce soit pour un outil ou un modèle précis, ne pas faire confiance aveuglément. Avec le temps et l'usage on cerne mieux les possibilités et les limites.
           <br/><span style="display:inline-block;margin-top:4px;font-size:.78em;color:rgba(255,255,255,.48);">Au début tu relis tout ; plus tard tu sais quoi relire. 🔎</span></div>
             </div>
             <div class="callout callout--info fragment fade-up">
@@ -766,7 +766,7 @@
 						stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 				<div class="callout__text">
-          <strong style="color:#60A5FA;">La taille compte</strong> : La puissance du LLM utilisé influence énormément la qualité du résultat obtenu. Ce n'est évidemment pas le seul élément, mais c'est celui le plus actionnable en tant que consommateur.
+          <strong style="color:#FFB366;">La taille compte</strong> : La puissance du LLM utilisé influence énormément la qualité du résultat obtenu. Ce n'est évidemment pas le seul élément, mais c'est celui le plus actionnable en tant que consommateur.
           <br/><span style="display:inline-block;margin-top:4px;font-size:.78em;color:rgba(255,255,255,.48);">Attention à ne pas essayer de tuer une fourmi avec un lance-roquette 🐜💥</span>
           </div>
           </div>
@@ -804,7 +804,7 @@
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
               <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.35);color:#fb923c;">Mission</span>
               <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#34d399;">Perso</span>
-              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">Freelance</span>
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.35);color:#ffb366;">Freelance</span>
             </div>
           </div>
           <div class="feature-card fragment fade-up" style="padding:20px;">
@@ -821,13 +821,13 @@
             <div style="font-size:.68em;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:10px;">≈ 1 million d'utilisateurs</div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
               <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#34d399;">Perso</span>
-              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.35);color:#60a5fa;">Freelance</span>
+              <span style="font-size:.65em;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.35);color:#ffb366;">Freelance</span>
             </div>
           </div>
         </div>
         <div class="callout callout--info fragment fade-up">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
-          <div class="callout__text"><strong style="color:#60A5FA;">Au fond, peu importe l'outil :</strong> l'essentiel c'est de trouver les usages qui vous apportent réellement quelque chose. Chaque besoin, chaque contexte et chaque sensibilité sont différents.</div>
+          <div class="callout__text"><strong style="color:#FFB366;">Au fond, peu importe l'outil :</strong> l'essentiel c'est de trouver les usages qui vous apportent réellement quelque chose. Chaque besoin, chaque contexte et chaque sensibilité sont différents.</div>
         </div>
       </section>
 
@@ -890,7 +890,7 @@
           <div style="display:flex;flex-direction:column;gap:12px;max-width:740px;">
             <div class="callout callout--info fragment fade-up">
               <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-              <div class="callout__text"><strong style="color:#60A5FA;">Cas d'usage :</strong> J'ai besoin d'une réponse à une question, sur une technologie précise.</div>
+              <div class="callout__text"><strong style="color:#FFB366;">Cas d'usage :</strong> J'ai besoin d'une réponse à une question, sur une technologie précise.</div>
             </div>
             <div class="callout callout--warning fragment fade-up">
               <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
@@ -992,7 +992,7 @@
         <section>
           <div class="tag" style="margin-bottom:16px;">Perplexity</div>
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;max-width:780px;">
-            <div class="feature-icon" style="width:56px;height:56px;margin-bottom:0;flex-shrink:0;color:#60a5fa;">
+            <div class="feature-icon" style="width:56px;height:56px;margin-bottom:0;flex-shrink:0;color:#ffb366;">
               <svg viewBox="0 0 24 24" style="width:36px;height:36px;">
                 <path d="M9 18a3 3 0 0 0 6 0m-6 0h6m-5-3h4
                          M8 10a4 4 0 0 1 8 0c0 1.6-.7 2.5-1.4 3.3S14 14.8 14 16h-4c0-1.2-.6-2-1.4-2.7S8 11.6 8 10z"
@@ -1099,9 +1099,9 @@
 Je veux que tu améliores drastiquement le design de cette application.
 Tu es libre d'en faire ce que tu veux, tu as juste 3 couleurs à respecter dans la charte graphique :
 
---color-navy:  #0B1426;
---color-blue:  #003DB5;
---color-accent: #0055FF;
+--color-navy:  #1A0A02;
+--color-blue:  #B84A00;
+--color-accent: #FF7000;
 
 Attention : tu ne dois surtout pas modifier les features de l'application, je veux garder :
 - Titre de l'application
@@ -1369,7 +1369,7 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
               <div class="callout callout--info fragment fade-up">
                   <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
                   <div class="callout__text">
-                    <strong style="color:#60A5FA;">Pas besoin d'avoir le dernier truc tech qui brille et qui fait du bruit</strong>
+                    <strong style="color:#FFB366;">Pas besoin d'avoir le dernier truc tech qui brille et qui fait du bruit</strong>
                     <br><span style="font-style:italic;">"Ne pas courir comme un poulet sans tête 🐓💨"</span>
                     <br><strong>➔ L’objectif n’est pas d’être en avance et précurseur, mais d’adopter au bon moment 🕒</strong>
                   </div>
@@ -1378,7 +1378,7 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
           <div class="callout callout--info fragment fade-up">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8h.01M11 12h2v4h-2z"/></svg>
             <div class="callout__text">
-              <strong style="color:#60A5FA;">Le métier évolue, il ne disparaît pas</strong><br>
+              <strong style="color:#FFB366;">Le métier évolue, il ne disparaît pas</strong><br>
               Les outils changent, mais les besoins restent : comprendre un problème, concevoir une solution, avoir l'esprit critique.
               <br><strong>➔ L'IA fait évoluer comment on travaille, pas pourquoi on travaille</strong>
               <br><strong>➔ Le plaisir ne doit pas disparaître, il doit juste se déplacer vers d’autres aspects du métier</strong>
@@ -1415,12 +1415,12 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
         <!-- 19a : Citation -->
         <section style="display:flex;flex-direction:column;justify-content:center;padding-left:80px;padding-right:80px;">
           <div style="max-width:680px;">
-            <div style="font-size:5em;line-height:.75;color:#0055FF;font-weight:900;margin-bottom:14px;user-select:none;">"</div>
+            <div style="font-size:5em;line-height:.75;color:#FF7000;font-weight:900;margin-bottom:14px;user-select:none;">"</div>
             <div style="font-size:1.3em;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:1.3;margin-bottom:24px;">
               AI will not replace you, but someone using AI will.
             </div>
             <div style="display:flex;align-items:center;gap:12px;">
-              <div style="width:32px;height:2px;background:#0055FF;border-radius:1px;flex-shrink:0;"></div>
+              <div style="width:32px;height:2px;background:#FF7000;border-radius:1px;flex-shrink:0;"></div>
               <span style="font-size:.76em;font-weight:500;color:rgba(255,255,255,.42);">Jensen Huang, Nvidia CEO</span>
             </div>
           </div>
@@ -1435,34 +1435,34 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
           <div>
             <h1 style="margin:0 0 18px;font-size:2.25em;line-height:1.1;font-weight:800;letter-spacing:-.035em;">
               <span style="color:#fff;">À vos</span><br>
-              <span style="color:#0055FF;">questions</span>
+              <span style="color:#FF7000;">questions</span>
             </h1>
             <div style="font-size:.78em;color:rgba(255,255,255,.48);letter-spacing:.01em;margin-bottom:10px;">Merci pour votre attention 🙂</div>
             <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:20px;">
               <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:12px;">Ressources utiles</div>
               <ul style="list-style:none;padding:0;margin:0;">
                 <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
-                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[1]</span>
-                  <span>Perplexity : <a href="https://www.perplexity.ai" target="_blank" style="color:#60a5fa;text-decoration:none;">perplexity.ai</a></span>
+                  <span style="color:rgba(255,112,0,.7);font-weight:700;flex-shrink:0;">[1]</span>
+                  <span>Perplexity : <a href="https://www.perplexity.ai" target="_blank" style="color:#ffb366;text-decoration:none;">perplexity.ai</a></span>
                 </li>
                 <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
-                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[2]</span>
-                  <span>Cursor : <a href="https://www.cursor.com" target="_blank" style="color:#60a5fa;text-decoration:none;">cursor.com</a></span>
+                  <span style="color:rgba(255,112,0,.7);font-weight:700;flex-shrink:0;">[2]</span>
+                  <span>Cursor : <a href="https://www.cursor.com" target="_blank" style="color:#ffb366;text-decoration:none;">cursor.com</a></span>
                 </li>
                 <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
-                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[3]</span>
-                  <span>Étude : <a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" style="color:#60a5fa;text-decoration:none;">Labor market impacts of AI</a> - Anthropic, mars 2026</span>
+                  <span style="color:rgba(255,112,0,.7);font-weight:700;flex-shrink:0;">[3]</span>
+                  <span>Étude : <a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" style="color:#ffb366;text-decoration:none;">Labor market impacts of AI</a> - Anthropic, mars 2026</span>
                 </li>
                 <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;display:flex;align-items:baseline;gap:8px;">
-                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[4]</span>
-                  <span>Article : Frederic Bouchery — <a href="https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:none;">Depuis quand avez-vous honte de votre code ?</a></span>
+                  <span style="color:rgba(255,112,0,.7);font-weight:700;flex-shrink:0;">[4]</span>
+                  <span>Article : Frederic Bouchery — <a href="https://www.linkedin.com/pulse/depuis-quand-avez-vous-honte-de-votre-code-frederic-bouchery-oo8ce/" target="_blank" rel="noopener noreferrer" style="color:#ffb366;text-decoration:none;">Depuis quand avez-vous honte de votre code ?</a></span>
                 </li>
               </ul>
             </div>
           </div>
           <!-- QR : modifier l'URL dans le paramètre data= de l'API si besoin -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0;">
-            <div style="width:244px;height:244px;box-sizing:border-box;padding:14px;background:#fff;border-radius:16px;box-shadow:0 0 48px rgba(0,85,255,.18);display:flex;align-items:center;justify-content:center;">
+            <div style="width:244px;height:244px;box-sizing:border-box;padding:14px;background:#fff;border-radius:16px;box-shadow:0 0 48px rgba(255,112,0,.18);display:flex;align-items:center;justify-content:center;">
               <img
                 src="https://api.qrserver.com/v1/create-qr-code/?size=216x216&data=https://neosoft.fr&format=svg&qzone=0"
                 width="216" height="216"
@@ -1489,7 +1489,7 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
         <div class="tag" style="margin-bottom:24px;">Accueil</div>
         <h1 style="margin-bottom:16px;">
           Présentation<br>
-          <span style="color:#0055FF;">Template V2</span>
+          <span style="color:#FF7000;">Template V2</span>
         </h1>
         <p style="max-width:500px;margin:0 0 24px;font-size:.9em;color:rgba(255,255,255,.45);">
           Design pour vos présentations internes.
@@ -1501,7 +1501,7 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
           <span style="font-size:.72em;font-weight:700;color:#f87171;line-height:1.4;">Réservé exclusivement aux collaborateurs Néosoft</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:3px;height:40px;background:#0055FF;border-radius:2px;flex-shrink:0;"></div>
+          <div style="width:3px;height:40px;background:#FF7000;border-radius:2px;flex-shrink:0;"></div>
           <div>
             <div style="font-size:.65em;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);font-weight:700;margin-bottom:3px;">Kilian LE DU</div>
             <div style="font-size:.85em;font-weight:600;color:rgba(255,255,255,.6);">2026</div>
@@ -1517,35 +1517,35 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
         <h2 style="margin-bottom:24px;">Sommaire</h2>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">01</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">01</span>
             <div>
               <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Contexte et objectifs</div>
               <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Enjeux business et parties prenantes</div>
             </div>
           </div>
           <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">02</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">02</span>
             <div>
               <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Proposition de solution</div>
               <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Architecture technique retenue</div>
             </div>
           </div>
           <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">03</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">03</span>
             <div>
               <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Démonstration</div>
               <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Présentation live avec cas d'usage</div>
             </div>
           </div>
           <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">04</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">04</span>
             <div>
               <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Feuille de route</div>
               <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Planning et jalons prévisionnels</div>
             </div>
           </div>
           <div class="card" style="display:flex;align-items:flex-start;gap:14px;">
-            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#0055FF;background:rgba(0,85,255,.1);border:1px solid rgba(0,85,255,.25);border-radius:6px;padding:3px 8px;">05</span>
+            <span style="flex-shrink:0;font-size:.68em;font-weight:800;color:#FF7000;background:rgba(255,112,0,.1);border:1px solid rgba(255,112,0,.25);border-radius:6px;padding:3px 8px;">05</span>
             <div>
               <div style="font-weight:700;color:#fff;font-size:.9em;margin-bottom:3px;">Q&amp;A</div>
               <div style="font-size:.75em;color:rgba(255,255,255,.42);line-height:1.4;">Questions et réponses avec l'équipe</div>
@@ -1573,23 +1573,23 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 48px;">
           <div style="border-top:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Contexte et objectifs</span>
-            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">15 min</span>
+            <span style="font-size:.7em;color:#FF7000;font-weight:700;background:rgba(255,112,0,.1);padding:2px 10px;border-radius:100px;">15 min</span>
           </div>
           <div style="border-top:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Proposition de solution</span>
-            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">20 min</span>
+            <span style="font-size:.7em;color:#FF7000;font-weight:700;background:rgba(255,112,0,.1);padding:2px 10px;border-radius:100px;">20 min</span>
           </div>
           <div style="border-top:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Démonstration technique</span>
-            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">25 min</span>
+            <span style="font-size:.7em;color:#FF7000;font-weight:700;background:rgba(255,112,0,.1);padding:2px 10px;border-radius:100px;">25 min</span>
           </div>
           <div style="border-top:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Feuille de route</span>
-            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">10 min</span>
+            <span style="font-size:.7em;color:#FF7000;font-weight:700;background:rgba(255,112,0,.1);padding:2px 10px;border-radius:100px;">10 min</span>
           </div>
           <div style="border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:.88em;font-weight:600;color:rgba(255,255,255,.88);">Questions &amp; Réponses</span>
-            <span style="font-size:.7em;color:#0055FF;font-weight:700;background:rgba(0,85,255,.1);padding:2px 10px;border-radius:100px;">15 min</span>
+            <span style="font-size:.7em;color:#FF7000;font-weight:700;background:rgba(255,112,0,.1);padding:2px 10px;border-radius:100px;">15 min</span>
           </div>
           <div style="border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:13px 0;display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:.88em;font-weight:500;color:rgba(255,255,255,.38);">Durée totale estimée</span>
@@ -1607,11 +1607,11 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
         <div style="display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start;max-width:700px;">
           <div style="position:relative;flex-shrink:0;">
             <img style="width:96px;height:96px;border-radius:14px;object-fit:cover;display:block;" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop" alt="Photo intervenant">
-            <div style="position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;background:#10B981;border-radius:50%;border:2px solid #0B1426;"></div>
+            <div style="position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;background:#10B981;border-radius:50%;border:2px solid #1A0A02;"></div>
           </div>
           <div>
             <div style="font-size:1.25em;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;">Alexandre Martin</div>
-            <div style="font-size:.82em;color:#60a5fa;font-weight:600;margin-bottom:14px;">Lead Developer & Tech Architect · Néosoft</div>
+            <div style="font-size:.82em;color:#ffb366;font-weight:600;margin-bottom:14px;">Lead Developer & Tech Architect · Néosoft</div>
             <p style="font-size:.8em;color:rgba(255,255,255,.5);line-height:1.6;margin:0 0 14px;">Spécialiste en architecture front-end et accessibilité web, 10+ ans d'expérience JavaScript. Expert React, Vue.js et performance web.</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <span style="font-size:.68em;padding:3px 10px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);">React</span>
@@ -1705,17 +1705,17 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
         <div class="tag" style="margin-bottom:16px;">Résultats</div>
         <h2 style="margin-bottom:32px;">Chiffres clés</h2>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border-radius:16px;overflow:hidden;">
-          <div style="background:#0B1426;padding:28px 24px;">
-            <div class="kpi-value" style="color:#0055FF;">+47%</div>
+          <div style="background:#1A0A02;padding:28px 24px;">
+            <div class="kpi-value" style="color:#FF7000;">+47%</div>
             <div class="kpi-label">Amélioration<br>des performances</div>
-            <div class="kpi-bar"><span style="width:47%;background:#0055FF;"></span></div>
+            <div class="kpi-bar"><span style="width:47%;background:#FF7000;"></span></div>
           </div>
-          <div style="background:#0B1426;padding:28px 24px;">
+          <div style="background:#1A0A02;padding:28px 24px;">
             <div class="kpi-value" style="color:#10B981;">−65%</div>
             <div class="kpi-label">Réduction du<br>temps de chargement</div>
             <div class="kpi-bar"><span style="width:65%;background:#10B981;"></span></div>
           </div>
-          <div style="background:#0B1426;padding:28px 24px;">
+          <div style="background:#1A0A02;padding:28px 24px;">
             <div class="kpi-value" style="color:#F59E0B;">+38%</div>
             <div class="kpi-label">Taux de<br>conversion</div>
             <div class="kpi-bar"><span style="width:38%;background:#F59E0B;"></span></div>
@@ -1729,12 +1729,12 @@ Tu es libre d'ajuster la disposition, la taille ou le comportement des élément
       ══════════════════════════════════════════ -->
       <section style="display:flex;flex-direction:column;justify-content:center;padding-left:80px;padding-right:80px;">
         <div style="max-width:660px;">
-          <div style="font-size:5em;line-height:.75;color:#0055FF;font-weight:900;margin-bottom:14px;user-select:none;">"</div>
+          <div style="font-size:5em;line-height:.75;color:#FF7000;font-weight:900;margin-bottom:14px;user-select:none;">"</div>
           <div style="font-size:1.35em;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:1.3;margin-bottom:24px;">
             La simplicité est la sophistication suprême. Un bon design est aussi peu de design que possible.
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:32px;height:2px;background:#0055FF;border-radius:1px;flex-shrink:0;"></div>
+            <div style="width:32px;height:2px;background:#FF7000;border-radius:1px;flex-shrink:0;"></div>
             <span style="font-size:.76em;font-weight:500;color:rgba(255,255,255,.42);">Dieter Rams, Designer industriel</span>
           </div>
         </div>
@@ -2012,23 +2012,23 @@ CREATE INDEX CONCURRENTLY idx_users_email
         <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:28px;">Les éléments montent depuis le bas. Idéal pour des listes, des cartes ou du contenu principal.</p>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
           <div class="anim-slide-up card" style="min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;">
-            <div style="height:10px;border-radius:4px;background:rgba(0,85,255,.25);"></div>
-            <div style="height:8px;border-radius:4px;background:rgba(0,85,255,.15);width:70%;"></div>
+            <div style="height:10px;border-radius:4px;background:rgba(255,112,0,.25);"></div>
+            <div style="height:8px;border-radius:4px;background:rgba(255,112,0,.15);width:70%;"></div>
             <div style="font-size:.65em;color:rgba(255,255,255,.3);margin-top:6px;font-weight:700;">anim-slide-up</div>
           </div>
           <div class="anim-slide-up anim-delay-2 card" style="min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;">
-            <div style="height:10px;border-radius:4px;background:rgba(0,85,255,.25);"></div>
-            <div style="height:8px;border-radius:4px;background:rgba(0,85,255,.15);width:55%;"></div>
+            <div style="height:10px;border-radius:4px;background:rgba(255,112,0,.25);"></div>
+            <div style="height:8px;border-radius:4px;background:rgba(255,112,0,.15);width:55%;"></div>
             <div style="font-size:.65em;color:rgba(255,255,255,.3);margin-top:6px;font-weight:700;">+ anim-delay-2</div>
           </div>
           <div class="anim-slide-up anim-delay-4 card" style="min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;">
-            <div style="height:10px;border-radius:4px;background:rgba(0,85,255,.25);"></div>
-            <div style="height:8px;border-radius:4px;background:rgba(0,85,255,.15);width:80%;"></div>
+            <div style="height:10px;border-radius:4px;background:rgba(255,112,0,.25);"></div>
+            <div style="height:8px;border-radius:4px;background:rgba(255,112,0,.15);width:80%;"></div>
             <div style="font-size:.65em;color:rgba(255,255,255,.3);margin-top:6px;font-weight:700;">+ anim-delay-4</div>
           </div>
         </div>
         <div style="margin-top:20px;padding:12px 16px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
-          <code style="font-size:.7em;color:#60a5fa;">&lt;div class="<span style="color:#fbbf24;">anim-slide-up anim-delay-2</span>"&gt;…&lt;/div&gt;</code>
+          <code style="font-size:.7em;color:#ffb366;">&lt;div class="<span style="color:#fbbf24;">anim-slide-up anim-delay-2</span>"&gt;…&lt;/div&gt;</code>
         </div>
       </section>
 
@@ -2041,7 +2041,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
         <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:28px;">Les éléments arrivent depuis la gauche. Parfait pour des étapes, des listes ou un contenu narratif séquentiel.</p>
         <div style="display:flex;flex-direction:column;gap:10px;max-width:560px;">
           <div class="anim-slide-right card" style="display:flex;align-items:center;gap:14px;">
-            <div style="width:36px;height:36px;border-radius:8px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);flex-shrink:0;"></div>
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.25);flex-shrink:0;"></div>
             <div style="flex:1;">
               <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.15);margin-bottom:6px;width:60%;"></div>
               <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:80%;"></div>
@@ -2049,7 +2049,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
             <span style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;">anim-slide-right</span>
           </div>
           <div class="anim-slide-right anim-delay-2 card" style="display:flex;align-items:center;gap:14px;">
-            <div style="width:36px;height:36px;border-radius:8px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);flex-shrink:0;"></div>
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.25);flex-shrink:0;"></div>
             <div style="flex:1;">
               <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.15);margin-bottom:6px;width:45%;"></div>
               <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:65%;"></div>
@@ -2057,7 +2057,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
             <span style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;">+ anim-delay-2</span>
           </div>
           <div class="anim-slide-right anim-delay-4 card" style="display:flex;align-items:center;gap:14px;">
-            <div style="width:36px;height:36px;border-radius:8px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);flex-shrink:0;"></div>
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.25);flex-shrink:0;"></div>
             <div style="flex:1;">
               <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.15);margin-bottom:6px;width:70%;"></div>
               <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:50%;"></div>
@@ -2066,7 +2066,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
           </div>
         </div>
         <div style="margin-top:20px;padding:12px 16px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
-          <code style="font-size:.7em;color:#60a5fa;">&lt;div class="<span style="color:#fbbf24;">anim-slide-right anim-delay-4</span>"&gt;…&lt;/div&gt;</code>
+          <code style="font-size:.7em;color:#ffb366;">&lt;div class="<span style="color:#fbbf24;">anim-slide-right anim-delay-4</span>"&gt;…&lt;/div&gt;</code>
         </div>
       </section>
 
@@ -2079,7 +2079,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
         <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:24px;">Directions inverses — depuis la droite ou depuis le haut. Utile pour créer des effets de miroir ou d'entrée en opposition.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
           <div>
-            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:12px;">← depuis la droite</div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,112,0,.7);margin-bottom:12px;">← depuis la droite</div>
             <div class="anim-slide-left card" style="min-height:70px;display:flex;align-items:center;justify-content:space-between;">
               <div style="flex:1;">
                 <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;width:65%;"></div>
@@ -2096,7 +2096,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
             </div>
           </div>
           <div>
-            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:12px;">↓ depuis le haut</div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,112,0,.7);margin-bottom:12px;">↓ depuis le haut</div>
             <div class="anim-slide-down card" style="min-height:70px;display:flex;align-items:center;justify-content:space-between;">
               <div style="flex:1;">
                 <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;width:55%;"></div>
@@ -2121,21 +2121,21 @@ CREATE INDEX CONCURRENTLY idx_users_email
       <section>
         <div class="tag" style="margin-bottom:16px;">Placeholder · Animation</div>
         <h2 style="margin-bottom:24px;">anim-fade &amp; anim-zoom</h2>
-        <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:24px;">Sans déplacement. <code style="font-size:.9em;color:#60a5fa;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px;">anim-fade</code> pour une apparition douce, <code style="font-size:.9em;color:#60a5fa;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px;">anim-zoom</code> pour un effet de focus.</p>
+        <p style="color:rgba(255,255,255,.4);font-size:.8em;margin-bottom:24px;">Sans déplacement. <code style="font-size:.9em;color:#ffb366;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px;">anim-fade</code> pour une apparition douce, <code style="font-size:.9em;color:#ffb366;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px;">anim-zoom</code> pour un effet de focus.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
           <div>
-            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:12px;">Fondu simple</div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,112,0,.7);margin-bottom:12px;">Fondu simple</div>
             <div class="anim-fade card" style="padding:24px;text-align:center;">
-              <div style="width:48px;height:48px;border-radius:12px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);margin:0 auto 12px;"></div>
+              <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.25);margin:0 auto 12px;"></div>
               <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;"></div>
               <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:60%;margin:0 auto;"></div>
               <div style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;margin-top:12px;">anim-fade</div>
             </div>
           </div>
           <div>
-            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:12px;">Zoom</div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,112,0,.7);margin-bottom:12px;">Zoom</div>
             <div class="anim-zoom card" style="padding:24px;text-align:center;">
-              <div style="width:48px;height:48px;border-radius:12px;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.25);margin:0 auto 12px;"></div>
+              <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,112,0,.15);border:1px solid rgba(255,112,0,.25);margin:0 auto 12px;"></div>
               <div style="height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:6px;"></div>
               <div style="height:6px;border-radius:4px;background:rgba(255,255,255,.07);width:60%;margin:0 auto;"></div>
               <div style="font-size:.62em;color:rgba(255,255,255,.25);font-weight:700;margin-top:12px;">anim-zoom</div>
@@ -2143,7 +2143,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
           </div>
         </div>
         <div style="margin-top:20px;padding:12px 16px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
-          <code style="font-size:.7em;color:#60a5fa;">&lt;div class="<span style="color:#fbbf24;">anim-zoom anim-delay-3</span>"&gt;…&lt;/div&gt;</code>
+          <code style="font-size:.7em;color:#ffb366;">&lt;div class="<span style="color:#fbbf24;">anim-zoom anim-delay-3</span>"&gt;…&lt;/div&gt;</code>
         </div>
       </section>
 
@@ -2155,7 +2155,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
         <h2 style="margin-bottom:24px;">Toutes les classes disponibles</h2>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
           <div>
-            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:10px;">Animations</div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,112,0,.7);margin-bottom:10px;">Animations</div>
             <div style="display:flex;flex-direction:column;gap:6px;">
               <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
                 <code style="font-size:.72em;color:#fbbf24;">anim-slide-up</code>
@@ -2184,7 +2184,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
             </div>
           </div>
           <div>
-            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,85,255,.7);margin-bottom:10px;">Délais combinables</div>
+            <div style="font-size:.65em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,112,0,.7);margin-bottom:10px;">Délais combinables</div>
             <div style="display:flex;flex-direction:column;gap:6px;">
               <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">
                 <code style="font-size:.72em;color:#34d399;">anim-delay-1</code>
@@ -2228,7 +2228,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
           <div>
             <h1 style="margin-bottom:10px;font-size:2.6em;">
               Questions &amp;<br>
-              <span style="color:#0055FF;">Discussion</span>
+              <span style="color:#FF7000;">Discussion</span>
             </h1>
             <p style="color:rgba(255,255,255,.65);font-size:.88em;max-width:380px;margin:0 0 6px;font-weight:500;">
               Merci pour votre attention 🦖
@@ -2238,7 +2238,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
             </p>
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;">
               <a href="https://www.neosoft.fr/contact" target="_blank" rel="noopener"
-                 style="display:inline-flex;align-items:center;gap:8px;background:#0055FF;color:#fff;font-weight:700;font-size:.75em;padding:10px 18px;border-radius:9px;text-decoration:none;">
+                 style="display:inline-flex;align-items:center;gap:8px;background:#FF7000;color:#fff;font-weight:700;font-size:.75em;padding:10px 18px;border-radius:9px;text-decoration:none;">
                 <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
                 </svg>
@@ -2255,16 +2255,16 @@ CREATE INDEX CONCURRENTLY idx_users_email
               <div style="font-size:.62em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:12px;">Sources &amp; Références</div>
               <ul style="list-style:none;padding:0;margin:0;">
                 <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
-                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[1]</span>
-                  <span>Titre de la source — <a href="https://example.com" target="_blank" style="color:#60a5fa;text-decoration:none;">example.com</a></span>
+                  <span style="color:rgba(255,112,0,.7);font-weight:700;flex-shrink:0;">[1]</span>
+                  <span>Titre de la source — <a href="https://example.com" target="_blank" style="color:#ffb366;text-decoration:none;">example.com</a></span>
                 </li>
                 <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:baseline;gap:8px;">
-                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[2]</span>
-                  <span>Deuxième référence — <a href="https://example.com" target="_blank" style="color:#60a5fa;text-decoration:none;">example.com</a></span>
+                  <span style="color:rgba(255,112,0,.7);font-weight:700;flex-shrink:0;">[2]</span>
+                  <span>Deuxième référence — <a href="https://example.com" target="_blank" style="color:#ffb366;text-decoration:none;">example.com</a></span>
                 </li>
                 <li style="font-size:.72em;color:rgba(255,255,255,.5);padding:5px 0;display:flex;align-items:baseline;gap:8px;">
-                  <span style="color:rgba(0,85,255,.7);font-weight:700;flex-shrink:0;">[3]</span>
-                  <span>Troisième référence — <a href="https://example.com" target="_blank" style="color:#60a5fa;text-decoration:none;">example.com</a></span>
+                  <span style="color:rgba(255,112,0,.7);font-weight:700;flex-shrink:0;">[3]</span>
+                  <span>Troisième référence — <a href="https://example.com" target="_blank" style="color:#ffb366;text-decoration:none;">example.com</a></span>
                 </li>
               </ul>
             </div>
@@ -2273,7 +2273,7 @@ CREATE INDEX CONCURRENTLY idx_users_email
           <!-- Colonne droite : QR code -->
           <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
             <!-- Modifier QR_URL ci-dessous pour changer l'URL du QR code -->
-            <div style="width:204px;height:204px;box-sizing:border-box;padding:12px;background:#fff;border-radius:14px;box-shadow:0 0 40px rgba(0,85,255,.2);display:flex;align-items:center;justify-content:center;">
+            <div style="width:204px;height:204px;box-sizing:border-box;padding:12px;background:#fff;border-radius:14px;box-shadow:0 0 40px rgba(255,112,0,.2);display:flex;align-items:center;justify-content:center;">
               <img
                 src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://neosoft.fr&format=svg&qzone=0"
                 width="180" height="180"
